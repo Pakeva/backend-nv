@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors'
 
-// import router from './routes/user'
 import {
     userRoutes
 } from './routes'
@@ -11,6 +10,9 @@ import {
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 4100;
+
+//DB - Initialized in each petition.
+
 
 //Middlewares
 app.use(express.json());

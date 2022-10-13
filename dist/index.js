@@ -7,11 +7,11 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
-// import router from './routes/user'
 const routes_1 = require("./routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 4100;
+//DB - Initialized in each petition.
 //Middlewares
 app.use(express_1.default.json());
 app.use(express_1.default.static('public'));
