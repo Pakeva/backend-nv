@@ -7,12 +7,14 @@ const express_1 = __importDefault(require("express"));
 const middlewares_1 = require("../middlewares");
 const express_validator_1 = require("express-validator");
 const controllers_1 = require("../controllers");
+const helpers_1 = require("../helpers");
 const router = express_1.default.Router();
 router.post('/', [
     (0, express_validator_1.check)('rol', 'El rol es requerido')
         .notEmpty()
-        .isIn(['SUPER_ADMIN', 'CLIENT', 'ASSOCIATED', 'FINAL_USER'])
-        .withMessage('No es un rol válido'),
+        // .isIn(['SUPER_ADMIN', 'CLIENT', 'ASSOCIATED', 'FINAL_USER'])
+        .withMessage('No es un rol válido')
+        .custom(helpers_1.isValidRol),
     (0, express_validator_1.check)('name', 'El nombre es requerido')
         .isLength({ min: 2 })
         .notEmpty()
@@ -31,6 +33,7 @@ router.post('/', [
     (0, express_validator_1.check)('email', 'El email es requerido')
         .isEmail()
         .withMessage('El formato tiene que ser correcto')
+        .custom(helpers_1.emailExists)
         .notEmpty(),
     (0, express_validator_1.check)('phone')
         .isNumeric()
@@ -58,5 +61,30 @@ router.post('/', [
         .notEmpty(),
     middlewares_1.validateFields
 ], controllers_1.createUser);
-router.get('/', [], controllers_1.getUsers);
+router.get('/', [
+// isAdminRol
+// validateFields
+], controllers_1.getUsers);
+router.get('/:id', [
+    (0, express_validator_1.check)('id', 'Tiene que ser un ID válido')
+        .isMongoId()
+        .custom(helpers_1.userExists),
+    middlewares_1.validateFields
+], controllers_1.getUser);
+router.delete('/:id', [
+    //ValidateJWT
+    //isAdminRole
+    (0, express_validator_1.check)('id', 'Tiene que ser un ID válido')
+        .isMongoId()
+        .custom(helpers_1.userExists)
+        .custom(helpers_1.isUserActive),
+    middlewares_1.validateFields
+], controllers_1.deleteUser);
+router.put('/:id', [
+    (0, express_validator_1.check)('id', 'Tiene que ser un ID válido')
+        .isMongoId()
+        .custom(helpers_1.userExists),
+    middlewares_1.validateFields
+], controllers_1.updateUser);
+//TODO COMPLETE REST VALIDATIONS
 exports.default = router;

@@ -1,18 +1,18 @@
 import express from 'express';
-import {validateFields} from "../middlewares";
+import {isAdminRol, validateFields} from "../middlewares";
 import {check} from "express-validator";
 
-import {
-    createUser, getUsers
-} from '../controllers'
+import {createUser, deleteUser, getUser, getUsers, updateUser} from '../controllers'
+import {emailExists, isUserActive, isValidRol, userExists} from "../helpers";
 
 const router = express.Router();
 
 router.post('/', [
     check('rol', 'El rol es requerido')
         .notEmpty()
-        .isIn(['SUPER_ADMIN', 'CLIENT', 'ASSOCIATED', 'FINAL_USER'])
-        .withMessage('No es un rol válido'),
+        // .isIn(['SUPER_ADMIN', 'CLIENT', 'ASSOCIATED', 'FINAL_USER'])
+        .withMessage('No es un rol válido')
+        .custom(isValidRol),
     check('name', 'El nombre es requerido')
         .isLength({min: 2})
         .notEmpty()
@@ -31,6 +31,7 @@ router.post('/', [
     check('email', 'El email es requerido')
         .isEmail()
         .withMessage('El formato tiene que ser correcto')
+        .custom(emailExists)
         .notEmpty(),
     check('phone')
         .isNumeric()
@@ -60,9 +61,36 @@ router.post('/', [
 ], createUser)
 
 router.get('/', [
-
+    // isAdminRol
+    // validateFields
 ], getUsers)
 
+router.get('/:id', [
+    check('id', 'Tiene que ser un ID válido')
+        .isMongoId()
+        .custom(userExists),
+    validateFields
+], getUser);
+
+router.delete('/:id', [
+    //ValidateJWT
+    //isAdminRole
+    check('id', 'Tiene que ser un ID válido')
+        .isMongoId()
+        .custom(userExists)
+        .custom(isUserActive),
+    validateFields
+], deleteUser)
+
+
+router.put('/:id', [
+    check('id', 'Tiene que ser un ID válido')
+        .isMongoId()
+        .custom(userExists),
+    validateFields
+], updateUser)
+
+//TODO COMPLETE REST VALIDATIONS
 
 export default router;
 
