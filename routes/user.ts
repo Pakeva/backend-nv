@@ -55,8 +55,6 @@ router.post('/', [
         .notEmpty(),
     check('street', 'La calle es requerida')
         .notEmpty(),
-    check('numInt', 'El número interior es requerido')
-        .notEmpty(),
     validateFields
 ], createUser)
 

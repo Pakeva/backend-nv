@@ -57,8 +57,6 @@ router.post('/', [
         .notEmpty(),
     (0, express_validator_1.check)('street', 'La calle es requerida')
         .notEmpty(),
-    (0, express_validator_1.check)('numInt', 'El número interior es requerido')
-        .notEmpty(),
     middlewares_1.validateFields
 ], controllers_1.createUser);
 router.get('/', [
