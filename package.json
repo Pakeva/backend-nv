@@ -8,7 +8,7 @@
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "docdev": "sudo docker run -it -p 3700:4000 pakeva-backend",
-    "serve": "tsc src/index.ts -w & pm2 start dist/index.js --watch"
+    "serve": "tsc index.ts -w & pm2 start dist/index.js --watch"
   },
   "author": "Devdan",
   "license": "ISC",
