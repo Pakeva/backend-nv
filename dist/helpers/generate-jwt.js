@@ -5,12 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateJwt = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const secretKey = 'Thisishtesecretkey,mustbeencrypted';
 //uid: user identifier
 const generateJwt = (uid = '') => {
     return new Promise((res, rej) => {
         //You can save all that you want
         const payload = { uid };
-        jsonwebtoken_1.default.sign(payload, process.env.SECRETKEY, {
+        jsonwebtoken_1.default.sign(payload, process.env.SECRETKEY || secretKey, {
             expiresIn: '24h'
         }, (err, token) => {
             if (err) {

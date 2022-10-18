@@ -4,6 +4,7 @@ import {Response} from "express";
 import {Next, TypesRequest, UserProps} from "../interfaces";
 import {connectDb, disconnectDb} from "../database/config";
 
+const secretKey = 'Thisishtesecretkey,mustbeencrypted'
 
 const validateJwt = async (req:TypesRequest<UserProps>,res:Response,next:Next) => {
     const token = req.header('token');
@@ -15,7 +16,7 @@ const validateJwt = async (req:TypesRequest<UserProps>,res:Response,next:Next) =
 
     try {
         // @ts-ignore
-        const {uid} = jwt.verify(token,process.env.SECRETKEY!);
+        const {uid} = jwt.verify(token,process.env.SECRETKEY || secretKey);
         req.header = uid;
 
         //Get the user own of the uid

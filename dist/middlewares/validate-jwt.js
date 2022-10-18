@@ -16,6 +16,7 @@ exports.validateJwt = void 0;
 const models_1 = require("../models");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../database/config");
+const secretKey = 'Thisishtesecretkey,mustbeencrypted';
 const validateJwt = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('token');
     if (!token) {
@@ -25,7 +26,7 @@ const validateJwt = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     try {
         // @ts-ignore
-        const { uid } = jsonwebtoken_1.default.verify(token, process.env.SECRETKEY);
+        const { uid } = jsonwebtoken_1.default.verify(token, process.env.SECRETKEY || secretKey);
         req.header = uid;
         //Get the user own of the uid
         yield (0, config_1.connectDb)();
