@@ -8,9 +8,11 @@ const options = {
     family: 4 // Use IPv4, skip trying IPv6
 };
 
+const dbCred = 'mongodb+srv://root:cKpK6NXC5rr6iy52@pakevadb.qgb7mnu.mongodb.net/test'
+
 const connectDb = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_BD!, options);
+        await mongoose.connect(process.env.MONGO_BD || dbCred , options);
         console.log('DB connected successfully')
     } catch (e) {
         throw new Error("Can't connect with de DB")

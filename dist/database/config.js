@@ -41,9 +41,10 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4 // Use IPv4, skip trying IPv6
 };
+const dbCred = 'mongodb+srv://root:cKpK6NXC5rr6iy52@pakevadb.qgb7mnu.mongodb.net/test';
 const connectDb = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose.connect(process.env.MONGO_BD, options);
+        yield mongoose.connect(process.env.MONGO_BD || dbCred, options);
         console.log('DB connected successfully');
     }
     catch (e) {
