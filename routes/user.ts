@@ -1,5 +1,5 @@
 import express from 'express';
-import {isAdminRol, validateFields} from "../middlewares";
+import {isAdminRol, validateFields, validateJwt} from "../middlewares";
 import {check} from "express-validator";
 
 import {createUser, deleteUser, getUser, getUsers, updateUser} from '../controllers'
@@ -71,7 +71,7 @@ router.get('/:id', [
 ], getUser);
 
 router.delete('/:id', [
-    //ValidateJWT
+    validateJwt,
     //isAdminRole
     check('id', 'Tiene que ser un ID válido')
         .isMongoId()

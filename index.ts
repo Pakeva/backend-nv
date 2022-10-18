@@ -4,7 +4,8 @@ import morgan from 'morgan';
 import cors from 'cors'
 
 import {
-    userRoutes
+    userRoutes,
+    authRoutes
 } from './routes'
 
 dotenv.config();
@@ -22,8 +23,11 @@ app.use(cors())
 
 //Paths
 const userPath = '/api/users'
+const authPath = '/api/auth'
 
+//Routes
 app.use(`${userPath}`, userRoutes);
+app.use(`${authPath}`, authRoutes);
 
 app.get('/api', (req, res) => {
     res.json({msg:'Hello world!'})

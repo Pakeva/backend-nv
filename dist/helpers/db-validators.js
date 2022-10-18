@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
+exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
 const models_1 = require("../models");
 const config_1 = require("../database/config");
 const mongoose_1 = require("mongoose");
@@ -78,3 +78,18 @@ const isUserActive = (id = '') => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.isUserActive = isUserActive;
+const searchUserByEmail = (email = '') => __awaiter(void 0, void 0, void 0, function* () {
+    let existsEmail;
+    try {
+        yield (0, config_1.connectDb)();
+        existsEmail = yield models_1.User.findOne({ email });
+        console.log({ existsEmail });
+        yield (0, config_1.disconnectDb)();
+    }
+    catch (e) {
+    }
+    if (!existsEmail) {
+        throw new Error('El email no esta registrado en la base de datos');
+    }
+});
+exports.searchUserByEmail = searchUserByEmail;

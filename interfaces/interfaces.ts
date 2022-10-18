@@ -3,7 +3,9 @@ export type Next = () => void | Promise<void>;
 
 
 export interface TypesRequest<T> extends Express.Request {
-    params: any;
+    header: any,
+    params: any,
+    // user: any,
     body: T
 }
 
@@ -31,5 +33,11 @@ export interface UserProps extends AddressProps{
     email: string,
     password: string,
     phone: number,
-    rol: RolesTypes
+    rol: RolesTypes,
+    status?: boolean
+}
+
+export interface LoginUserProps {
+    email: string,
+    password: string
 }

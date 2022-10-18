@@ -19,7 +19,10 @@ app.use((0, morgan_1.default)('tiny'));
 app.use((0, cors_1.default)());
 //Paths
 const userPath = '/api/users';
+const authPath = '/api/auth';
+//Routes
 app.use(`${userPath}`, routes_1.userRoutes);
+app.use(`${authPath}`, routes_1.authRoutes);
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });

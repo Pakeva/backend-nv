@@ -70,7 +70,7 @@ router.get('/:id', [
     middlewares_1.validateFields
 ], controllers_1.getUser);
 router.delete('/:id', [
-    //ValidateJWT
+    middlewares_1.validateJwt,
     //isAdminRole
     (0, express_validator_1.check)('id', 'Tiene que ser un ID válido')
         .isMongoId()
