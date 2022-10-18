@@ -7,12 +7,19 @@ import {
     userRoutes,
     authRoutes
 } from './routes'
+import {connectDb} from "./database/config";
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 4100;
 
-//DB - Initialized in each petition.
+//DB CONNECTION.
+const connectDatabase = async () => {
+    await connectDb();
+}
+connectDatabase().then(_ => {
+    console.log('Running DB')
+});
 
 
 //Middlewares
