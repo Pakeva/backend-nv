@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
+exports.categoryExists = exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
 const models_1 = require("../models");
 const config_1 = require("../database/config");
 const mongoose_1 = require("mongoose");
@@ -66,7 +66,6 @@ const isUserActive = (id = '') => __awaiter(void 0, void 0, void 0, function* ()
     try {
         yield (0, config_1.connectDb)();
         user = yield models_1.User.findById(id, { status: 1 });
-        console.log(user);
         yield (0, config_1.disconnectDb)();
     }
     catch (e) {
@@ -87,9 +86,25 @@ const searchUserByEmail = (email = '') => __awaiter(void 0, void 0, void 0, func
         yield (0, config_1.disconnectDb)();
     }
     catch (e) {
+        throw new Error(e);
     }
     if (!existsEmail) {
         throw new Error('El email no esta registrado en la base de datos');
     }
 });
 exports.searchUserByEmail = searchUserByEmail;
+const categoryExists = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
+    let category;
+    try {
+        yield (0, config_1.connectDb)();
+        category = yield models_1.Category.findOne({ id });
+        yield (0, config_1.disconnectDb)();
+    }
+    catch (e) {
+        throw new Error(e);
+    }
+    if (!category) {
+        throw new Error('La categoría no esta registrada en la base de datos');
+    }
+});
+exports.categoryExists = categoryExists;

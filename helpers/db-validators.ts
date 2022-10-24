@@ -1,4 +1,4 @@
-import {Rol, User} from "../models";
+import {Category, Rol, User} from "../models";
 import {connectDb, disconnectDb} from "../database/config";
 import {disconnect} from "mongoose";
 import {RolesTypes} from "../interfaces";
@@ -58,7 +58,6 @@ const isUserActive = async (id = '') => {
     try {
         await connectDb();
         user = await User.findById(id, {status: 1})
-        console.log(user)
         await disconnectDb();
     } catch (e) {
         console.log(e)
@@ -77,12 +76,27 @@ const searchUserByEmail = async (email = '') => {
         existsEmail = await User.findOne({email});
         console.log({existsEmail})
         await disconnectDb();
-    } catch (e) {
-
+    } catch (e:any) {
+        throw new Error(e)
     }
 
-    if(!existsEmail){
+    if (!existsEmail) {
         throw new Error('El email no esta registrado en la base de datos');
+    }
+}
+
+const categoryExists = async(id='') => {
+    let category;
+    try {
+        await connectDb();
+        category = await Category.findOne({id})
+        await disconnectDb();
+    } catch (e:any) {
+        throw new Error(e)
+    }
+
+    if(!category){
+        throw new Error('La categoría no esta registrada en la base de datos');
     }
 }
 
@@ -91,5 +105,6 @@ export {
     emailExists,
     userExists,
     isUserActive,
-    searchUserByEmail
+    searchUserByEmail,
+    categoryExists
 }

@@ -13,7 +13,7 @@ const isAdminRol = async (req: TypesRequest<UserProps>, res: Response, next: Nex
         return res.status(400).json({
             msg: 'Esta acción necesita ser realizada por un SUPER ADMIN'
         })
-    }
+    }1
 
     next();
 }
