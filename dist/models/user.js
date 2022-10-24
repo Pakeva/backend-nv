@@ -87,7 +87,7 @@ const UserSchema = new mongoose_1.Schema({
     },
 });
 UserSchema.methods.toJSON = function () {
-    const _a = this.toObject(), { __v, _id, state } = _a, user = __rest(_a, ["__v", "_id", "state"]);
+    const _a = this.toObject(), { __v, _id, state, password } = _a, user = __rest(_a, ["__v", "_id", "state", "password"]);
     // return category;
     //You know what it means
     return Object.assign({ id: _id }, user);

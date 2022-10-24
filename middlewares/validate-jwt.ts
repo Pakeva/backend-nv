@@ -38,6 +38,7 @@ const validateJwt = async (req:TypesRequest<UserProps>,res:Response,next:Next) =
             })
         }
 
+
         // @ts-ignore
         req.user = user;
         next();

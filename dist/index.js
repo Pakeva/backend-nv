@@ -36,9 +36,11 @@ app.use((0, cors_1.default)());
 //Paths
 const userPath = '/api/users';
 const authPath = '/api/auth';
+const categoryPath = '/api/categories';
 //Routes
 app.use(`${userPath}`, routes_1.userRoutes);
 app.use(`${authPath}`, routes_1.authRoutes);
+app.use(`${categoryPath}`, routes_1.categoryRoutes);
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });

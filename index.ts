@@ -5,7 +5,7 @@ import cors from 'cors'
 
 import {
     userRoutes,
-    authRoutes
+    authRoutes, categoryRoutes
 } from './routes'
 import {connectDb} from "./database/config";
 
@@ -31,13 +31,15 @@ app.use(cors())
 //Paths
 const userPath = '/api/users'
 const authPath = '/api/auth'
+const categoryPath = '/api/categories'
 
 //Routes
 app.use(`${userPath}`, userRoutes);
 app.use(`${authPath}`, authRoutes);
+app.use(`${categoryPath}`, categoryRoutes);
 
 app.get('/api', (req, res) => {
-    res.json({msg:'Hello world!'})
+    res.json({msg: 'Hello world!'})
 })
 
 app.listen(port, () => {

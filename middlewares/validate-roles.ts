@@ -1,15 +1,41 @@
 import {Next, TypesRequest, UserProps} from "../interfaces";
+import {Response} from "express";
 
 const isAdminRol = async (req: TypesRequest<UserProps>, res: Response, next: Next) => {
-    //TODO
+    if(!req.user){
+        return res.status(500).json({
+            msg:'Se necesita JWT'
+        })
+    }
+
+    const {rol} = req.user;
+    if(rol !== 'SUPER_ADMIN'){
+        return res.status(400).json({
+            msg: 'Esta acción necesita ser realizada por un SUPER ADMIN'
+        })
+    }
 
     next();
 }
 
-const hasRol = async (req: TypesRequest<any>, res: Response, next: Next) => {
-    //TODO
+const hasRol = (...roles: string[]) => {
+    return async (req: TypesRequest<UserProps>, res: Response, next: Next) => {
+        //Validations) => {
+        console.log(req.user)
+        if(!req.user){
+            return res.status(500).json({
+                msg:'The role verification is without token'
+            })
+        }
 
-    next();
+        if(!roles.includes(req.user.rol)){
+            return res.status(500).json({
+                msg:'The role is not valid'
+            })
+        }
+
+        next();
+    }
 }
 
 export {

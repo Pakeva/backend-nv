@@ -35,12 +35,19 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const comparePass = bcrypt_1.default.compareSync(password, user.password);
     if (!comparePass) {
         return res.status(400).json({
-            msg: 'Las contraseñas no coinciden'
+            msg: 'La contraseña no coincide'
         });
     }
     const token = yield (0, helpers_1.generateJwt)(user._id.toString());
+    const { _id, rol, status, name } = user;
     return res.status(200).json({
         msg: 'Success login user',
+        user: {
+            id: _id,
+            rol,
+            status,
+            name
+        },
         token
     });
 });

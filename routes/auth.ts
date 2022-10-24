@@ -8,7 +8,6 @@ const router = Router();
 
 
 router.post('/login', [
-    //todo validations
     check('email', 'El email es necesario')
         .custom(searchUserByEmail),
     validateFields

@@ -76,7 +76,7 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods.toJSON = function(){
-    const {__v ,_id, state, ...user } = this.toObject();
+    const {__v ,_id, state, password,...user } = this.toObject();
     // return category;
 
     //You know what it means

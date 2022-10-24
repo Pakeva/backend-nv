@@ -1,5 +1,5 @@
 import express from 'express';
-import {isAdminRol, validateFields, validateJwt} from "../middlewares";
+import {hasRol, isAdminRol, validateFields, validateJwt} from "../middlewares";
 import {check} from "express-validator";
 
 import {createUser, deleteUser, getUser, getUsers, updateUser} from '../controllers'
@@ -59,11 +59,14 @@ router.post('/', [
 ], createUser)
 
 router.get('/', [
-    // isAdminRol
-    // validateFields
+    validateJwt,
+    isAdminRol,
+    validateFields
 ], getUsers)
 
 router.get('/:id', [
+    validateJwt,
+    hasRol('CLIENT', 'SUPER_ADMIN', 'ASSOCIATED'),
     check('id', 'Tiene que ser un ID válido')
         .isMongoId()
         .custom(userExists),
@@ -82,13 +85,13 @@ router.delete('/:id', [
 
 
 router.put('/:id', [
+    validateJwt,
     check('id', 'Tiene que ser un ID válido')
         .isMongoId()
         .custom(userExists),
     validateFields
 ], updateUser)
 
-//TODO COMPLETE REST VALIDATIONS
 
 export default router;
 

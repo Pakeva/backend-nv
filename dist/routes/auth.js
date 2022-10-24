@@ -7,7 +7,6 @@ const express_validator_1 = require("express-validator");
 const middlewares_1 = require("../middlewares");
 const router = (0, express_1.Router)();
 router.post('/login', [
-    //todo validations
     (0, express_validator_1.check)('email', 'El email es necesario')
         .custom(helpers_1.searchUserByEmail),
     middlewares_1.validateFields
