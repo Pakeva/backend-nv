@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.categoryExists = exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
+exports.productExists = exports.categoryExists = exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
 const models_1 = require("../models");
 const config_1 = require("../database/config");
 const mongoose_1 = require("mongoose");
@@ -108,3 +108,18 @@ const categoryExists = (id = '') => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.categoryExists = categoryExists;
+const productExists = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
+    let product;
+    try {
+        yield (0, config_1.connectDb)();
+        product = yield models_1.Product.findOne({ id });
+        yield (0, config_1.disconnectDb)();
+    }
+    catch (e) {
+        throw new Error(e);
+    }
+    if (!product) {
+        throw new Error('El producto no esta registrado en la base de datos');
+    }
+});
+exports.productExists = productExists;

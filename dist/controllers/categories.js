@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCategory = exports.getCategory = exports.getCategories = exports.deleteCategory = exports.createCategory = void 0;
 const models_1 = require("../models");
@@ -86,7 +97,7 @@ const createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.createCategory = createCategory;
 const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { name, description } = req.body;
+    const _b = req.body, { name, description } = _b, cat = __rest(_b, ["name", "description"]);
     yield (0, config_1.connectDb)();
     const categoryDB = yield models_1.Category.findOne({ name: name.toUpperCase() });
     if (categoryDB) {
@@ -95,10 +106,7 @@ const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     try {
-        const categoryUpdated = yield models_1.Category.findByIdAndUpdate(id, {
-            name: name.toUpperCase(),
-            description: description && description
-        }, { new: true });
+        const categoryUpdated = yield models_1.Category.findByIdAndUpdate(id, Object.assign({ name: name.toUpperCase(), description: description && description }, cat), { new: true });
         yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Success',

@@ -1,4 +1,4 @@
-import {Category, Rol, User} from "../models";
+import {Category, Product, Rol, User} from "../models";
 import {connectDb, disconnectDb} from "../database/config";
 import {disconnect} from "mongoose";
 import {RolesTypes} from "../interfaces";
@@ -100,11 +100,27 @@ const categoryExists = async(id='') => {
     }
 }
 
+const productExists = async(id='') => {
+    let product;
+    try {
+        await connectDb();
+        product = await Product.findOne({id})
+        await disconnectDb();
+    } catch (e:any) {
+        throw new Error(e)
+    }
+
+    if(!product){
+        throw new Error('El producto no esta registrado en la base de datos');
+    }
+}
+
 export {
     isValidRol,
     emailExists,
     userExists,
     isUserActive,
     searchUserByEmail,
-    categoryExists
+    categoryExists,
+    productExists
 }

@@ -90,7 +90,7 @@ const createCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
 
 const updateCategory = async (req: TypesRequest<CategoryProps>, res: Response) => {
     const {id} = req.params;
-    const {name, description} = req.body;
+    const {name, description, ...cat} = req.body;
 
     await connectDb();
     const categoryDB = await Category.findOne({name: name.toUpperCase()})
@@ -104,7 +104,8 @@ const updateCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
     try {
         const categoryUpdated = await Category.findByIdAndUpdate(id, {
             name: name.toUpperCase(),
-            description: description && description
+            description: description && description,
+            ...cat
         }, {new: true})
         await disconnectDb();
 

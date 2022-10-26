@@ -27,7 +27,7 @@ const helpers_1 = require("../helpers");
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, config_1.connectDb)();
-        const products = yield models_1.Product.find();
+        const products = yield models_1.Product.find().populate('user', { name: 1 });
         yield (0, config_1.disconnectDb)();
         const prodFiltered = products.filter(prod => prod.status);
         res.status(200).json({
@@ -41,11 +41,31 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getProducts = getProducts;
-const getProduct = (req, res) => {
-    res.status(200).json({
-        msg: 'Success products'
-    });
-};
+const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        yield (0, config_1.connectDb)();
+        const product = yield models_1.Product.findById(id).populate('category', { name: 1 });
+        yield (0, config_1.disconnectDb)();
+        if (!product) {
+            return res.status(400).json({
+                msg: 'Producto no encontrado'
+            });
+        }
+        if (!product.status) {
+            return res.status(400).json({
+                msg: 'Producto actualmente eliminado'
+            });
+        }
+        res.status(200).json({
+            msg: 'Success',
+            product,
+        });
+    }
+    catch (e) {
+        (0, helpers_1.errorResponse)(e, res);
+    }
+});
 exports.getProduct = getProduct;
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -71,15 +91,53 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createProduct = createProduct;
-const updateProduct = (req, res) => {
-    res.status(200).json({
-        msg: 'Success products'
-    });
-};
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const _c = req.body, { name, description } = _c, prod = __rest(_c, ["name", "description"]);
+    yield (0, config_1.connectDb)();
+    const productDB = yield models_1.Product.findOne({ name });
+    if (productDB) {
+        return res.status(400).json({
+            msg: 'Este producto ya esta registrado'
+        });
+    }
+    try {
+        const productUpdated = yield models_1.Product.findByIdAndUpdate(id, Object.assign({ name, description: description && description }, prod), { new: true });
+        yield (0, config_1.disconnectDb)();
+        res.status(200).json({
+            msg: 'Success',
+            productUpdated
+        });
+    }
+    catch (e) {
+        (0, helpers_1.errorResponse)(e, res);
+    }
+});
 exports.updateProduct = updateProduct;
-const deleteProduct = (req, res) => {
-    res.status(200).json({
-        msg: 'Success products'
-    });
-};
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    yield (0, config_1.connectDb)();
+    const productIsActive = yield models_1.Product.findById(id);
+    if (!productIsActive.status) {
+        return res.status(400).json({
+            msg: 'Producto ya eliminado anteriormente'
+        });
+    }
+    try {
+        const productDeleted = yield models_1.Product.findByIdAndUpdate(id, {
+            status: false,
+        }, { new: true });
+        yield (0, config_1.disconnectDb)();
+        res.status(200).json({
+            msg: 'Producto eliminado correctamente',
+            product: {
+                name: productDeleted.name,
+                status: productDeleted.status
+            }
+        });
+    }
+    catch (e) {
+        (0, helpers_1.errorResponse)(e, res);
+    }
+});
 exports.deleteProduct = deleteProduct;

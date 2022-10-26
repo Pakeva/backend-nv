@@ -1,7 +1,8 @@
 import {Router} from "express";
-import {createProduct, getProducts} from "../controllers";
+import {createProduct, deleteProduct, getProduct, getProducts, updateProduct} from "../controllers";
 import {hasRol, validateFields, validateJwt} from "../middlewares";
 import {check} from "express-validator";
+import {productExists} from "../helpers";
 
 const router = Router();
 
@@ -25,5 +26,32 @@ router.post('/', [
         .isMongoId(),
     validateFields,
 ], createProduct)
+
+
+router.get('/:id', [
+    validateJwt,
+    check('id', 'No es un id válido')
+        .isMongoId()
+        .custom(productExists),
+    validateFields
+], getProduct)
+
+router.put('/:id', [
+    validateJwt,
+    check('id', 'No es un id válido')
+        .isMongoId()
+        .custom(productExists),
+    hasRol('SUPER_ADMIN', 'ASSOCIATED', 'CLIENT'),
+    validateFields
+], updateProduct)
+
+router.delete('/:id', [
+    validateJwt,
+    check('id', 'No es un id válido')
+        .isMongoId()
+        .custom(productExists),
+    hasRol('SUPER_ADMIN', 'ASSOCIATED', 'CLIENT'),
+    validateFields
+], deleteProduct)
 
 export default router;
