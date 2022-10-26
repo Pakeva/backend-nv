@@ -5,7 +5,7 @@ import cors from 'cors'
 
 import {
     userRoutes,
-    authRoutes, categoryRoutes
+    authRoutes, categoryRoutes, productsRoutes
 } from './routes'
 import {connectDb} from "./database/config";
 
@@ -32,11 +32,13 @@ app.use(cors())
 const userPath = '/api/users'
 const authPath = '/api/auth'
 const categoryPath = '/api/categories'
+const productsPath = '/api/products'
 
 //Routes
 app.use(`${userPath}`, userRoutes);
 app.use(`${authPath}`, authRoutes);
 app.use(`${categoryPath}`, categoryRoutes);
+app.use(`${productsPath}`, productsRoutes)
 
 app.get('/api', (req, res) => {
     res.json({msg: 'Hello world!'})
