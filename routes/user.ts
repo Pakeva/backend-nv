@@ -22,8 +22,7 @@ router.post('/', [
         .notEmpty()
         .withMessage('Al menos 2 letras'),
     check('birthday', 'La fecha de nacimiento es requerida')
-        .isDate()
-        .notEmpty(),
+        .isDate(),
     check('genre', 'El género es requerido')
         .isIn(['M', 'F', 'NB'])
         .withMessage('Debe ser un género válido (M-F-NB)')
