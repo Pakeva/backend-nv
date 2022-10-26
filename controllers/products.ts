@@ -69,7 +69,7 @@ const createProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
     await connectDb();
     const productDb = await Product.findOne({name});
 
-    if(productDb){
+    if(productDb && productDb.status){
         return res.status(400).json({
             msg: 'Este producto ya está registrado'
         })

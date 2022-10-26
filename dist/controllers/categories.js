@@ -72,9 +72,10 @@ const createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { name, description } = req.body;
     yield (0, config_1.connectDb)();
     const categoryDB = yield models_1.Category.findOne({ name: name.toUpperCase() });
-    if (categoryDB) {
+    const amountCategories = yield models_1.Category.find().countDocuments();
+    if (amountCategories >= 5) {
         return res.status(400).json({
-            msg: 'La categoría ya esta registrada'
+            msg: 'No puedes tener más de 5 categorías'
         });
     }
     const newCategory = new models_1.Category({
@@ -82,6 +83,11 @@ const createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
         user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id,
         description
     });
+    if (categoryDB && categoryDB.status) {
+        return res.status(400).json({
+            msg: 'La categoría ya esta registrada'
+        });
+    }
     try {
         yield newCategory.save();
         yield (0, config_1.disconnectDb)();

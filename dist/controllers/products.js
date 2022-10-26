@@ -72,7 +72,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const _b = req.body, { name } = _b, product = __rest(_b, ["name"]);
     yield (0, config_1.connectDb)();
     const productDb = yield models_1.Product.findOne({ name });
-    if (productDb) {
+    if (productDb && productDb.status) {
         return res.status(400).json({
             msg: 'Este producto ya está registrado'
         });

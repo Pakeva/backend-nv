@@ -62,10 +62,11 @@ const createCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
     const {name, description} = req.body;
     await connectDb();
     const categoryDB = await Category.findOne({name: name.toUpperCase()})
+    const amountCategories = await Category.find().countDocuments();
 
-    if (categoryDB) {
+    if(amountCategories >=5){
         return res.status(400).json({
-            msg: 'La categoría ya esta registrada'
+            msg: 'No puedes tener más de 5 categorías'
         })
     }
 
@@ -74,6 +75,12 @@ const createCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
         user: req.user?._id,
         description
     })
+
+    if (categoryDB && categoryDB.status) {
+        return res.status(400).json({
+            msg: 'La categoría ya esta registrada'
+        })
+    }
 
     try {
         await newCategory.save();
