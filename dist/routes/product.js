@@ -6,10 +6,13 @@ const middlewares_1 = require("../middlewares");
 const express_validator_1 = require("express-validator");
 const helpers_1 = require("../helpers");
 const router = (0, express_1.Router)();
-router.get('', [
+router.get('/:catId', [
     middlewares_1.validateJwt,
+    (0, express_validator_1.check)('catId', 'No es un id válido')
+        .isMongoId()
+        .custom(helpers_1.categoryExists),
     middlewares_1.validateFields
-], controllers_1.getProducts);
+], controllers_1.getProductsByCategoryId);
 router.post('/', [
     middlewares_1.validateJwt,
     (0, middlewares_1.hasRol)('SUPER_ADMIN', 'ASSOCIATED', 'CLIENT'),
@@ -25,7 +28,7 @@ router.post('/', [
         .isMongoId(),
     middlewares_1.validateFields,
 ], controllers_1.createProduct);
-router.get('/:id', [
+router.get('/product/:id', [
     middlewares_1.validateJwt,
     (0, express_validator_1.check)('id', 'No es un id válido')
         .isMongoId()

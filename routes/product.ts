@@ -1,15 +1,18 @@
 import {Router} from "express";
-import {createProduct, deleteProduct, getProduct, getProducts, updateProduct} from "../controllers";
+import {createProduct, deleteProduct, getProduct, getProductsByCategoryId, updateProduct} from "../controllers";
 import {hasRol, validateFields, validateJwt} from "../middlewares";
 import {check} from "express-validator";
-import {productExists} from "../helpers";
+import {categoryExists, productExists} from "../helpers";
 
 const router = Router();
 
-router.get('', [
+router.get('/:catId', [
     validateJwt,
+    check('catId', 'No es un id válido')
+        .isMongoId()
+        .custom(categoryExists),
     validateFields
-], getProducts)
+], getProductsByCategoryId)
 
 router.post('/', [
     validateJwt,
@@ -28,7 +31,7 @@ router.post('/', [
 ], createProduct)
 
 
-router.get('/:id', [
+router.get('/product/:id', [
     validateJwt,
     check('id', 'No es un id válido')
         .isMongoId()

@@ -16,13 +16,16 @@ interface ProductProps {
     user?: string,
 }
 
-const getProducts = async(req:TypesRequest<ProductProps[]>,res:Response) => {
+const getProductsByCategoryId = async(req:TypesRequest<ProductProps[]>,res:Response) => {
+    const {catId} = req.params;
+
     try {
-
-        const products = await Product.find().populate('user', {name:1});
-
+        const products = await Product.find({
+            category: catId
+        }).populate('user', {name:1});
 
         const prodFiltered = products.filter(prod => prod.status);
+
         res.status(200).json({
             msg: 'Success',
             totalProducts: prodFiltered.length,
@@ -158,7 +161,7 @@ const deleteProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
 
 
 export {
-    getProducts,
+    getProductsByCategoryId,
     getProduct,
     createProduct,
     updateProduct,

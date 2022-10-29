@@ -20,12 +20,15 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.updateProduct = exports.createProduct = exports.getProduct = exports.getProducts = void 0;
+exports.deleteProduct = exports.updateProduct = exports.createProduct = exports.getProduct = exports.getProductsByCategoryId = void 0;
 const models_1 = require("../models");
 const helpers_1 = require("../helpers");
-const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getProductsByCategoryId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { catId } = req.params;
     try {
-        const products = yield models_1.Product.find().populate('user', { name: 1 });
+        const products = yield models_1.Product.find({
+            category: catId
+        }).populate('user', { name: 1 });
         const prodFiltered = products.filter(prod => prod.status);
         res.status(200).json({
             msg: 'Success',
@@ -37,7 +40,7 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         (0, helpers_1.errorResponse)(e, res);
     }
 });
-exports.getProducts = getProducts;
+exports.getProductsByCategoryId = getProductsByCategoryId;
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
