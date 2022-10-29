@@ -3,7 +3,7 @@ import {LoginUserProps, TypesRequest} from "../interfaces";
 import bcrypt from 'bcrypt';
 import {User} from "../models";
 import {UserProps} from '../interfaces'
-import {connectDb, disconnectDb} from "../database/config";
+
 import {generateJwt} from "../helpers";
 
 
@@ -11,9 +11,8 @@ const loginUser = async (req: TypesRequest<LoginUserProps>, res: Response) => {
     const {email, password} = req.body;
 
 
-    await connectDb();
+
     let user = await User.findOne({email}) || {} as UserProps;
-    await disconnectDb();
 
 
     if (!user.status) {

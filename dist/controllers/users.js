@@ -23,16 +23,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.getUser = exports.getUsers = exports.updateUser = exports.createUser = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
-const config_1 = require("../database/config");
-const mongoose_1 = require("mongoose");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const user = new models_1.User(Object.assign({}, body));
     user.password = (0, helpers_1.hashPassword)(user.password);
     try {
-        yield (0, config_1.connectDb)();
         yield user.save();
-        yield (0, mongoose_1.disconnect)();
         res.status(201).json({
             msg: 'Usuario creado correctamente',
             user
@@ -50,9 +46,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         user.password = (0, helpers_1.hashPassword)(user.password);
     }
     try {
-        yield (0, config_1.connectDb)();
         const userUpdated = yield models_1.User.findByIdAndUpdate(id, user, { new: true });
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Usuario actualizado correctamente',
             user: Object.assign(Object.assign({}, user), { password: '' })
@@ -66,9 +60,7 @@ exports.updateUser = updateUser;
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //HANDLE QUERYS - Page & Limit depend business rules;
     try {
-        yield (0, config_1.connectDb)();
         const users = yield models_1.User.find();
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'success',
             users
@@ -82,9 +74,7 @@ exports.getUsers = getUsers;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        yield (0, config_1.connectDb)();
         const user = yield models_1.User.findById(id);
-        yield (0, config_1.disconnectDb)();
         if (!user) {
             return res.status(404).json({
                 msg: 'El usuario no está registrado'
@@ -102,9 +92,7 @@ exports.getUser = getUser;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        yield (0, config_1.connectDb)();
         yield models_1.User.findByIdAndUpdate(id, { status: false });
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'El usuario ha sido eliminado'
         });

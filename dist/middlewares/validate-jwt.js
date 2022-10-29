@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateJwt = void 0;
 const models_1 = require("../models");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = require("../database/config");
 const secretKey = 'Thisishtesecretkey,mustbeencrypted';
 const validateJwt = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('token');
@@ -29,9 +28,7 @@ const validateJwt = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const { uid } = jsonwebtoken_1.default.verify(token, process.env.SECRETKEY || secretKey);
         req.header = uid;
         //Get the user own of the uid
-        yield (0, config_1.connectDb)();
         const user = yield models_1.User.findById(uid);
-        yield (0, config_1.disconnectDb)();
         //Verify if the user exists
         if (!user) {
             return res.status(401).json({

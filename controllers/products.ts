@@ -1,7 +1,7 @@
 import {TypesRequest} from "../interfaces";
 import {Response} from "express";
 import {Product} from "../models";
-import {connectDb, disconnectDb} from "../database/config";
+
 import {errorResponse} from "../helpers";
 
 
@@ -18,9 +18,9 @@ interface ProductProps {
 
 const getProducts = async(req:TypesRequest<ProductProps[]>,res:Response) => {
     try {
-        await connectDb();
+
         const products = await Product.find().populate('user', {name:1});
-        await disconnectDb();
+
 
         const prodFiltered = products.filter(prod => prod.status);
         res.status(200).json({
@@ -37,9 +37,9 @@ const getProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
     const {id} = req.params;
 
     try {
-        await connectDb();
+
         const product = await Product.findById(id).populate('category', {name: 1});
-        await disconnectDb();
+
 
         if (!product) {
             return res.status(400).json({
@@ -66,7 +66,7 @@ const getProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
 const createProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
     const {name, ...product} = req.body;
 
-    await connectDb();
+
     const productDb = await Product.findOne({name});
 
     if(productDb && productDb.status){
@@ -84,7 +84,7 @@ const createProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
 
     try {
         await newProduct.save();
-        await disconnectDb();
+
 
         res.status(201).json({
             msg: 'Producto creado con éxito',
@@ -100,7 +100,7 @@ const updateProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
     const {id} = req.params;
     const {name, description, ...prod} = req.body;
 
-    await connectDb();
+
     const productDB = await Product.findOne({name})
 
     if (productDB) {
@@ -115,7 +115,7 @@ const updateProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
             description: description && description,
             ...prod
         }, {new: true})
-        await disconnectDb();
+
 
         res.status(200).json({
             msg: 'Success',
@@ -129,7 +129,7 @@ const updateProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
 const deleteProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
     const {id} = req.params;
 
-    await connectDb();
+
     const productIsActive = await Product.findById(id);
 
     if (!productIsActive!.status) {
@@ -142,7 +142,7 @@ const deleteProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
         const productDeleted = await Product.findByIdAndUpdate(id, {
             status: false,
         }, {new: true})
-        await disconnectDb();
+
 
         res.status(200).json({
             msg: 'Producto eliminado correctamente',

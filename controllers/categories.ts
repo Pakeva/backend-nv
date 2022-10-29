@@ -1,7 +1,7 @@
 import {TypesRequest, UserProps} from "../interfaces";
 import {Response} from "express";
 import {Category} from "../models";
-import {connectDb, disconnectDb} from "../database/config";
+
 import {errorResponse} from "../helpers";
 
 interface CategoryProps {
@@ -13,9 +13,9 @@ interface CategoryProps {
 
 const getCategories = async (req: TypesRequest<CategoryProps[]>, res: Response) => {
     try {
-        await connectDb();
+
         const categories = await Category.find();
-        await disconnectDb();
+
 
         const catFiltered = categories.filter(cat => cat.status);
         res.status(200).json({
@@ -32,9 +32,9 @@ const getCategory = async (req: TypesRequest<CategoryProps>, res: Response) => {
     const {id} = req.params;
 
     try {
-        await connectDb();
+
         const category = await Category.findById(id).populate('user', {name: 1, email: 1});
-        await disconnectDb();
+
 
         if (!category) {
             return res.status(400).json({
@@ -60,9 +60,9 @@ const getCategory = async (req: TypesRequest<CategoryProps>, res: Response) => {
 
 const createCategory = async (req: TypesRequest<CategoryProps>, res: Response) => {
     const {name, description} = req.body;
-    await connectDb();
+
     const categoryDB = await Category.findOne({name: name.toUpperCase()})
-    const amountCategories = await Category.find().countDocuments();
+    const amountCategories = await Category.find({status:true}).countDocuments();
 
     if(amountCategories >=5){
         return res.status(400).json({
@@ -84,7 +84,7 @@ const createCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
 
     try {
         await newCategory.save();
-        await disconnectDb();
+
         res.status(200).json({
             msg: 'Categoría creada correctamente',
             category: newCategory
@@ -99,7 +99,7 @@ const updateCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
     const {id} = req.params;
     const {name, description, ...cat} = req.body;
 
-    await connectDb();
+
     const categoryDB = await Category.findOne({name: name.toUpperCase()})
 
     if (categoryDB) {
@@ -114,7 +114,7 @@ const updateCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
             description: description && description,
             ...cat
         }, {new: true})
-        await disconnectDb();
+
 
         res.status(200).json({
             msg: 'Success',
@@ -127,7 +127,7 @@ const updateCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
 
 const deleteCategory = async (req: TypesRequest<CategoryProps>, res: Response) => {
     const {id} = req.params;
-    await connectDb();
+
     const categoryIsActive = await Category.findById(id);
 
     if (!categoryIsActive!.status) {
@@ -136,11 +136,12 @@ const deleteCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
         })
     }
 
+    //TODO DELETE ALL PRODUCTS CATEGORY
     try {
         const categoryDeleted = await Category.findByIdAndUpdate(id, {
             status: false,
         }, {new: true})
-        await disconnectDb();
+
 
         res.status(200).json({
             msg: 'Categoría eliminada correctamente',

@@ -22,13 +22,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCategory = exports.getCategory = exports.getCategories = exports.deleteCategory = exports.createCategory = void 0;
 const models_1 = require("../models");
-const config_1 = require("../database/config");
 const helpers_1 = require("../helpers");
 const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, config_1.connectDb)();
         const categories = yield models_1.Category.find();
-        yield (0, config_1.disconnectDb)();
         const catFiltered = categories.filter(cat => cat.status);
         res.status(200).json({
             msg: 'Success',
@@ -44,9 +41,7 @@ exports.getCategories = getCategories;
 const getCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        yield (0, config_1.connectDb)();
         const category = yield models_1.Category.findById(id).populate('user', { name: 1, email: 1 });
-        yield (0, config_1.disconnectDb)();
         if (!category) {
             return res.status(400).json({
                 msg: 'Categoría no encontrada'
@@ -70,9 +65,8 @@ exports.getCategory = getCategory;
 const createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { name, description } = req.body;
-    yield (0, config_1.connectDb)();
     const categoryDB = yield models_1.Category.findOne({ name: name.toUpperCase() });
-    const amountCategories = yield models_1.Category.find().countDocuments();
+    const amountCategories = yield models_1.Category.find({ status: true }).countDocuments();
     if (amountCategories >= 5) {
         return res.status(400).json({
             msg: 'No puedes tener más de 5 categorías'
@@ -90,7 +84,6 @@ const createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     try {
         yield newCategory.save();
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Categoría creada correctamente',
             category: newCategory
@@ -104,7 +97,6 @@ exports.createCategory = createCategory;
 const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const _b = req.body, { name, description } = _b, cat = __rest(_b, ["name", "description"]);
-    yield (0, config_1.connectDb)();
     const categoryDB = yield models_1.Category.findOne({ name: name.toUpperCase() });
     if (categoryDB) {
         return res.status(400).json({
@@ -113,7 +105,6 @@ const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     try {
         const categoryUpdated = yield models_1.Category.findByIdAndUpdate(id, Object.assign({ name: name.toUpperCase(), description: description && description }, cat), { new: true });
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Success',
             categoryUpdated
@@ -126,18 +117,17 @@ const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.updateCategory = updateCategory;
 const deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield (0, config_1.connectDb)();
     const categoryIsActive = yield models_1.Category.findById(id);
     if (!categoryIsActive.status) {
         return res.status(400).json({
             msg: 'Categoría ya eliminada anteriormente'
         });
     }
+    //TODO DELETE ALL PRODUCTS CATEGORY
     try {
         const categoryDeleted = yield models_1.Category.findByIdAndUpdate(id, {
             status: false,
         }, { new: true });
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Categoría eliminada correctamente',
             category: {

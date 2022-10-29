@@ -1,8 +1,7 @@
 import {Request, Response} from 'express'
 import {errorResponse, hashPassword} from "../helpers";
 import {User} from '../models'
-import {connectDb, disconnectDb} from "../database/config";
-import {disconnect} from "mongoose";
+
 import {TypesRequest, UserProps} from "../interfaces";
 
 const createUser = async (req: TypesRequest<UserProps>, res: Response) => {
@@ -12,9 +11,9 @@ const createUser = async (req: TypesRequest<UserProps>, res: Response) => {
     user.password = hashPassword(user.password);
 
     try {
-        await connectDb();
+
         await user.save();
-        await disconnect();
+
         res.status(201).json({
             msg: 'Usuario creado correctamente',
             user
@@ -33,9 +32,9 @@ const updateUser = async (req: TypesRequest<UserProps>, res: Response) => {
     }
 
     try {
-        await connectDb();
+
         const userUpdated = await User.findByIdAndUpdate(id, user, {new: true});
-        await disconnectDb();
+
 
         res.status(200).json({
             msg: 'Usuario actualizado correctamente',
@@ -53,9 +52,9 @@ const getUsers = async (req: Request, res: Response) => {
     //HANDLE QUERYS - Page & Limit depend business rules;
 
     try {
-        await connectDb();
+
         const users = await User.find();
-        await disconnectDb();
+
         res.status(200).json({
             msg: 'success',
             users
@@ -68,9 +67,8 @@ const getUsers = async (req: Request, res: Response) => {
 const getUser = async (req: Request, res: Response) => {
     const {id} = req.params;
     try {
-        await connectDb()
         const user = await User.findById(id);
-        await disconnectDb();
+
         if (!user) {
             return res.status(404).json({
                 msg: 'El usuario no está registrado'
@@ -89,9 +87,9 @@ const getUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
     const {id} = req.params;
     try {
-        await connectDb();
+
         await User.findByIdAndUpdate(id, {status: false})
-        await disconnectDb();
+
         res.status(200).json({
             msg: 'El usuario ha sido eliminado'
         })

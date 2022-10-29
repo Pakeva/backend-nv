@@ -2,7 +2,7 @@ import {User} from "../models";
 import jwt from 'jsonwebtoken'
 import {Response} from "express";
 import {Next, TypesRequest, UserProps} from "../interfaces";
-import {connectDb, disconnectDb} from "../database/config";
+
 
 const secretKey = 'Thisishtesecretkey,mustbeencrypted'
 
@@ -20,9 +20,9 @@ const validateJwt = async (req:TypesRequest<UserProps>,res:Response,next:Next) =
         req.header = uid;
 
         //Get the user own of the uid
-        await connectDb();
+
         const user = await User.findById(uid);
-        await disconnectDb();
+
 
         //Verify if the user exists
         if(!user){

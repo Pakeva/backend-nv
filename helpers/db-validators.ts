@@ -1,5 +1,5 @@
 import {Category, Product, Rol, User} from "../models";
-import {connectDb, disconnectDb} from "../database/config";
+
 import {disconnect} from "mongoose";
 import {RolesTypes} from "../interfaces";
 import {Logger} from "concurrently";
@@ -7,9 +7,9 @@ import {Logger} from "concurrently";
 const isValidRol = async (rol: RolesTypes) => {
     let existsRol;
     try {
-        await connectDb();
+
         existsRol = await Rol.findOne({rol});
-        await disconnectDb();
+
     } catch (e) {
         console.log(e)
         throw new Error('Hable con el encargado para ver el problema')
@@ -23,9 +23,9 @@ const isValidRol = async (rol: RolesTypes) => {
 const emailExists = async (email = '') => {
     let emailIsRegistered;
     try {
-        await connectDb();
+
         emailIsRegistered = await User.findOne({email})
-        await disconnect();
+
     } catch (e) {
         console.log(e)
         throw new Error('Hable con el encargado para ver el problema')
@@ -40,9 +40,9 @@ const emailExists = async (email = '') => {
 const userExists = async (id = '') => {
     let userIsRegistered;
     try {
-        await connectDb();
+
         userIsRegistered = await User.findById(id)
-        await disconnectDb();
+
     } catch (e) {
         console.log(e)
         throw new Error('Hable con el encargado para ver el problema')
@@ -56,9 +56,9 @@ const userExists = async (id = '') => {
 const isUserActive = async (id = '') => {
     let user;
     try {
-        await connectDb();
+
         user = await User.findById(id, {status: 1})
-        await disconnectDb();
+
     } catch (e) {
         console.log(e)
         throw new Error('Hable con el encargado para ver el problema')
@@ -72,10 +72,10 @@ const isUserActive = async (id = '') => {
 const searchUserByEmail = async (email = '') => {
     let existsEmail;
     try {
-        await connectDb();
+
         existsEmail = await User.findOne({email});
         console.log({existsEmail})
-        await disconnectDb();
+
     } catch (e:any) {
         throw new Error(e)
     }
@@ -88,9 +88,9 @@ const searchUserByEmail = async (email = '') => {
 const categoryExists = async(id='') => {
     let category;
     try {
-        await connectDb();
+
         category = await Category.findOne({id})
-        await disconnectDb();
+
     } catch (e:any) {
         throw new Error(e)
     }
@@ -103,9 +103,9 @@ const categoryExists = async(id='') => {
 const productExists = async(id='') => {
     let product;
     try {
-        await connectDb();
+
         product = await Product.findOne({id})
-        await disconnectDb();
+
     } catch (e:any) {
         throw new Error(e)
     }

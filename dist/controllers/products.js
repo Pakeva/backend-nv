@@ -22,13 +22,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.updateProduct = exports.createProduct = exports.getProduct = exports.getProducts = void 0;
 const models_1 = require("../models");
-const config_1 = require("../database/config");
 const helpers_1 = require("../helpers");
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, config_1.connectDb)();
         const products = yield models_1.Product.find().populate('user', { name: 1 });
-        yield (0, config_1.disconnectDb)();
         const prodFiltered = products.filter(prod => prod.status);
         res.status(200).json({
             msg: 'Success',
@@ -44,9 +41,7 @@ exports.getProducts = getProducts;
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        yield (0, config_1.connectDb)();
         const product = yield models_1.Product.findById(id).populate('category', { name: 1 });
-        yield (0, config_1.disconnectDb)();
         if (!product) {
             return res.status(400).json({
                 msg: 'Producto no encontrado'
@@ -70,7 +65,6 @@ exports.getProduct = getProduct;
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const _b = req.body, { name } = _b, product = __rest(_b, ["name"]);
-    yield (0, config_1.connectDb)();
     const productDb = yield models_1.Product.findOne({ name });
     if (productDb && productDb.status) {
         return res.status(400).json({
@@ -80,7 +74,6 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const newProduct = new models_1.Product(Object.assign(Object.assign({ name }, product), { user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id }));
     try {
         yield newProduct.save();
-        yield (0, config_1.disconnectDb)();
         res.status(201).json({
             msg: 'Producto creado con éxito',
             product: newProduct
@@ -94,7 +87,6 @@ exports.createProduct = createProduct;
 const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const _c = req.body, { name, description } = _c, prod = __rest(_c, ["name", "description"]);
-    yield (0, config_1.connectDb)();
     const productDB = yield models_1.Product.findOne({ name });
     if (productDB) {
         return res.status(400).json({
@@ -103,7 +95,6 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     try {
         const productUpdated = yield models_1.Product.findByIdAndUpdate(id, Object.assign({ name, description: description && description }, prod), { new: true });
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Success',
             productUpdated
@@ -116,7 +107,6 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.updateProduct = updateProduct;
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield (0, config_1.connectDb)();
     const productIsActive = yield models_1.Product.findById(id);
     if (!productIsActive.status) {
         return res.status(400).json({
@@ -127,7 +117,6 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const productDeleted = yield models_1.Product.findByIdAndUpdate(id, {
             status: false,
         }, { new: true });
-        yield (0, config_1.disconnectDb)();
         res.status(200).json({
             msg: 'Producto eliminado correctamente',
             product: {

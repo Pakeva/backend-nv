@@ -11,14 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productExists = exports.categoryExists = exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
 const models_1 = require("../models");
-const config_1 = require("../database/config");
-const mongoose_1 = require("mongoose");
 const isValidRol = (rol) => __awaiter(void 0, void 0, void 0, function* () {
     let existsRol;
     try {
-        yield (0, config_1.connectDb)();
         existsRol = yield models_1.Rol.findOne({ rol });
-        yield (0, config_1.disconnectDb)();
     }
     catch (e) {
         console.log(e);
@@ -32,9 +28,7 @@ exports.isValidRol = isValidRol;
 const emailExists = (email = '') => __awaiter(void 0, void 0, void 0, function* () {
     let emailIsRegistered;
     try {
-        yield (0, config_1.connectDb)();
         emailIsRegistered = yield models_1.User.findOne({ email });
-        yield (0, mongoose_1.disconnect)();
     }
     catch (e) {
         console.log(e);
@@ -48,9 +42,7 @@ exports.emailExists = emailExists;
 const userExists = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
     let userIsRegistered;
     try {
-        yield (0, config_1.connectDb)();
         userIsRegistered = yield models_1.User.findById(id);
-        yield (0, config_1.disconnectDb)();
     }
     catch (e) {
         console.log(e);
@@ -64,9 +56,7 @@ exports.userExists = userExists;
 const isUserActive = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
     let user;
     try {
-        yield (0, config_1.connectDb)();
         user = yield models_1.User.findById(id, { status: 1 });
-        yield (0, config_1.disconnectDb)();
     }
     catch (e) {
         console.log(e);
@@ -80,10 +70,8 @@ exports.isUserActive = isUserActive;
 const searchUserByEmail = (email = '') => __awaiter(void 0, void 0, void 0, function* () {
     let existsEmail;
     try {
-        yield (0, config_1.connectDb)();
         existsEmail = yield models_1.User.findOne({ email });
         console.log({ existsEmail });
-        yield (0, config_1.disconnectDb)();
     }
     catch (e) {
         throw new Error(e);
@@ -96,9 +84,7 @@ exports.searchUserByEmail = searchUserByEmail;
 const categoryExists = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
     let category;
     try {
-        yield (0, config_1.connectDb)();
         category = yield models_1.Category.findOne({ id });
-        yield (0, config_1.disconnectDb)();
     }
     catch (e) {
         throw new Error(e);
@@ -111,9 +97,7 @@ exports.categoryExists = categoryExists;
 const productExists = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
     let product;
     try {
-        yield (0, config_1.connectDb)();
         product = yield models_1.Product.findOne({ id });
-        yield (0, config_1.disconnectDb)();
     }
     catch (e) {
         throw new Error(e);
