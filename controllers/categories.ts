@@ -1,6 +1,6 @@
 import {TypesRequest, UserProps} from "../interfaces";
 import {Response} from "express";
-import {Category} from "../models";
+import {Category, Product} from "../models";
 
 import {errorResponse} from "../helpers";
 
@@ -62,9 +62,9 @@ const createCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
     const {name, description} = req.body;
 
     const categoryDB = await Category.findOne({name: name.toUpperCase()})
-    const amountCategories = await Category.find({status:true}).countDocuments();
+    const amountCategories = await Category.find({status: true}).countDocuments();
 
-    if(amountCategories >=5){
+    if (amountCategories >= 5) {
         return res.status(400).json({
             msg: 'No puedes tener más de 5 categorías'
         })
@@ -136,12 +136,12 @@ const deleteCategory = async (req: TypesRequest<CategoryProps>, res: Response) =
         })
     }
 
-    //TODO DELETE ALL PRODUCTS CATEGORY
+
     try {
         const categoryDeleted = await Category.findByIdAndUpdate(id, {
             status: false,
         }, {new: true})
-
+        await Product.remove({category: id});
 
         res.status(200).json({
             msg: 'Categoría eliminada correctamente',

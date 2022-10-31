@@ -123,11 +123,11 @@ const deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
             msg: 'Categoría ya eliminada anteriormente'
         });
     }
-    //TODO DELETE ALL PRODUCTS CATEGORY
     try {
         const categoryDeleted = yield models_1.Category.findByIdAndUpdate(id, {
             status: false,
         }, { new: true });
+        yield models_1.Product.remove({ category: id });
         res.status(200).json({
             msg: 'Categoría eliminada correctamente',
             category: {
