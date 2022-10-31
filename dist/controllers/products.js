@@ -91,7 +91,7 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const { id } = req.params;
     const _c = req.body, { name, description } = _c, prod = __rest(_c, ["name", "description"]);
     const productDB = yield models_1.Product.findOne({ name });
-    if (productDB) {
+    if (productDB && productDB.status) {
         return res.status(400).json({
             msg: 'Este producto ya esta registrado'
         });
