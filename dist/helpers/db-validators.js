@@ -71,7 +71,6 @@ const searchUserByEmail = (email = '') => __awaiter(void 0, void 0, void 0, func
     let existsEmail;
     try {
         existsEmail = yield models_1.User.findOne({ email });
-        console.log({ existsEmail });
     }
     catch (e) {
         throw new Error(e);

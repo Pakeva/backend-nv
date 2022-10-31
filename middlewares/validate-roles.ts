@@ -21,7 +21,6 @@ const isAdminRol = async (req: TypesRequest<UserProps>, res: Response, next: Nex
 const hasRol = (...roles: string[]) => {
     return async (req: TypesRequest<UserProps>, res: Response, next: Next) => {
         //Validations) => {
-        console.log(req.user)
         if(!req.user){
             return res.status(500).json({
                 msg:'The role verification is without token'

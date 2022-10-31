@@ -12,7 +12,7 @@ const generateJwt = (uid = '') => {
         //You can save all that you want
         const payload = { uid };
         jsonwebtoken_1.default.sign(payload, process.env.SECRETKEY || secretKey, {
-            expiresIn: '24h'
+            expiresIn: '7d'
         }, (err, token) => {
             if (err) {
                 console.log(err);

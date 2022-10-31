@@ -72,10 +72,7 @@ const isUserActive = async (id = '') => {
 const searchUserByEmail = async (email = '') => {
     let existsEmail;
     try {
-
         existsEmail = await User.findOne({email});
-        console.log({existsEmail})
-
     } catch (e:any) {
         throw new Error(e)
     }
