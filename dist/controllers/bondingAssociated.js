@@ -12,13 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBondingAssociatedToCompany = exports.addAssociatedToCompany = void 0;
+exports.deleteBounding = exports.getBondingAssociatedToCompany = exports.addAssociatedToCompany = void 0;
 const helpers_1 = require("../helpers");
 const bondingAssociated_1 = __importDefault(require("../models/bondingAssociated"));
 const models_1 = require("../models");
 const addAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { associatedID } = req.body;
+    console.log(associatedID);
     const associated = yield models_1.User.findById(associatedID);
     if (!associated) {
         return res.status(401).json({
@@ -57,11 +58,27 @@ const getBondingAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, vo
     });
     //TODO GET ALL THE ASSOCIATEDS
     // const idAssociateds = bonding.map(bond => bond.associated);
-    const associated = yield models_1.User.findById(bonding[0].associated);
+    //Fix this
+    const associated = yield models_1.User.findById(bonding.associated);
+    const associateds = yield models_1.User.findById(bonding[0].associated);
     res.status(200).json({
         msg: 'Success',
         //GET ALL ASOCIATEDs
-        associateds: associated
+        associateds: associateds ? associateds : associated
     });
 });
 exports.getBondingAssociatedToCompany = getBondingAssociatedToCompany;
+const deleteBounding = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d;
+    //Todo fix this
+    const { id } = req.params;
+    const bonding = yield bondingAssociated_1.default.find({
+        user: (_d = req.user) === null || _d === void 0 ? void 0 : _d._id,
+        associated: id
+    });
+    yield bondingAssociated_1.default.remove({ category: id });
+    res.status(200).json({
+        msg: 'Asociado eliminado correctamente',
+    });
+});
+exports.deleteBounding = deleteBounding;

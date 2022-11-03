@@ -10,12 +10,13 @@ interface BondingAssociatedProps {
     associatedID: string
 }
 
-const addAssociatedToCompany = async (req:TypesRequest<BondingAssociatedProps>,res:Response) => {
+const addAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
     const {associatedID} = req.body
+    console.log(associatedID)
 
     const associated = await User.findById(associatedID);
 
-    if(!associated){
+    if (!associated) {
         return res.status(401).json({
             msg: 'El asociado fue eliminado o dado de baja'
         })
@@ -26,7 +27,7 @@ const addAssociatedToCompany = async (req:TypesRequest<BondingAssociatedProps>,r
         associated: associatedID
     })
 
-    if(existsBondingAssociated){
+    if (existsBondingAssociated) {
         return res.status(401).json({
             msg: 'Ya esta vinculado este asociado'
         })
@@ -49,7 +50,7 @@ const addAssociatedToCompany = async (req:TypesRequest<BondingAssociatedProps>,r
     }
 }
 
-const getBondingAssociatedToCompany = async (req:TypesRequest<BondingAssociatedProps>,res:Response) => {
+const getBondingAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
     const bonding = await BondingAssociated.find({
         user: req.user?._id
     });
@@ -57,18 +58,38 @@ const getBondingAssociatedToCompany = async (req:TypesRequest<BondingAssociatedP
     //TODO GET ALL THE ASSOCIATEDS
     // const idAssociateds = bonding.map(bond => bond.associated);
 
-    const associated = await User.findById(bonding[0].associated)
+    //Fix this
+    const associated = await User.findById(bonding.associated)
+    const associateds = await User.findById(bonding[0].associated)
 
 
     res.status(200).json({
         msg: 'Success',
         //GET ALL ASOCIATEDs
-        associateds: associated
+        associateds: associateds ? associateds : associated
+    })
+}
+
+const deleteBounding = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
+    //Todo fix this
+    const {id} = req.params;
+
+    const bonding = await BondingAssociated.find({
+        user: req.user?._id,
+        associated: id
+    });
+
+    await BondingAssociated.remove({category: id});
+
+
+    res.status(200).json({
+        msg: 'Asociado eliminado correctamente',
     })
 }
 
 
 export {
-   addAssociatedToCompany,
-    getBondingAssociatedToCompany
+    addAssociatedToCompany,
+    getBondingAssociatedToCompany,
+    deleteBounding
 }

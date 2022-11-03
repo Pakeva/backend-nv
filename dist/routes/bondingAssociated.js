@@ -17,4 +17,10 @@ router.get('/', [
     middlewares_1.validateJwt,
     middlewares_1.validateFields
 ], bondingAssociated_1.getBondingAssociatedToCompany);
+router.delete('/:id', [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('id', 'El id es requerido')
+        .isMongoId(),
+    middlewares_1.validateFields
+], bondingAssociated_1.deleteBounding);
 exports.default = router;
