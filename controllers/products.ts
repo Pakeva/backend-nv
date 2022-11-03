@@ -106,6 +106,7 @@ const updateProduct = async (req:TypesRequest<ProductProps>,res:Response) => {
 
     const productDB = await Product.findOne({name})
 
+    //TODO verify if the product name is already in the database
     // if (productDB && productDB.status) {
     //     return res.status(400).json({
     //         msg: 'Este producto ya esta registrado'

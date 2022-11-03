@@ -73,6 +73,10 @@ const UserSchema = new Schema({
         default: true,
         required: true
     },
+    bondingCode:{
+        type: String,
+        required: true
+    },
 })
 
 UserSchema.methods.toJSON = function(){

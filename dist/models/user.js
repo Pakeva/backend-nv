@@ -85,6 +85,10 @@ const UserSchema = new mongoose_1.Schema({
         default: true,
         required: true
     },
+    bondingCode: {
+        type: String,
+        required: true
+    },
 });
 UserSchema.methods.toJSON = function () {
     const _a = this.toObject(), { __v, _id, state, password } = _a, user = __rest(_a, ["__v", "_id", "state", "password"]);

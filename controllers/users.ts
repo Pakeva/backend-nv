@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'
 import {errorResponse, hashPassword} from "../helpers";
 import {User} from '../models'
+import randomString from 'randomstring';
 
 import {TypesRequest, UserProps} from "../interfaces";
 
@@ -9,6 +10,7 @@ const createUser = async (req: TypesRequest<UserProps>, res: Response) => {
 
     const user = new User({...body})
     user.password = hashPassword(user.password);
+    user.bondingCode = randomString.generate(5);
 
     try {
 

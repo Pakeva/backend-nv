@@ -19,14 +19,19 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.getUser = exports.getUsers = exports.updateUser = exports.createUser = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
+const randomstring_1 = __importDefault(require("randomstring"));
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const user = new models_1.User(Object.assign({}, body));
     user.password = (0, helpers_1.hashPassword)(user.password);
+    user.bondingCode = randomstring_1.default.generate(5);
     try {
         yield user.save();
         res.status(201).json({
