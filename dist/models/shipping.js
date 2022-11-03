@@ -190,6 +190,7 @@ const ShippingSchema = new mongoose_1.Schema({
         required: true
     }
 });
+ShippingSchema.set('timestamps', true);
 ShippingSchema.methods.toJSON = function () {
     const _a = this.toObject(), { __v, _id } = _a, rest = __rest(_a, ["__v", "_id"]);
     // return category;

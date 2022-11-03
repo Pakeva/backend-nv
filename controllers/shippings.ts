@@ -34,7 +34,7 @@ const getShippings = async (req:TypesRequest<any>,res:Response) => {
     })
 
     res.status(200).json({
-        msg: 'fierro',
+        msg: 'success',
         envios: shippings
     })
 }

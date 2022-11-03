@@ -180,6 +180,8 @@ const ShippingSchema = new Schema({
     }
 })
 
+ShippingSchema.set('timestamps', true);
+
 ShippingSchema.methods.toJSON = function(){
     const {__v ,_id,...rest } = this.toObject();
     // return category;

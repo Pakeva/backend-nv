@@ -37,7 +37,7 @@ const getShippings = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         user: (_b = req.user) === null || _b === void 0 ? void 0 : _b._id
     });
     res.status(200).json({
-        msg: 'fierro',
+        msg: 'success',
         envios: shippings
     });
 });
