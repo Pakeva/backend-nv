@@ -107,6 +107,7 @@ const getUserByBondingCode = async (req:TypesRequest<UserProps>,res:Response) =>
     let userByBondingCode;
     try {
         userByBondingCode = await User.findOne({bondingCode: bc})
+        console.log(userByBondingCode)
     } catch (e) {
         errorResponse(e, res)
     }

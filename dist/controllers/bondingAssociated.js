@@ -59,13 +59,33 @@ const getBondingAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, vo
     //TODO GET ALL THE ASSOCIATEDS
     // const idAssociateds = bonding.map(bond => bond.associated);
     //Fix this
-    const associated = yield models_1.User.findById(bonding.associated);
-    const associateds = yield models_1.User.findById(bonding[0].associated);
-    res.status(200).json({
-        msg: 'Success',
-        //GET ALL ASOCIATEDs
-        associateds: associateds ? associateds : associated
-    });
+    let associated, associateds;
+    try {
+        associateds = yield models_1.User.findById(bonding[0].associated);
+        if (associateds) {
+            return res.status(200).json({
+                msg: 'Success',
+                //GET ALL ASOCIATEDs
+                associateds: associateds
+            });
+        }
+    }
+    catch (e) {
+        (0, helpers_1.errorResponse)(e, res);
+    }
+    try {
+        associated = yield models_1.User.findById(bonding.associated);
+        if (associated) {
+            return res.status(200).json({
+                msg: 'Success',
+                //GET ALL ASOCIATEDs
+                associateds: associated
+            });
+        }
+    }
+    catch (e) {
+        (0, helpers_1.errorResponse)(e, res);
+    }
 });
 exports.getBondingAssociatedToCompany = getBondingAssociatedToCompany;
 const deleteBounding = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

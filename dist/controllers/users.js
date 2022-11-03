@@ -112,6 +112,7 @@ const getUserByBondingCode = (req, res) => __awaiter(void 0, void 0, void 0, fun
     let userByBondingCode;
     try {
         userByBondingCode = yield models_1.User.findOne({ bondingCode: bc });
+        console.log(userByBondingCode);
     }
     catch (e) {
         (0, helpers_1.errorResponse)(e, res);

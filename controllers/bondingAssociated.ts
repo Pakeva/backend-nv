@@ -59,15 +59,34 @@ const getBondingAssociatedToCompany = async (req: TypesRequest<BondingAssociated
     // const idAssociateds = bonding.map(bond => bond.associated);
 
     //Fix this
-    const associated = await User.findById(bonding.associated)
-    const associateds = await User.findById(bonding[0].associated)
+    let associated, associateds;
+    try {
+        associateds = await User.findById(bonding[0].associated)
+        if(associateds){
+            return res.status(200).json({
+                msg: 'Success',
+                //GET ALL ASOCIATEDs
+                associateds: associateds
+            })
+        }
 
+    } catch (e) {
+        errorResponse(e, res)
+    }
 
-    res.status(200).json({
-        msg: 'Success',
-        //GET ALL ASOCIATEDs
-        associateds: associateds ? associateds : associated
-    })
+    try {
+        associated = await User.findById(bonding.associated)
+        if(associated){
+            return res.status(200).json({
+                msg: 'Success',
+                //GET ALL ASOCIATEDs
+                associateds: associated
+            })
+        }
+    } catch (e) {
+        errorResponse(e, res)
+    }
+
 }
 
 const deleteBounding = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
