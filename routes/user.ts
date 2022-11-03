@@ -2,8 +2,8 @@ import express from 'express';
 import {hasRol, isAdminRol, validateFields, validateJwt} from "../middlewares";
 import {check} from "express-validator";
 
-import {createUser, deleteUser, getUser, getUsers, updateUser} from '../controllers'
-import {emailExists, isUserActive, isValidRol, userExists} from "../helpers";
+import {createUser, deleteUser, getUser, getUserByBondingCode, getUsers, updateUser} from '../controllers'
+import {bondingCodeExists, emailExists, isUserActive, isValidRol, userExists} from "../helpers";
 
 const router = express.Router();
 
@@ -90,6 +90,14 @@ router.put('/:id', [
         .custom(userExists),
     validateFields
 ], updateUser)
+
+
+router.get('/bonding/:bc', [
+    validateJwt,
+    check('bc', 'No es un codigo valido')
+        .custom(bondingCodeExists),
+    validateFields
+], getUserByBondingCode);
 
 
 export default router;

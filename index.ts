@@ -6,7 +6,7 @@ import helmet from "helmet";
 
 import {
     userRoutes,
-    authRoutes, categoryRoutes, productsRoutes
+    authRoutes, categoryRoutes, productsRoutes, bondingAssociatedRoutes
 } from './routes'
 import {connectDb} from "./database/config";
 
@@ -35,12 +35,14 @@ const userPath = '/api/users'
 const authPath = '/api/auth'
 const categoryPath = '/api/categories'
 const productsPath = '/api/products'
+const bondingAssociated = '/api/b-associated'
 
 //Routes
 app.use(`${userPath}`, userRoutes);
 app.use(`${authPath}`, authRoutes);
 app.use(`${categoryPath}`, categoryRoutes);
 app.use(`${productsPath}`, productsRoutes)
+app.use(`${bondingAssociated}`, bondingAssociatedRoutes)
 
 app.get('/api', (req, res) => {
     res.json({msg: 'Hello world!'})

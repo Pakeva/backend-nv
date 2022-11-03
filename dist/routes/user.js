@@ -87,4 +87,10 @@ router.put('/:id', [
         .custom(helpers_1.userExists),
     middlewares_1.validateFields
 ], controllers_1.updateUser);
+router.get('/bonding/:bc', [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('bc', 'No es un codigo valido')
+        .custom(helpers_1.bondingCodeExists),
+    middlewares_1.validateFields
+], controllers_1.getUserByBondingCode);
 exports.default = router;

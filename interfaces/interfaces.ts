@@ -35,7 +35,9 @@ export interface UserProps extends AddressProps{
     phone: number,
     rol: RolesTypes,
     status?: boolean,
-    bondingCode?: string
+    bondingCode?: string,
+    associatedBonding?: string[],
+    associatedCompany?: string[]
 }
 
 export interface LoginUserProps {

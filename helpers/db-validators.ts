@@ -38,11 +38,10 @@ const emailExists = async (email = '') => {
 
 
 const userExists = async (id = '') => {
+    console.log('entre aquii')
     let userIsRegistered;
     try {
-
         userIsRegistered = await User.findById(id)
-
     } catch (e) {
         console.log(e)
         throw new Error('Hable con el encargado para ver el problema')
@@ -112,6 +111,20 @@ const productExists = async(id='') => {
     }
 }
 
+const bondingCodeExists = async (bondingCode = '') => {
+    let userIsRegistered;
+    try {
+        userIsRegistered = await User.findOne({bondingCode: bondingCode})
+    } catch (e) {
+        console.log(e)
+        throw new Error('Hable con el encargado para ver el problema')
+    }
+
+    if (!userIsRegistered) {
+        throw new Error('El codigo es incorrecto');
+    }
+}
+
 export {
     isValidRol,
     emailExists,
@@ -119,5 +132,6 @@ export {
     isUserActive,
     searchUserByEmail,
     categoryExists,
-    productExists
+    productExists,
+    bondingCodeExists
 }

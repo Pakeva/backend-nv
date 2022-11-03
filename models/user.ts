@@ -77,6 +77,12 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    associatedBonding: {
+        type: String,
+    },
+    associatedCompany: {
+        type: String,
+    }
 })
 
 UserSchema.methods.toJSON = function(){

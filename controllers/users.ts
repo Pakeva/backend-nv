@@ -86,6 +86,7 @@ const getUser = async (req: Request, res: Response) => {
 
 }
 
+
 const deleteUser = async (req: Request, res: Response) => {
     const {id} = req.params;
     try {
@@ -100,10 +101,26 @@ const deleteUser = async (req: Request, res: Response) => {
     }
 }
 
+
+const getUserByBondingCode = async (req:TypesRequest<UserProps>,res:Response) => {
+    const {bc} = req.params;
+    let userByBondingCode;
+    try {
+        userByBondingCode = await User.findOne({bondingCode: bc})
+    } catch (e) {
+        errorResponse(e, res)
+    }
+    res.status(200).json({
+        msg: 'Success',
+        user: userByBondingCode
+    })
+}
+
 export {
     createUser,
     updateUser,
     getUsers,
     getUser,
-    deleteUser
+    deleteUser,
+    getUserByBondingCode
 }

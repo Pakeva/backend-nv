@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productExists = exports.categoryExists = exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
+exports.bondingCodeExists = exports.productExists = exports.categoryExists = exports.searchUserByEmail = exports.isUserActive = exports.userExists = exports.emailExists = exports.isValidRol = void 0;
 const models_1 = require("../models");
 const isValidRol = (rol) => __awaiter(void 0, void 0, void 0, function* () {
     let existsRol;
@@ -40,6 +40,7 @@ const emailExists = (email = '') => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.emailExists = emailExists;
 const userExists = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('entre aquii');
     let userIsRegistered;
     try {
         userIsRegistered = yield models_1.User.findById(id);
@@ -106,3 +107,17 @@ const productExists = (id = '') => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.productExists = productExists;
+const bondingCodeExists = (bondingCode = '') => __awaiter(void 0, void 0, void 0, function* () {
+    let userIsRegistered;
+    try {
+        userIsRegistered = yield models_1.User.findOne({ bondingCode: bondingCode });
+    }
+    catch (e) {
+        console.log(e);
+        throw new Error('Hable con el encargado para ver el problema');
+    }
+    if (!userIsRegistered) {
+        throw new Error('El codigo es incorrecto');
+    }
+});
+exports.bondingCodeExists = bondingCodeExists;

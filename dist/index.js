@@ -40,11 +40,13 @@ const userPath = '/api/users';
 const authPath = '/api/auth';
 const categoryPath = '/api/categories';
 const productsPath = '/api/products';
+const bondingAssociated = '/api/b-associated';
 //Routes
 app.use(`${userPath}`, routes_1.userRoutes);
 app.use(`${authPath}`, routes_1.authRoutes);
 app.use(`${categoryPath}`, routes_1.categoryRoutes);
 app.use(`${productsPath}`, routes_1.productsRoutes);
+app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });

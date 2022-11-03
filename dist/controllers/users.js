@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUser = exports.getUsers = exports.updateUser = exports.createUser = void 0;
+exports.getUserByBondingCode = exports.deleteUser = exports.getUser = exports.getUsers = exports.updateUser = exports.createUser = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const randomstring_1 = __importDefault(require("randomstring"));
@@ -107,3 +107,18 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
+const getUserByBondingCode = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { bc } = req.params;
+    let userByBondingCode;
+    try {
+        userByBondingCode = yield models_1.User.findOne({ bondingCode: bc });
+    }
+    catch (e) {
+        (0, helpers_1.errorResponse)(e, res);
+    }
+    res.status(200).json({
+        msg: 'Success',
+        user: userByBondingCode
+    });
+});
+exports.getUserByBondingCode = getUserByBondingCode;
