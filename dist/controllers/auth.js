@@ -36,14 +36,15 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     const token = yield (0, helpers_1.generateJwt)(user._id.toString());
-    const { _id, rol, status, name } = user;
+    const { _id, rol, status, name, bondingCode } = user;
     return res.status(200).json({
         msg: 'Success login user',
         user: {
             id: _id,
             rol,
             status,
-            name
+            name,
+            bondingCode,
         },
         token
     });

@@ -36,14 +36,15 @@ const loginUser = async (req: TypesRequest<LoginUserProps>, res: Response) => {
 
     const token = await generateJwt(user._id!.toString())
 
-    const {_id, rol, status, name} = user;
+    const {_id, rol, status, name, bondingCode} = user;
     return res.status(200).json({
         msg: 'Success login user',
         user: {
             id: _id,
             rol,
             status,
-            name
+            name,
+            bondingCode,
         },
         token
     })
