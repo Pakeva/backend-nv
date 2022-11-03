@@ -18,3 +18,4 @@ __exportStar(require("./users"), exports);
 __exportStar(require("./auth"), exports);
 __exportStar(require("./categories"), exports);
 __exportStar(require("./products"), exports);
+__exportStar(require("./shippings"), exports);

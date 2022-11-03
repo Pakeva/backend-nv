@@ -41,12 +41,14 @@ const authPath = '/api/auth';
 const categoryPath = '/api/categories';
 const productsPath = '/api/products';
 const bondingAssociated = '/api/b-associated';
+const shippingPath = '/api/shipping';
 //Routes
 app.use(`${userPath}`, routes_1.userRoutes);
 app.use(`${authPath}`, routes_1.authRoutes);
 app.use(`${categoryPath}`, routes_1.categoryRoutes);
 app.use(`${productsPath}`, routes_1.productsRoutes);
 app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
+app.use(`${shippingPath}`, routes_1.shippingRoutes);
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });

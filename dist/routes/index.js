@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bondingAssociatedRoutes = exports.productsRoutes = exports.categoryRoutes = exports.authRoutes = exports.userRoutes = void 0;
+exports.shippingRoutes = exports.bondingAssociatedRoutes = exports.productsRoutes = exports.categoryRoutes = exports.authRoutes = exports.userRoutes = void 0;
 var user_1 = require("./user");
 Object.defineProperty(exports, "userRoutes", { enumerable: true, get: function () { return __importDefault(user_1).default; } });
 var auth_1 = require("./auth");
@@ -14,3 +14,5 @@ var product_1 = require("./product");
 Object.defineProperty(exports, "productsRoutes", { enumerable: true, get: function () { return __importDefault(product_1).default; } });
 var bondingAssociated_1 = require("./bondingAssociated");
 Object.defineProperty(exports, "bondingAssociatedRoutes", { enumerable: true, get: function () { return __importDefault(bondingAssociated_1).default; } });
+var shipping_1 = require("./shipping");
+Object.defineProperty(exports, "shippingRoutes", { enumerable: true, get: function () { return __importDefault(shipping_1).default; } });
