@@ -48,6 +48,8 @@ const connectDb = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log('DB connected successfully');
     }
     catch (e) {
+        console.log(e);
+        console.log('cant connect with db');
         throw new Error("Can't connect with de DB");
     }
 });

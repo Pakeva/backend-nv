@@ -75,6 +75,7 @@ const getBondingAssociatedToCompany = async (req: TypesRequest<BondingAssociated
     }
 
     try {
+        // @ts-ignore
         associated = await User.findById(bonding.associated)
         if(associated){
             return res.status(200).json({

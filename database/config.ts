@@ -15,6 +15,8 @@ const connectDb = async () => {
         await mongoose.connect(process.env.MONGO_BD || dbCred , options);
         console.log('DB connected successfully')
     } catch (e) {
+        console.log(e)
+        console.log('cant connect with db')
         throw new Error("Can't connect with de DB")
     }
 }

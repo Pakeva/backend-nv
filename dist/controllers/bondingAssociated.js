@@ -74,6 +74,7 @@ const getBondingAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, vo
         (0, helpers_1.errorResponse)(e, res);
     }
     try {
+        // @ts-ignore
         associated = yield models_1.User.findById(bonding.associated);
         if (associated) {
             return res.status(200).json({

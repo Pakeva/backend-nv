@@ -27,12 +27,14 @@ exports.getUserByBondingCode = exports.deleteUser = exports.getUser = exports.ge
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const randomstring_1 = __importDefault(require("randomstring"));
+const config_1 = require("../database/config");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const user = new models_1.User(Object.assign({}, body));
     user.password = (0, helpers_1.hashPassword)(user.password);
     user.bondingCode = randomstring_1.default.generate(5);
     try {
+        yield (0, config_1.connectDb)();
         yield user.save();
         res.status(201).json({
             msg: 'Usuario creado correctamente',
