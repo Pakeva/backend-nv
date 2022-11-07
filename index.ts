@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors'
 import helmet from "helmet";
-import responseTime from 'response-time'
+// import responseTime from 'response-time'
 
 import {
     userRoutes,
@@ -30,7 +30,7 @@ app.use(express.static('public'))
 app.use(morgan('tiny'));
 app.use(cors());
 app.use(helmet());
-app.use(responseTime())
+// app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler
 

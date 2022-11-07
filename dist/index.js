@@ -17,7 +17,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const response_time_1 = __importDefault(require("response-time"));
+// import responseTime from 'response-time'
 const routes_1 = require("./routes");
 const config_1 = require("./database/config");
 dotenv_1.default.config();
@@ -36,7 +36,7 @@ app.use(express_1.default.static('public'));
 app.use((0, morgan_1.default)('tiny'));
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
-app.use((0, response_time_1.default)());
+// app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler
 //Paths
