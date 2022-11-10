@@ -82,7 +82,7 @@ const UserSchema = new Schema({
     },
     associatedCompany: {
         type: String,
-    }
+    },
 })
 
 UserSchema.methods.toJSON = function(){

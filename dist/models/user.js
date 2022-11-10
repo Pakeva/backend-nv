@@ -94,7 +94,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     associatedCompany: {
         type: String,
-    }
+    },
 });
 UserSchema.methods.toJSON = function () {
     const _a = this.toObject(), { __v, _id, state, password } = _a, user = __rest(_a, ["__v", "_id", "state", "password"]);

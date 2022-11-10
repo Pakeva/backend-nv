@@ -2,7 +2,14 @@ import express from 'express';
 import {hasRol, isAdminRol, validateFields, validateJwt} from "../middlewares";
 import {check} from "express-validator";
 
-import {createUser, deleteUser, getUser, getUserByBondingCode, getUsers, updateUser} from '../controllers'
+import {
+    createUser,
+    deleteUser,
+    getUser,
+    getUserByBondingCode,
+    getUsers,
+    updateUser
+} from "../controllers";
 import {bondingCodeExists, emailExists, isUserActive, isValidRol, userExists} from "../helpers";
 
 const router = express.Router();

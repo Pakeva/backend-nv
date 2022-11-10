@@ -18,8 +18,7 @@ const createShipping = async (req:TypesRequest<any>,res:Response) => {
         await newShipping.save();
 
         res.status(200).json({
-            msg: 'Envio guardado correctamente',
-            envio: newShipping
+            msg: 'Envio guardado correctamente'
         })
     } catch (e) {
         errorResponse(e, res)

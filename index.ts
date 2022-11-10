@@ -7,8 +7,13 @@ import helmet from "helmet";
 
 import {
     userRoutes,
-    authRoutes, categoryRoutes, productsRoutes, bondingAssociatedRoutes, shippingRoutes
-} from './routes'
+    authRoutes,
+    categoryRoutes,
+    productsRoutes,
+    bondingAssociatedRoutes,
+    shippingRoutes,
+    bondingCompaniesRoutes
+} from "./routes";
 import {connectDb} from "./database/config";
 
 dotenv.config();
@@ -41,6 +46,7 @@ const categoryPath = '/api/categories'
 const productsPath = '/api/products'
 const bondingAssociated = '/api/b-associated'
 const shippingPath = '/api/shipping'
+const bindingPath = '/api/b-companies'
 
 //Routes
 app.use(`${userPath}`, userRoutes);
@@ -49,6 +55,7 @@ app.use(`${categoryPath}`, categoryRoutes);
 app.use(`${productsPath}`, productsRoutes)
 app.use(`${bondingAssociated}`, bondingAssociatedRoutes);
 app.use(`${shippingPath}`, shippingRoutes);
+app.use(`${bindingPath}`, bondingCompaniesRoutes)
 
 app.get('/api', (req, res) => {
     res.json({msg: 'Hello world!'})

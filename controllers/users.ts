@@ -124,5 +124,5 @@ export {
     getUsers,
     getUser,
     deleteUser,
-    getUserByBondingCode
+    getUserByBondingCode,
 }
