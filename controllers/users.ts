@@ -2,9 +2,7 @@ import {Request, Response} from 'express'
 import {errorResponse, hashPassword} from "../helpers";
 import {User} from '../models'
 import randomString from 'randomstring';
-
 import {TypesRequest, UserProps} from "../interfaces";
-import {connectDb} from "../database/config";
 
 const createUser = async (req: TypesRequest<UserProps>, res: Response) => {
     const {body} = req;
@@ -14,7 +12,6 @@ const createUser = async (req: TypesRequest<UserProps>, res: Response) => {
     user.bondingCode = randomString.generate(5);
 
     try {
-        await connectDb();
         await user.save();
 
         res.status(201).json({

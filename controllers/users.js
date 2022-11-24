@@ -25,7 +25,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -62,7 +62,6 @@ exports.getUserByBondingCode = exports.deleteUser = exports.getUser = exports.ge
 var helpers_1 = require("../helpers");
 var models_1 = require("../models");
 var randomstring_1 = require("randomstring");
-var config_1 = require("../database/config");
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var body, user, e_1;
     return __generator(this, function (_a) {
@@ -74,23 +73,20 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 user.bondingCode = randomstring_1["default"].generate(5);
                 _a.label = 1;
             case 1:
-                _a.trys.push([1, 4, , 5]);
-                return [4 /*yield*/, (0, config_1.connectDb)()];
-            case 2:
-                _a.sent();
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, user.save()];
-            case 3:
+            case 2:
                 _a.sent();
                 res.status(201).json({
                     msg: 'Usuario creado correctamente',
                     user: user
                 });
-                return [3 /*break*/, 5];
-            case 4:
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
                 (0, helpers_1.errorResponse)(e_1, res);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
