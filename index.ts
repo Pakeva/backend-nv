@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors'
 import helmet from "helmet";
+import {port, db} from './config';
 // import responseTime from 'response-time'
 
 import {
@@ -16,13 +17,11 @@ import {
 } from "./routes";
 import {connectDb} from "./database/config";
 
-dotenv.config();
 const app = express();
-const port = process.env.PORT || 4100;
 
 //DB CONNECTION.
 const connectDatabase = async () => {
-    await connectDb();
+    await connectDb(db);
 }
 connectDatabase().then(_ => {
     console.log('Running DB')

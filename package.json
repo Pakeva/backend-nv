@@ -6,9 +6,10 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "docdev": "sudo docker run -it -p 3700:4000 pakeva-backend",
-    "serve": "tsc index.ts -w & pm2 start dist/index.js --watch"
+    "serve": "tsc index.ts -w & pm2 start dist/index.js --watch",
+    "prod": "cross-env NODE_ENV=production concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
   "author": "Devdan",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "bcrypt": "^5.1.0",
     "concurrently": "^7.4.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.25.0",
     "eslint-config-standard-with-typescript": "^23.0.0",

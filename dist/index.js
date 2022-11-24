@@ -13,19 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
+const config_1 = require("./config");
 // import responseTime from 'response-time'
 const routes_1 = require("./routes");
-const config_1 = require("./database/config");
-dotenv_1.default.config();
+const config_2 = require("./database/config");
 const app = (0, express_1.default)();
-const port = process.env.PORT || 4100;
 //DB CONNECTION.
 const connectDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, config_1.connectDb)();
+    yield (0, config_2.connectDb)(config_1.db);
 });
 connectDatabase().then(_ => {
     console.log('Running DB');
@@ -58,6 +56,6 @@ app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });
-app.listen(port, () => {
-    console.log(`Server running in port ${port}`);
+app.listen(config_1.port, () => {
+    console.log(`Server running in port ${config_1.port}`);
 });
