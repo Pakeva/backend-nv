@@ -36,45 +36,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.deleteBounding = exports.getBondingAssociatedToCompany = exports.addAssociatedToCompany = void 0;
+exports.getBondingCompaniesToUser = exports.addUserToCompany = void 0;
 var helpers_1 = require("../helpers");
-var bondingAssociated_1 = require("../models/bondingAssociated");
 var models_1 = require("../models");
-var addAssociatedToCompany = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var associatedID, associated, existsBondingAssociated, newBondingAssociated, e_1;
+var bondingCompany_1 = require("../models/bondingCompany");
+var addUserToCompany = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var companyId, company, existsBondingCompany, newBondingCompany, e_1;
     var _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                associatedID = req.body.associatedID;
-                console.log(associatedID);
-                return [4 /*yield*/, models_1.User.findById(associatedID)];
+                companyId = req.body.companyId;
+                console.log(companyId);
+                return [4 /*yield*/, models_1.User.findById(companyId)];
             case 1:
-                associated = _c.sent();
-                if (!associated) {
+                company = _c.sent();
+                if (!company) {
                     return [2 /*return*/, res.status(401).json({
-                            msg: 'El asociado fue eliminado o dado de baja'
+                            msg: 'La compania fue eliminada o dado de baja'
                         })];
                 }
-                return [4 /*yield*/, bondingAssociated_1["default"].findOne({
+                return [4 /*yield*/, bondingCompany_1["default"].findOne({
                         user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id,
-                        associated: associatedID
+                        company: companyId
                     })];
             case 2:
-                existsBondingAssociated = _c.sent();
-                if (existsBondingAssociated) {
+                existsBondingCompany = _c.sent();
+                if (existsBondingCompany) {
                     return [2 /*return*/, res.status(401).json({
-                            msg: 'Ya esta vinculado este asociado'
+                            msg: 'Ya esta vinculado esta compania'
                         })];
                 }
-                newBondingAssociated = new bondingAssociated_1["default"]({
+                newBondingCompany = new bondingCompany_1["default"]({
                     user: (_b = req.user) === null || _b === void 0 ? void 0 : _b._id,
-                    associated: associatedID
+                    company: companyId
                 });
                 _c.label = 3;
             case 3:
                 _c.trys.push([3, 5, , 6]);
-                return [4 /*yield*/, newBondingAssociated.save()];
+                return [4 /*yield*/, newBondingCompany.save()];
             case 4:
                 _c.sent();
                 res.status(201).json({
@@ -89,13 +89,13 @@ var addAssociatedToCompany = function (req, res) { return __awaiter(void 0, void
         }
     });
 }); };
-exports.addAssociatedToCompany = addAssociatedToCompany;
-var getBondingAssociatedToCompany = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var bonding, associated, associateds, e_2, e_3;
+exports.addUserToCompany = addUserToCompany;
+var getBondingCompaniesToUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var bonding, company, companies, e_2, e_3;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, bondingAssociated_1["default"].find({
+            case 0: return [4 /*yield*/, bondingCompany_1["default"].find({
                     user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id
                 })];
             case 1:
@@ -103,14 +103,14 @@ var getBondingAssociatedToCompany = function (req, res) { return __awaiter(void 
                 _b.label = 2;
             case 2:
                 _b.trys.push([2, 4, , 5]);
-                return [4 /*yield*/, models_1.User.findById(bonding[0].associated)];
+                return [4 /*yield*/, models_1.User.findById(bonding[0].company)];
             case 3:
-                associateds = _b.sent();
-                if (associateds) {
+                companies = _b.sent();
+                if (companies) {
                     return [2 /*return*/, res.status(200).json({
                             msg: 'Success',
                             //GET ALL ASOCIATEDs
-                            associateds: associateds
+                            companies: companies
                         })];
                 }
                 return [3 /*break*/, 5];
@@ -120,15 +120,15 @@ var getBondingAssociatedToCompany = function (req, res) { return __awaiter(void 
                 return [3 /*break*/, 5];
             case 5:
                 _b.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, models_1.User.findById(bonding.associated)];
+                return [4 /*yield*/, models_1.User.findById(bonding.company)];
             case 6:
                 // @ts-ignore
-                associated = _b.sent();
-                if (associated) {
+                company = _b.sent();
+                if (company) {
                     return [2 /*return*/, res.status(200).json({
                             msg: 'Success',
                             //GET ALL ASOCIATEDs
-                            associateds: associated
+                            companies: company
                         })];
                 }
                 return [3 /*break*/, 8];
@@ -140,28 +140,4 @@ var getBondingAssociatedToCompany = function (req, res) { return __awaiter(void 
         }
     });
 }); };
-exports.getBondingAssociatedToCompany = getBondingAssociatedToCompany;
-var deleteBounding = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, bonding;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                id = req.params.id;
-                return [4 /*yield*/, bondingAssociated_1["default"].find({
-                        user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id,
-                        associated: id
-                    })];
-            case 1:
-                bonding = _b.sent();
-                return [4 /*yield*/, bondingAssociated_1["default"].remove({ category: id })];
-            case 2:
-                _b.sent();
-                res.status(200).json({
-                    msg: 'Asociado eliminado correctamente'
-                });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.deleteBounding = deleteBounding;
+exports.getBondingCompaniesToUser = getBondingCompaniesToUser;

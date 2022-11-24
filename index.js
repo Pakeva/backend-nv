@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -75,6 +75,7 @@ var categoryPath = '/api/categories';
 var productsPath = '/api/products';
 var bondingAssociated = '/api/b-associated';
 var shippingPath = '/api/shipping';
+var bindingPath = '/api/b-companies';
 //Routes
 app.use("".concat(userPath), routes_1.userRoutes);
 app.use("".concat(authPath), routes_1.authRoutes);
@@ -82,6 +83,7 @@ app.use("".concat(categoryPath), routes_1.categoryRoutes);
 app.use("".concat(productsPath), routes_1.productsRoutes);
 app.use("".concat(bondingAssociated), routes_1.bondingAssociatedRoutes);
 app.use("".concat(shippingPath), routes_1.shippingRoutes);
+app.use("".concat(bindingPath), routes_1.bondingCompaniesRoutes);
 app.get('/api', function (req, res) {
     res.json({ msg: 'Hello world!' });
 });

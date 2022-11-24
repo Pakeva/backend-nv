@@ -10,6 +10,7 @@ const options = {
 
 
 const connectDb = async (db:string) => {
+    console.log(process.env)
     try {
         await mongoose.connect(db , options);
         console.log('DB connected successfully')
