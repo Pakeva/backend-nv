@@ -17,6 +17,8 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const config_1 = require("./config");
+const http_1 = __importDefault(require("http"));
+const socket_io_1 = __importDefault(require("socket.io"));
 // import responseTime from 'response-time'
 const routes_1 = require("./routes");
 const config_2 = require("./database/config");
@@ -53,9 +55,34 @@ app.use(`${productsPath}`, routes_1.productsRoutes);
 app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
 app.use(`${shippingPath}`, routes_1.shippingRoutes);
 app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
+//Sockets
+const server = http_1.default.createServer(app);
+const io = new socket_io_1.default.Server(server);
+// http://localhost:4000/socket.io/socket.io.js for check the connection with the server
+io.on("connection", (socket) => {
+    // console.log('cliente conectado', socket.id);
+    socket.on('disconnect', () => {
+        console.log('cliente desconctado');
+    });
+    //TODO DELETE THIS
+    // @ts-ignore
+    socket.on('enviar-mensaje', (payload) => {
+        console.log(payload);
+        // TODO peticion base de datos
+        // @ts-ignore
+        io.emit('enviar-mensaje', payload);
+    });
+    // @ts-ignore
+    socket.on('send-delivery-petition', (payload) => {
+        console.log(payload);
+        // @ts-ignore
+        io.emit('send-delivery-petition');
+    });
+});
+//Public api
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });
-app.listen(config_1.port, () => {
+server.listen(config_1.port, () => {
     console.log(`Server running in port ${config_1.port}`);
 });

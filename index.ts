@@ -4,6 +4,10 @@ import morgan from 'morgan';
 import cors from 'cors'
 import helmet from "helmet";
 import {port, db} from './config';
+import http from 'http';
+import socketio from  'socket.io';
+
+import {socketController} from './sockets'
 // import responseTime from 'response-time'
 
 import {
@@ -16,6 +20,7 @@ import {
     bondingCompaniesRoutes
 } from "./routes";
 import {connectDb} from "./database/config";
+import { ClientToServerEvents, SocketProps } from "./interfaces";
 
 const app = express();
 
@@ -56,10 +61,44 @@ app.use(`${bondingAssociated}`, bondingAssociatedRoutes);
 app.use(`${shippingPath}`, shippingRoutes);
 app.use(`${bindingPath}`, bondingCompaniesRoutes)
 
+//Sockets
+const server = http.createServer(app);
+const io = new socketio.Server<SocketProps>(server);
+
+// http://localhost:4000/socket.io/socket.io.js for check the connection with the server
+io.on("connection", (socket) => {
+    // console.log('cliente conectado', socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('cliente desconctado');
+    })
+
+    //TODO DELETE THIS
+    // @ts-ignore
+    socket.on('enviar-mensaje', (payload:string) => {
+        console.log(payload);
+        // TODO peticion base de datos
+
+        // @ts-ignore
+        io.emit('enviar-mensaje', payload);
+
+    })
+
+    // @ts-ignore
+    socket.on('send-delivery-petition', (payload) => {
+        console.log(payload);
+        // @ts-ignore
+        io.emit('send-delivery-petition')
+    })
+
+});
+
+
+//Public api
 app.get('/api', (req, res) => {
     res.json({msg: 'Hello world!'})
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running in port ${port}`)
 });
