@@ -87,8 +87,9 @@ io.on("connection", (socket) => {
     // @ts-ignore
     socket.on('send-delivery-petition', (payload) => {
         console.log(payload);
+        console.log('desde next');
         // @ts-ignore
-        io.emit('send-delivery-petition')
+        io.emit('send-delivery-petition', payload);
     })
 
 });

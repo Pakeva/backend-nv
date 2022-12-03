@@ -22,15 +22,15 @@ btnSubmit.addEventListener("click", () => {
   };
 
   // Id para enviar al id del destino, esto esta bueno
-  socket.emit("enviar-mensaje", payload, (id) => {
-    console.log("desde el server", id);
-  });
+  // socket.emit("enviar-mensaje", payload, (id) => {
+  //   console.log("desde el server", id);
+  // });
 
   const payTest = {
     test: "test"
   };
 
-  socket.emit("enviar-mensaje", payTest, (id) => {
+  socket.emit("send-delivery-petition", payTest, (id) => {
     console.log("otro emites", payTest);
   });
 });
