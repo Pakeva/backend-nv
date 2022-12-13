@@ -9,13 +9,18 @@ const createUser = async (req: TypesRequest<UserProps>, res: Response) => {
 
     const user = new User({...body})
     user.password = hashPassword(user.password);
-    user.bondingCode = randomString.generate(5);
+    let existsBonding = await User.find({bondingCode: user.bondingCode});
+
+    do{
+        user.bondingCode = randomString.generate(5);
+        existsBonding = await User.find({bondingCode: user.bondingCode});
+    }while (existsBonding.length !== 0)
 
     try {
         await user.save();
 
         res.status(201).json({
-            msg: 'Usuario creado correctamente',
+            msg: 'Usuario creadoss correctamente',
             user
         })
     } catch (e) {

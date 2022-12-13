@@ -31,11 +31,15 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { body } = req;
     const user = new models_1.User(Object.assign({}, body));
     user.password = (0, helpers_1.hashPassword)(user.password);
-    user.bondingCode = randomstring_1.default.generate(5);
+    let existsBonding = yield models_1.User.find({ bondingCode: user.bondingCode });
+    do {
+        user.bondingCode = randomstring_1.default.generate(5);
+        existsBonding = yield models_1.User.find({ bondingCode: user.bondingCode });
+    } while (existsBonding.length !== 0);
     try {
         yield user.save();
         res.status(201).json({
-            msg: 'Usuario creado correctamente',
+            msg: 'Usuario creadoss correctamente',
             user
         });
     }
