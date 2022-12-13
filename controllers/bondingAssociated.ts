@@ -37,7 +37,6 @@ const addAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>,
         associated: associatedID
     })
 
-    console.log(newBondingAssociated);
     try {
         await newBondingAssociated.save();
 
@@ -87,12 +86,20 @@ const deleteBounding = async (req: TypesRequest<BondingAssociatedProps>, res: Re
     //Todo fix this
     const {id} = req.params;
 
-    const bonding = await BondingAssociated.find({
+    const existAssociated = await BondingAssociated.find({
         user: req.user?._id,
         associated: id
-    });
+    })
 
-    await BondingAssociated.remove({category: id});
+
+    if(existAssociated.length === 0){
+        return res.status(200).json({
+            msg: 'Ya has eliminado este asociado o no se encuentra disponible',
+        })
+
+    }
+
+    await BondingAssociated.remove({associated: id});
 
 
     res.status(200).json({

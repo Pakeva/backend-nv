@@ -39,7 +39,6 @@ const addAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, void 0, f
         user: (_b = req.user) === null || _b === void 0 ? void 0 : _b._id,
         associated: associatedID
     });
-    console.log(newBondingAssociated);
     try {
         yield newBondingAssociated.save();
         res.status(201).json({
@@ -80,11 +79,16 @@ const deleteBounding = (req, res) => __awaiter(void 0, void 0, void 0, function*
     var _d;
     //Todo fix this
     const { id } = req.params;
-    const bonding = yield bondingAssociated_1.default.find({
+    const existAssociated = yield bondingAssociated_1.default.find({
         user: (_d = req.user) === null || _d === void 0 ? void 0 : _d._id,
         associated: id
     });
-    yield bondingAssociated_1.default.remove({ category: id });
+    if (existAssociated.length === 0) {
+        return res.status(200).json({
+            msg: 'Ya has eliminado este asociado o no se encuentra disponible',
+        });
+    }
+    yield bondingAssociated_1.default.remove({ associated: id });
     res.status(200).json({
         msg: 'Asociado eliminado correctamente',
     });
