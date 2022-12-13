@@ -2,9 +2,7 @@ import {TypesRequest} from "../interfaces";
 import {Response} from "express";
 import {errorResponse} from "../helpers";
 import BondingAssociated from "../models/bondingAssociated";
-import {Product, User} from "../models";
-import {loginUser} from "./auth";
-import { Promise } from "mongoose";
+import {User} from "../models";
 
 interface BondingAssociatedProps {
     id?: string,
@@ -63,13 +61,11 @@ const getBondingAssociatedToCompany = async (req: TypesRequest<BondingAssociated
     let associates;
 
     try{
-
         associates = await Promise.all(bonding.map(el =>
             User.find({
                 _id: el.associated
             })
         ))
-
 
         res.status(200).json({
             msg: 'success',
@@ -83,7 +79,6 @@ const getBondingAssociatedToCompany = async (req: TypesRequest<BondingAssociated
 }
 
 const deleteBounding = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
-    //Todo fix this
     const {id} = req.params;
 
     const existAssociated = await BondingAssociated.find({

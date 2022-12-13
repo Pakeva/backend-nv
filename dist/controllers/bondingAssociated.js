@@ -16,7 +16,6 @@ exports.deleteBounding = exports.getBondingAssociatedToCompany = exports.addAsso
 const helpers_1 = require("../helpers");
 const bondingAssociated_1 = __importDefault(require("../models/bondingAssociated"));
 const models_1 = require("../models");
-const mongoose_1 = require("mongoose");
 const addAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { associatedID } = req.body;
@@ -62,7 +61,7 @@ const getBondingAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, vo
     }
     let associates;
     try {
-        associates = yield mongoose_1.Promise.all(bonding.map(el => models_1.User.find({
+        associates = yield Promise.all(bonding.map(el => models_1.User.find({
             _id: el.associated
         })));
         res.status(200).json({
@@ -77,7 +76,6 @@ const getBondingAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, vo
 exports.getBondingAssociatedToCompany = getBondingAssociatedToCompany;
 const deleteBounding = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _d;
-    //Todo fix this
     const { id } = req.params;
     const existAssociated = yield bondingAssociated_1.default.find({
         user: (_d = req.user) === null || _d === void 0 ? void 0 : _d._id,

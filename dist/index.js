@@ -47,6 +47,7 @@ const productsPath = '/api/products';
 const bondingAssociated = '/api/b-associated';
 const shippingPath = '/api/shipping';
 const bindingPath = '/api/b-companies';
+const uploadFilesPath = '/api/uploads';
 //Routes
 app.use(`${userPath}`, routes_1.userRoutes);
 app.use(`${authPath}`, routes_1.authRoutes);
@@ -55,6 +56,7 @@ app.use(`${productsPath}`, routes_1.productsRoutes);
 app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
 app.use(`${shippingPath}`, routes_1.shippingRoutes);
 app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
+app.use(`${uploadFilesPath}`, routes_1.uploadsRoutes);
 //Sockets
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.default.Server(server);
