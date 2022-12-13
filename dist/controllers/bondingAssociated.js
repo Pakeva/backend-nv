@@ -16,10 +16,10 @@ exports.deleteBounding = exports.getBondingAssociatedToCompany = exports.addAsso
 const helpers_1 = require("../helpers");
 const bondingAssociated_1 = __importDefault(require("../models/bondingAssociated"));
 const models_1 = require("../models");
+const mongoose_1 = require("mongoose");
 const addAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { associatedID } = req.body;
-    console.log(associatedID);
     const associated = yield models_1.User.findById(associatedID);
     if (!associated) {
         return res.status(401).json({
@@ -39,7 +39,7 @@ const addAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, void 0, f
         user: (_b = req.user) === null || _b === void 0 ? void 0 : _b._id,
         associated: associatedID
     });
-    //TODO VALIDATION ASSOCIATED ROL TO BONDING
+    console.log(newBondingAssociated);
     try {
         yield newBondingAssociated.save();
         res.status(201).json({
@@ -56,33 +56,20 @@ const getBondingAssociatedToCompany = (req, res) => __awaiter(void 0, void 0, vo
     const bonding = yield bondingAssociated_1.default.find({
         user: (_c = req.user) === null || _c === void 0 ? void 0 : _c._id
     });
-    //TODO GET ALL THE ASSOCIATEDS
-    // const idAssociateds = bonding.map(bond => bond.associated);
-    //Fix this
-    let associated, associateds;
-    try {
-        associateds = yield models_1.User.findById(bonding[0].associated);
-        if (associateds) {
-            return res.status(200).json({
-                msg: 'Success',
-                //GET ALL ASOCIATEDs
-                associateds: associateds
-            });
-        }
+    if (bonding.length === 0) {
+        return res.status(200).json({
+            msg: 'No cuentas con ningun asociado vinculado',
+        });
     }
-    catch (e) {
-        (0, helpers_1.errorResponse)(e, res);
-    }
+    let associates;
     try {
-        // @ts-ignore
-        associated = yield models_1.User.findById(bonding.associated);
-        if (associated) {
-            return res.status(200).json({
-                msg: 'Success',
-                //GET ALL ASOCIATEDs
-                associateds: associated
-            });
-        }
+        associates = yield mongoose_1.Promise.all(bonding.map(el => models_1.User.find({
+            _id: el.associated
+        })));
+        res.status(200).json({
+            msg: 'success',
+            associates: associates.flat()
+        });
     }
     catch (e) {
         (0, helpers_1.errorResponse)(e, res);

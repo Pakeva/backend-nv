@@ -4,6 +4,7 @@ import {errorResponse} from "../helpers";
 import BondingAssociated from "../models/bondingAssociated";
 import {Product, User} from "../models";
 import {loginUser} from "./auth";
+import { Promise } from "mongoose";
 
 interface BondingAssociatedProps {
     id?: string,
@@ -12,8 +13,6 @@ interface BondingAssociatedProps {
 
 const addAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
     const {associatedID} = req.body
-    console.log(associatedID)
-
     const associated = await User.findById(associatedID);
 
     if (!associated) {
@@ -38,7 +37,7 @@ const addAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>,
         associated: associatedID
     })
 
-    //TODO VALIDATION ASSOCIATED ROL TO BONDING
+    console.log(newBondingAssociated);
     try {
         await newBondingAssociated.save();
 
@@ -51,40 +50,34 @@ const addAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>,
 }
 
 const getBondingAssociatedToCompany = async (req: TypesRequest<BondingAssociatedProps>, res: Response) => {
+
     const bonding = await BondingAssociated.find({
         user: req.user?._id
     });
 
-    //TODO GET ALL THE ASSOCIATEDS
-    // const idAssociateds = bonding.map(bond => bond.associated);
-
-    //Fix this
-    let associated, associateds;
-    try {
-        associateds = await User.findById(bonding[0].associated)
-        if(associateds){
-            return res.status(200).json({
-                msg: 'Success',
-                //GET ALL ASOCIATEDs
-                associateds: associateds
-            })
-        }
-
-    } catch (e) {
-        errorResponse(e, res)
+    if(bonding.length === 0){
+        return res.status(200).json({
+            msg: 'No cuentas con ningun asociado vinculado',
+        })
     }
 
-    try {
-        // @ts-ignore
-        associated = await User.findById(bonding.associated)
-        if(associated){
-            return res.status(200).json({
-                msg: 'Success',
-                //GET ALL ASOCIATEDs
-                associateds: associated
+    let associates;
+
+    try{
+
+        associates = await Promise.all(bonding.map(el =>
+            User.find({
+                _id: el.associated
             })
-        }
-    } catch (e) {
+        ))
+
+
+        res.status(200).json({
+            msg: 'success',
+            associates: associates.flat()
+        })
+
+    } catch (e){
         errorResponse(e, res)
     }
 
