@@ -3,6 +3,7 @@ export type Next = () => void | Promise<void>;
 
 
 export interface TypesRequest<T> extends Express.Request {
+    files: any;
     header: any,
     params: any,
     user?: UserProps,
