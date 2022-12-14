@@ -19,15 +19,12 @@ dotenv_1.default.config();
 const cloudinary_1 = __importDefault(require("cloudinary"));
 const cloudinary = cloudinary_1.default.v2;
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
+    cloud_name: process.env.CLOUD_NAME || 'dij7fdpqo',
+    api_key: process.env.CLOUD_API_KEY || '572311711498636',
+    api_secret: process.env.CLOUD_API_SECRET || 'LaSwyBzVjJVJcMur4wPia54vGe8'
 });
 const updateImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id, collection } = req.params;
-    console.log(process.env.CLOUD_NAME);
-    console.log(process.env.CLOUD_API_KEY);
-    console.log(process.env.CLOUD_API_SECRET);
     let model;
     switch (collection) {
         case "users":
