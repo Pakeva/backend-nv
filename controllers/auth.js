@@ -41,7 +41,7 @@ var bcrypt_1 = require("bcrypt");
 var models_1 = require("../models");
 var helpers_1 = require("../helpers");
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, user, comparePass, token, _id, rol, status, name, bondingCode;
+    var _a, email, password, user, comparePass, token, _id, rol, status, name, bondingCode, img;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -68,7 +68,8 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 return [4 /*yield*/, (0, helpers_1.generateJwt)(user._id.toString())];
             case 2:
                 token = _b.sent();
-                _id = user._id, rol = user.rol, status = user.status, name = user.name, bondingCode = user.bondingCode;
+                _id = user._id, rol = user.rol, status = user.status, name = user.name, bondingCode = user.bondingCode, img = user.img;
+                console.log('aaaaaaaaaaaa');
                 return [2 /*return*/, res.status(200).json({
                         msg: 'Success login user',
                         user: {
@@ -76,7 +77,8 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             rol: rol,
                             status: status,
                             name: name,
-                            bondingCode: bondingCode
+                            bondingCode: bondingCode,
+                            img: 'aaaa'
                         },
                         token: token
                     })];

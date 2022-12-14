@@ -6,6 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
+    "local": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "dev": "cross-env NODE_ENV=development tsc index.ts -w & pm2 start dist/index.js --watch",
     "docdev": "sudo docker run -it -p 3700:4000 pakeva-backend",
     "serve": "cross-env NODE_ENV=development tsc index.ts -w & pm2 start dist/index.js --watch",
