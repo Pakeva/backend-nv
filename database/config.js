@@ -50,21 +50,18 @@ var connectDb = function (db) { return __awaiter(void 0, void 0, void 0, functio
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log(process.env);
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, mongoose.connect(db, options)];
-            case 2:
+            case 1:
                 _a.sent();
                 console.log('DB connected successfully');
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 e_1 = _a.sent();
                 console.log(e_1);
                 console.log('cant connect with db');
                 throw new Error("Can't connect with de DB");
-            case 4: return [2 /*return*/];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

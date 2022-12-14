@@ -63,30 +63,41 @@ var helpers_1 = require("../helpers");
 var models_1 = require("../models");
 var randomstring_1 = require("randomstring");
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var body, user, e_1;
+    var body, user, existsBonding, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 body = req.body;
                 user = new models_1.User(__assign({}, body));
                 user.password = (0, helpers_1.hashPassword)(user.password);
-                user.bondingCode = randomstring_1["default"].generate(5);
-                _a.label = 1;
+                return [4 /*yield*/, models_1.User.find({ bondingCode: user.bondingCode })];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, user.save()];
+                existsBonding = _a.sent();
+                _a.label = 2;
             case 2:
+                user.bondingCode = randomstring_1["default"].generate(5);
+                return [4 /*yield*/, models_1.User.find({ bondingCode: user.bondingCode })];
+            case 3:
+                existsBonding = _a.sent();
+                _a.label = 4;
+            case 4:
+                if (existsBonding.length !== 0) return [3 /*break*/, 2];
+                _a.label = 5;
+            case 5:
+                _a.trys.push([5, 7, , 8]);
+                return [4 /*yield*/, user.save()];
+            case 6:
                 _a.sent();
                 res.status(201).json({
-                    msg: 'Usuario creado correctamente',
+                    msg: 'Usuario creadoss correctamente',
                     user: user
                 });
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 8];
+            case 7:
                 e_1 = _a.sent();
                 (0, helpers_1.errorResponse)(e_1, res);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };

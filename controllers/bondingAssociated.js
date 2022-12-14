@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -47,7 +47,6 @@ var addAssociatedToCompany = function (req, res) { return __awaiter(void 0, void
         switch (_c.label) {
             case 0:
                 associatedID = req.body.associatedID;
-                console.log(associatedID);
                 return [4 /*yield*/, models_1.User.findById(associatedID)];
             case 1:
                 associated = _c.sent();
@@ -91,7 +90,7 @@ var addAssociatedToCompany = function (req, res) { return __awaiter(void 0, void
 }); };
 exports.addAssociatedToCompany = addAssociatedToCompany;
 var getBondingAssociatedToCompany = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var bonding, associated, associateds, e_2, e_3;
+    var bonding, associates, e_2;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -100,49 +99,37 @@ var getBondingAssociatedToCompany = function (req, res) { return __awaiter(void 
                 })];
             case 1:
                 bonding = _b.sent();
+                if (bonding.length === 0) {
+                    return [2 /*return*/, res.status(200).json({
+                            msg: 'No cuentas con ningun asociado vinculado'
+                        })];
+                }
                 _b.label = 2;
             case 2:
                 _b.trys.push([2, 4, , 5]);
-                return [4 /*yield*/, models_1.User.findById(bonding[0].associated)];
+                return [4 /*yield*/, Promise.all(bonding.map(function (el) {
+                        return models_1.User.find({
+                            _id: el.associated
+                        });
+                    }))];
             case 3:
-                associateds = _b.sent();
-                if (associateds) {
-                    return [2 /*return*/, res.status(200).json({
-                            msg: 'Success',
-                            //GET ALL ASOCIATEDs
-                            associateds: associateds
-                        })];
-                }
+                associates = _b.sent();
+                res.status(200).json({
+                    msg: 'success',
+                    associates: associates.flat()
+                });
                 return [3 /*break*/, 5];
             case 4:
                 e_2 = _b.sent();
                 (0, helpers_1.errorResponse)(e_2, res);
                 return [3 /*break*/, 5];
-            case 5:
-                _b.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, models_1.User.findById(bonding.associated)];
-            case 6:
-                // @ts-ignore
-                associated = _b.sent();
-                if (associated) {
-                    return [2 /*return*/, res.status(200).json({
-                            msg: 'Success',
-                            //GET ALL ASOCIATEDs
-                            associateds: associated
-                        })];
-                }
-                return [3 /*break*/, 8];
-            case 7:
-                e_3 = _b.sent();
-                (0, helpers_1.errorResponse)(e_3, res);
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.getBondingAssociatedToCompany = getBondingAssociatedToCompany;
 var deleteBounding = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, bonding;
+    var id, existAssociated;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -153,8 +140,13 @@ var deleteBounding = function (req, res) { return __awaiter(void 0, void 0, void
                         associated: id
                     })];
             case 1:
-                bonding = _b.sent();
-                return [4 /*yield*/, bondingAssociated_1["default"].remove({ category: id })];
+                existAssociated = _b.sent();
+                if (existAssociated.length === 0) {
+                    return [2 /*return*/, res.status(200).json({
+                            msg: 'Ya has eliminado este asociado o no se encuentra disponible'
+                        })];
+                }
+                return [4 /*yield*/, bondingAssociated_1["default"].remove({ associated: id })];
             case 2:
                 _b.sent();
                 res.status(200).json({

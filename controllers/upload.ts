@@ -57,6 +57,7 @@ const updateImage = async (req: TypesRequest<string>, res: Response) => {
     await cloudinary.uploader.destroy(public_id);
   }
 
+  // @ts-ignore
   const {tempFilePath} = req.files.archivo;
   const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
 

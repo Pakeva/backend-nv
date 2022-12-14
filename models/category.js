@@ -31,7 +31,7 @@ var CategorySchema = new mongoose_1.Schema({
     description: {
         type: String
     },
-    image: {
+    img: {
         type: String
     },
     status: {

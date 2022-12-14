@@ -18,3 +18,4 @@ __exportStar(require("./error-response"), exports);
 __exportStar(require("./hash-password"), exports);
 __exportStar(require("./db-validators"), exports);
 __exportStar(require("./generate-jwt"), exports);
+__exportStar(require("./uploadFile"), exports);

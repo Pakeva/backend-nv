@@ -61,6 +61,7 @@ const updateImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const [public_id] = name.split('.');
         yield cloudinary.uploader.destroy(public_id);
     }
+    // @ts-ignore
     const { tempFilePath } = req.files.archivo;
     const { secure_url } = yield cloudinary.uploader.upload(tempFilePath);
     model.img = secure_url;

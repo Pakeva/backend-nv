@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,10 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var express_1 = require("express");
+var dotenv_1 = require("dotenv");
+dotenv_1["default"].config();
 var morgan_1 = require("morgan");
 var cors_1 = require("cors");
 var helmet_1 = require("helmet");
 var config_1 = require("./config");
+var http_1 = require("http");
+var socket_io_1 = require("socket.io");
+// @ts-ignore
+var express_fileupload_1 = require("express-fileupload");
 // import responseTime from 'response-time'
 var routes_1 = require("./routes");
 var config_2 = require("./database/config");
@@ -65,6 +71,10 @@ app.use(express_1["default"].static('public'));
 app.use((0, morgan_1["default"])('tiny'));
 app.use((0, cors_1["default"])());
 app.use((0, helmet_1["default"])());
+app.use((0, express_fileupload_1["default"])({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 // app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler
@@ -76,6 +86,7 @@ var productsPath = '/api/products';
 var bondingAssociated = '/api/b-associated';
 var shippingPath = '/api/shipping';
 var bindingPath = '/api/b-companies';
+var uploadFilesPath = '/api/uploads';
 //Routes
 app.use("".concat(userPath), routes_1.userRoutes);
 app.use("".concat(authPath), routes_1.authRoutes);
@@ -84,9 +95,36 @@ app.use("".concat(productsPath), routes_1.productsRoutes);
 app.use("".concat(bondingAssociated), routes_1.bondingAssociatedRoutes);
 app.use("".concat(shippingPath), routes_1.shippingRoutes);
 app.use("".concat(bindingPath), routes_1.bondingCompaniesRoutes);
+app.use("".concat(uploadFilesPath), routes_1.uploadsRoutes);
+//Sockets
+var server = http_1["default"].createServer(app);
+var io = new socket_io_1["default"].Server(server);
+// http://localhost:4000/socket.io/socket.io.js for check the connection with the server
+io.on("connection", function (socket) {
+    // console.log('cliente conectado', socket.id);
+    socket.on('disconnect', function () {
+        console.log('cliente desconctado');
+    });
+    //TODO DELETE THIS
+    // @ts-ignore
+    socket.on('enviar-mensaje', function (payload) {
+        console.log(payload);
+        // TODO peticion base de datos
+        // @ts-ignore
+        io.emit('enviar-mensaje', payload);
+    });
+    // @ts-ignore
+    socket.on('send-delivery-petition', function (payload) {
+        console.log(payload);
+        console.log('desde next');
+        // @ts-ignore
+        io.emit('send-delivery-petition', payload);
+    });
+});
+//Public api
 app.get('/api', function (req, res) {
     res.json({ msg: 'Hello world!' });
 });
-app.listen(config_1.port, function () {
+server.listen(config_1.port, function () {
     console.log("Server running in port ".concat(config_1.port));
 });
