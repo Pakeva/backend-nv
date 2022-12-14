@@ -25,6 +25,7 @@ interface AddressProps {
 
 export interface UserProps extends AddressProps{
     _id?: string,
+    img?: string,
     name: string,
     firstLastName: string,
     secondLastName: string,
@@ -37,7 +38,8 @@ export interface UserProps extends AddressProps{
     status?: boolean,
     bondingCode?: string,
     associatedBonding?: string[],
-    associatedCompany?: string[]
+    associatedCompany?: string[],
+
 }
 
 export interface LoginUserProps {

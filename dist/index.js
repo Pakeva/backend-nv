@@ -13,12 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const config_1 = require("./config");
 const http_1 = __importDefault(require("http"));
 const socket_io_1 = __importDefault(require("socket.io"));
+// @ts-ignore
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 // import responseTime from 'response-time'
 const routes_1 = require("./routes");
 const config_2 = require("./database/config");
@@ -36,6 +40,10 @@ app.use(express_1.default.static('public'));
 app.use((0, morgan_1.default)('tiny'));
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
+app.use((0, express_fileupload_1.default)({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 // app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler

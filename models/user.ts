@@ -6,6 +6,9 @@ const UserSchema = new Schema({
         enum: ['SUPER_ADMIN', 'CLIENT', 'ASSOCIATED', 'FINAL_USER'],
         required: true
     },
+    img: {
+      type: String,
+    },
     name: {
         type: String,
         required: [true, 'El nombre es requerido'],
@@ -75,7 +78,7 @@ const UserSchema = new Schema({
     },
     bondingCode:{
         type: String,
-        required: true
+        // required: true
     },
     associatedBonding: {
         type: String,

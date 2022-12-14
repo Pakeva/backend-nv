@@ -18,6 +18,9 @@ const UserSchema = new mongoose_1.Schema({
         enum: ['SUPER_ADMIN', 'CLIENT', 'ASSOCIATED', 'FINAL_USER'],
         required: true
     },
+    img: {
+        type: String,
+    },
     name: {
         type: String,
         required: [true, 'El nombre es requerido'],
@@ -87,7 +90,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     bondingCode: {
         type: String,
-        required: true
+        // required: true
     },
     associatedBonding: {
         type: String,

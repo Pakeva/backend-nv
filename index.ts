@@ -1,12 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import morgan from 'morgan';
 import cors from 'cors'
 import helmet from "helmet";
 import {port, db} from './config';
 import http from 'http';
 import socketio from  'socket.io';
-
+// @ts-ignore
+import fileUpload from 'express-fileupload';
 import {socketController} from './sockets'
 // import responseTime from 'response-time'
 
@@ -39,6 +41,10 @@ app.use(express.static('public'))
 app.use(morgan('tiny'));
 app.use(cors());
 app.use(helmet());
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}));
 // app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler

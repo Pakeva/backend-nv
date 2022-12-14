@@ -9,7 +9,7 @@ const CategorySchema = new Schema({
     description: {
         type: String,
     },
-    image: {
+    img: {
         type: String,
     },
     status: {
