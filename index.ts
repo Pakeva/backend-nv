@@ -23,6 +23,7 @@ import {
 } from "./routes";
 import {connectDb} from "./database/config";
 import { ClientToServerEvents, SocketProps } from "./interfaces";
+import { User } from "./models";
 
 const app = express();
 
@@ -74,7 +75,7 @@ const server = http.createServer(app);
 const io = new socketio.Server<SocketProps>(server);
 
 // http://localhost:4000/socket.io/socket.io.js for check the connection with the server
-io.on("connection", (socket) => {
+io.on("connection",(socket) => {
     // console.log('cliente conectado', socket.id);
 
     socket.on('disconnect', () => {
@@ -93,9 +94,11 @@ io.on("connection", (socket) => {
     })
 
     // @ts-ignore
-    socket.on('send-delivery-petition', (payload) => {
+    socket.on('send-delivery-petition', async (payload) => {
+        const idAssociated = payload.associated.id;
+        const associated = await User.findById('6349a073f5a836a198d5646f');
+        console.log(associated);
         console.log(payload);
-        console.log('desde next');
         // @ts-ignore
         io.emit('send-delivery-petition', payload);
     })

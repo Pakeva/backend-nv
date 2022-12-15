@@ -50,6 +50,7 @@ var express_fileupload_1 = require("express-fileupload");
 // import responseTime from 'response-time'
 var routes_1 = require("./routes");
 var config_2 = require("./database/config");
+var models_1 = require("./models");
 var app = (0, express_1["default"])();
 //DB CONNECTION.
 var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -114,12 +115,23 @@ io.on("connection", function (socket) {
         io.emit('enviar-mensaje', payload);
     });
     // @ts-ignore
-    socket.on('send-delivery-petition', function (payload) {
-        console.log(payload);
-        console.log('desde next');
-        // @ts-ignore
-        io.emit('send-delivery-petition', payload);
-    });
+    socket.on('send-delivery-petition', function (payload) { return __awaiter(void 0, void 0, void 0, function () {
+        var idAssociated, associated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    idAssociated = payload.associated.id;
+                    return [4 /*yield*/, models_1.User.findById('6349a073f5a836a198d5646f')];
+                case 1:
+                    associated = _a.sent();
+                    console.log(associated);
+                    console.log(payload);
+                    // @ts-ignore
+                    io.emit('send-delivery-petition', payload);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
 //Public api
 app.get('/api', function (req, res) {

@@ -69,7 +69,6 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 2:
                 token = _b.sent();
                 _id = user._id, rol = user.rol, status = user.status, name = user.name, bondingCode = user.bondingCode, img = user.img;
-                console.log('aaaaaaaaaaaa');
                 return [2 /*return*/, res.status(200).json({
                         msg: 'Success login user',
                         user: {
@@ -78,7 +77,7 @@ var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             status: status,
                             name: name,
                             bondingCode: bondingCode,
-                            img: 'aaaa'
+                            img: img
                         },
                         token: token
                     })];
