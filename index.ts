@@ -1,15 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
+require('dotenv').config({path:__dirname+'/./../../.env'})
 import morgan from 'morgan';
 import cors from 'cors'
 import helmet from "helmet";
-import {port, db} from './config';
 import http from 'http';
 import socketio from  'socket.io';
 // @ts-ignore
 import fileUpload from 'express-fileupload';
-import {socketController} from './sockets'
+// import {socketController} from './sockets'
 // import responseTime from 'response-time'
 
 import {

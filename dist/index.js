@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+require('dotenv').config({ path: __dirname + '/./../../.env' });
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
@@ -22,6 +23,7 @@ const http_1 = __importDefault(require("http"));
 const socket_io_1 = __importDefault(require("socket.io"));
 // @ts-ignore
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+// import {socketController} from './sockets'
 // import responseTime from 'response-time'
 const routes_1 = require("./routes");
 const config_1 = require("./database/config");
