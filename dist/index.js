@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-require('dotenv').config({ path: __dirname + '/./../../.env' });
+console.log(dotenv_1.default.config());
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
@@ -32,11 +32,6 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 4100;
 //DB CONNECTION.
 const connectDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
     console.log(process.env.NODE_ENV);
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;

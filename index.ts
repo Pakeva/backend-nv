@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
-require('dotenv').config({path:__dirname+'/./../../.env'})
+console.log(dotenv.config());
 import morgan from 'morgan';
 import cors from 'cors'
 import helmet from "helmet";
@@ -30,11 +30,6 @@ const port = process.env.PORT || 4100;
 
 //DB CONNECTION.
 const connectDatabase = async () => {
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.NODE_ENV);
     console.log(process.env.NODE_ENV);
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
