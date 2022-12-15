@@ -30,9 +30,18 @@ const port = process.env.PORT || 4100;
 
 //DB CONNECTION.
 const connectDatabase = async () => {
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
+    console.log({ dbQa });
+    console.log({ dbProd });
     const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+    console.log({ db });
     await connectDb(db!);
 }
 connectDatabase().then(_ => {

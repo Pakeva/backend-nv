@@ -30,9 +30,18 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 4100;
 //DB CONNECTION.
 const connectDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.NODE_ENV);
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
+    console.log({ dbQa });
+    console.log({ dbProd });
     const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+    console.log({ db });
     yield (0, config_1.connectDb)(db);
 });
 connectDatabase().then(_ => {

@@ -42,7 +42,9 @@ const options = {
     family: 4 // Use IPv4, skip trying IPv6
 };
 const connectDb = (db) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(process.env)
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
+    console.log(process.env.MONGO_DB_QA);
+    console.log(process.env.MONGO_DB_PROD);
     try {
         yield mongoose.connect(db, options);
         console.log('DB connected successfully');
