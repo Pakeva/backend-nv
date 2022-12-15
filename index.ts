@@ -26,10 +26,14 @@ import { ClientToServerEvents, SocketProps } from "./interfaces";
 import { User } from "./models";
 
 const app = express();
+const port = process.env.PORT || 4100;
 
 //DB CONNECTION.
 const connectDatabase = async () => {
-    await connectDb(db);
+    const dbQa = process.env.MONGO_DB_QA;
+    const dbProd = process.env.MONGO_DB_PROD;
+    const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+    await connectDb(db!);
 }
 connectDatabase().then(_ => {
     console.log('Running DB')

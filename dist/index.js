@@ -18,19 +18,22 @@ dotenv_1.default.config();
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const config_1 = require("./config");
 const http_1 = __importDefault(require("http"));
 const socket_io_1 = __importDefault(require("socket.io"));
 // @ts-ignore
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 // import responseTime from 'response-time'
 const routes_1 = require("./routes");
-const config_2 = require("./database/config");
+const config_1 = require("./database/config");
 const models_1 = require("./models");
 const app = (0, express_1.default)();
+const port = process.env.PORT || 4100;
 //DB CONNECTION.
 const connectDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, config_2.connectDb)(config_1.db);
+    const dbQa = process.env.MONGO_DB_QA;
+    const dbProd = process.env.MONGO_DB_PROD;
+    const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+    yield (0, config_1.connectDb)(db);
 });
 connectDatabase().then(_ => {
     console.log('Running DB');
@@ -97,6 +100,6 @@ io.on("connection", (socket) => {
 app.get('/api', (req, res) => {
     res.json({ msg: 'Hello world!' });
 });
-server.listen(config_1.port, () => {
-    console.log(`Server running in port ${config_1.port}`);
+server.listen(port, () => {
+    console.log(`Server running in port ${port}`);
 });
