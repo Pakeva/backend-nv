@@ -31,6 +31,8 @@ const port = process.env.PORT || 4100;
 //DB CONNECTION.
 const connectDatabase = async () => {
     console.log(process.env.NODE_ENV);
+    //TODO si no jala las variablees de entorno, poner las claves aqui ni px
+    //TODO checar en prod si funciona, en dev ya funciona
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
     console.log({ dbQa });
