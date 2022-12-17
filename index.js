@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,24 +50,32 @@ exports.__esModule = true;
 var express_1 = require("express");
 var dotenv_1 = require("dotenv");
 dotenv_1["default"].config();
+console.log(dotenv_1["default"].config());
 var morgan_1 = require("morgan");
 var cors_1 = require("cors");
 var helmet_1 = require("helmet");
-var config_1 = require("./config");
 var http_1 = require("http");
 var socket_io_1 = require("socket.io");
 // @ts-ignore
 var express_fileupload_1 = require("express-fileupload");
+// import {socketController} from './sockets'
 // import responseTime from 'response-time'
 var routes_1 = require("./routes");
-var config_2 = require("./database/config");
+var config_1 = require("./database/config");
 var models_1 = require("./models");
 var app = (0, express_1["default"])();
+var port = process.env.PORT || 4100;
 //DB CONNECTION.
 var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var dbQa, dbProd, db;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, config_2.connectDb)(config_1.db)];
+            case 0:
+                console.log(process.env.NODE_ENV);
+                dbQa = process.env.MONGO_DB_QA;
+                dbProd = process.env.MONGO_DB_PROD;
+                db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+                return [4 /*yield*/, (0, config_1.connectDb)(db)];
             case 1:
                 _a.sent();
                 return [2 /*return*/];
@@ -88,6 +107,7 @@ var bondingAssociated = '/api/b-associated';
 var shippingPath = '/api/shipping';
 var bindingPath = '/api/b-companies';
 var uploadFilesPath = '/api/uploads';
+var manualShippings = '/api/man-shippings';
 //Routes
 app.use("".concat(userPath), routes_1.userRoutes);
 app.use("".concat(authPath), routes_1.authRoutes);
@@ -97,6 +117,7 @@ app.use("".concat(bondingAssociated), routes_1.bondingAssociatedRoutes);
 app.use("".concat(shippingPath), routes_1.shippingRoutes);
 app.use("".concat(bindingPath), routes_1.bondingCompaniesRoutes);
 app.use("".concat(uploadFilesPath), routes_1.uploadsRoutes);
+app.use("".concat(manualShippings), routes_1.manualShippingRoutes);
 //Sockets
 var server = http_1["default"].createServer(app);
 var io = new socket_io_1["default"].Server(server);
@@ -121,13 +142,11 @@ io.on("connection", function (socket) {
             switch (_a.label) {
                 case 0:
                     idAssociated = payload.associated.id;
-                    return [4 /*yield*/, models_1.User.findById('6349a073f5a836a198d5646f')];
+                    return [4 /*yield*/, models_1.User.findById(idAssociated)];
                 case 1:
                     associated = _a.sent();
-                    console.log(associated);
-                    console.log(payload);
                     // @ts-ignore
-                    io.emit('send-delivery-petition', payload);
+                    io.emit('send-delivery-petition', __assign(__assign({}, payload), { idShipping: 'agushf823473hvcd' }));
                     return [2 /*return*/];
             }
         });
@@ -137,6 +156,6 @@ io.on("connection", function (socket) {
 app.get('/api', function (req, res) {
     res.json({ msg: 'Hello world!' });
 });
-server.listen(config_1.port, function () {
-    console.log("Server running in port ".concat(config_1.port));
+server.listen(port, function () {
+    console.log("Server running in port ".concat(port));
 });

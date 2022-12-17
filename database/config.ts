@@ -10,9 +10,6 @@ const options = {
 
 
 const connectDb = async (db:string) => {
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
-    console.log(process.env.MONGO_DB_QA)
-    console.log(process.env.MONGO_DB_PROD)
     try {
         await mongoose.connect(db , options);
         console.log('DB connected successfully')

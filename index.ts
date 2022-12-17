@@ -19,7 +19,7 @@ import {
     productsRoutes,
     bondingAssociatedRoutes,
     shippingRoutes,
-    bondingCompaniesRoutes, uploadsRoutes
+    bondingCompaniesRoutes, uploadsRoutes, manualShippingRoutes
 } from "./routes";
 import {connectDb} from "./database/config";
 import { ClientToServerEvents, SocketProps } from "./interfaces";
@@ -35,12 +35,10 @@ const connectDatabase = async () => {
     //TODO checar en prod si funciona, en dev ya funciona
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
-    console.log({ dbQa });
-    console.log({ dbProd });
     const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
-    console.log({ db });
     await connectDb(db!);
 }
+
 connectDatabase().then(_ => {
     console.log('Running DB')
 });
@@ -69,6 +67,7 @@ const bondingAssociated = '/api/b-associated'
 const shippingPath = '/api/shipping'
 const bindingPath = '/api/b-companies'
 const uploadFilesPath = '/api/uploads'
+const manualShippings = '/api/man-shippings';
 
 //Routes
 app.use(`${userPath}`, userRoutes);
@@ -79,6 +78,7 @@ app.use(`${bondingAssociated}`, bondingAssociatedRoutes);
 app.use(`${shippingPath}`, shippingRoutes);
 app.use(`${bindingPath}`, bondingCompaniesRoutes);
 app.use(`${uploadFilesPath}`, uploadsRoutes);
+app.use(`${manualShippings}`, manualShippingRoutes);
 
 //Sockets
 const server = http.createServer(app);
@@ -106,11 +106,12 @@ io.on("connection",(socket) => {
     // @ts-ignore
     socket.on('send-delivery-petition', async (payload) => {
         const idAssociated = payload.associated.id;
-        const associated = await User.findById('6349a073f5a836a198d5646f');
-        console.log(associated);
-        console.log(payload);
+        const associated = await User.findById(idAssociated);
         // @ts-ignore
-        io.emit('send-delivery-petition', payload);
+        io.emit('send-delivery-petition', {
+            ...payload,
+            idShipping: 'agushf823473hvcd'
+        });
     })
 
 });

@@ -33,12 +33,11 @@ const port = process.env.PORT || 4100;
 //DB CONNECTION.
 const connectDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(process.env.NODE_ENV);
+    //TODO si no jala las variablees de entorno, poner las claves aqui ni px
+    //TODO checar en prod si funciona, en dev ya funciona
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
-    console.log({ dbQa });
-    console.log({ dbProd });
     const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
-    console.log({ db });
     yield (0, config_1.connectDb)(db);
 });
 connectDatabase().then(_ => {
@@ -66,6 +65,7 @@ const bondingAssociated = '/api/b-associated';
 const shippingPath = '/api/shipping';
 const bindingPath = '/api/b-companies';
 const uploadFilesPath = '/api/uploads';
+const manualShippings = '/api/man-shippings';
 //Routes
 app.use(`${userPath}`, routes_1.userRoutes);
 app.use(`${authPath}`, routes_1.authRoutes);
@@ -75,6 +75,7 @@ app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
 app.use(`${shippingPath}`, routes_1.shippingRoutes);
 app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
 app.use(`${uploadFilesPath}`, routes_1.uploadsRoutes);
+app.use(`${manualShippings}`, routes_1.manualShippingRoutes);
 //Sockets
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.default.Server(server);
@@ -95,11 +96,9 @@ io.on("connection", (socket) => {
     // @ts-ignore
     socket.on('send-delivery-petition', (payload) => __awaiter(void 0, void 0, void 0, function* () {
         const idAssociated = payload.associated.id;
-        const associated = yield models_1.User.findById('6349a073f5a836a198d5646f');
-        console.log(associated);
-        console.log(payload);
+        const associated = yield models_1.User.findById(idAssociated);
         // @ts-ignore
-        io.emit('send-delivery-petition', payload);
+        io.emit('send-delivery-petition', Object.assign(Object.assign({}, payload), { idShipping: 'agushf823473hvcd' }));
     }));
 });
 //Public api
