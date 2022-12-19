@@ -53,36 +53,24 @@ const addUserToCompany = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.addUserToCompany = addUserToCompany;
 const getBondingCompaniesToUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c;
+    console.log('1');
     const bonding = yield bondingCompany_1.default.find({
         user: (_c = req.user) === null || _c === void 0 ? void 0 : _c._id
     });
-    //TODO GET ALL THE COMPANIES
-    // const idAssociateds = bonding.map(bond => bond.associated);
-    //Fix this
-    let company, companies;
-    try {
-        companies = yield models_1.User.findById(bonding[0].company);
-        if (companies) {
-            return res.status(200).json({
-                msg: 'Success',
-                //GET ALL ASOCIATEDs
-                companies: companies
-            });
-        }
+    if (bonding.length === 0) {
+        return res.status(200).json({
+            msg: 'No cuentas con ninguna compania vinculada',
+        });
     }
-    catch (e) {
-        (0, helpers_1.errorResponse)(e, res);
-    }
+    let companies;
     try {
-        // @ts-ignore
-        company = yield models_1.User.findById(bonding.company);
-        if (company) {
-            return res.status(200).json({
-                msg: 'Success',
-                //GET ALL ASOCIATEDs
-                companies: company
-            });
-        }
+        companies = yield Promise.all(bonding.map(el => models_1.User.find({
+            _id: el.company
+        })));
+        res.status(200).json({
+            msg: 'success',
+            companies: companies.flat()
+        });
     }
     catch (e) {
         (0, helpers_1.errorResponse)(e, res);

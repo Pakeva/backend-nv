@@ -52,42 +52,35 @@ const addUserToCompany = async (req: TypesRequest<BondingCompaniesProps>, res: R
 }
 
 const getBondingCompaniesToUser = async (req: TypesRequest<BondingCompaniesProps>, res: Response) => {
+  console.log('1');
   const bonding = await BondingCompany.find({
     user: req.user?._id
   });
 
-  //TODO GET ALL THE COMPANIES
-  // const idAssociateds = bonding.map(bond => bond.associated);
+  if(bonding.length === 0){
+    return res.status(200).json({
+      msg: 'No cuentas con ninguna compania vinculada',
+    })
+  }
 
-  //Fix this
-  let company, companies;
-  try {
-    companies = await User.findById(bonding[0].company)
-    if(companies){
-      return res.status(200).json({
-        msg: 'Success',
-        //GET ALL ASOCIATEDs
-        companies: companies
+  let companies;
+
+  try{
+    companies = await Promise.all(bonding.map(el =>
+      User.find({
+        _id: el.company
       })
-    }
+    ))
 
-  } catch (e) {
+    res.status(200).json({
+      msg: 'success',
+      companies: companies.flat()
+    })
+
+  } catch (e){
     errorResponse(e, res)
   }
 
-  try {
-    // @ts-ignore
-    company = await User.findById(bonding.company)
-    if(company){
-      return res.status(200).json({
-        msg: 'Success',
-        //GET ALL ASOCIATEDs
-        companies: company
-      })
-    }
-  } catch (e) {
-    errorResponse(e, res)
-  }
 }
 
 
