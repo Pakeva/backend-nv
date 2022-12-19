@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBondingCompaniesToUser = exports.addUserToCompany = void 0;
+exports.deleteBoundingCompany = exports.getBondingCompaniesToUser = exports.addUserToCompany = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const bondingCompany_1 = __importDefault(require("../models/bondingCompany"));
@@ -53,7 +53,6 @@ const addUserToCompany = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.addUserToCompany = addUserToCompany;
 const getBondingCompaniesToUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c;
-    console.log('1');
     const bonding = yield bondingCompany_1.default.find({
         user: (_c = req.user) === null || _c === void 0 ? void 0 : _c._id
     });
@@ -77,3 +76,22 @@ const getBondingCompaniesToUser = (req, res) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.getBondingCompaniesToUser = getBondingCompaniesToUser;
+const deleteBoundingCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d;
+    console.log('aaa');
+    const { id } = req.params;
+    const existCompany = yield bondingCompany_1.default.find({
+        user: (_d = req.user) === null || _d === void 0 ? void 0 : _d._id,
+        company: id
+    });
+    if (existCompany.length === 0) {
+        return res.status(200).json({
+            msg: 'Ya has eliminado esta compania o no se encuentra disponible',
+        });
+    }
+    yield bondingCompany_1.default.remove({ company: id });
+    res.status(200).json({
+        msg: 'Compania eliminada correctamente',
+    });
+});
+exports.deleteBoundingCompany = deleteBoundingCompany;

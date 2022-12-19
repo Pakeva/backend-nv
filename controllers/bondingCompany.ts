@@ -1,7 +1,6 @@
 import {TypesRequest} from "../interfaces";
 import {Response} from "express";
 import {errorResponse} from "../helpers";
-
 import {User} from "../models";
 import BondingCompany from "../models/bondingCompany";
 import BondingAssociated from "../models/bondingAssociated";
@@ -52,7 +51,6 @@ const addUserToCompany = async (req: TypesRequest<BondingCompaniesProps>, res: R
 }
 
 const getBondingCompaniesToUser = async (req: TypesRequest<BondingCompaniesProps>, res: Response) => {
-  console.log('1');
   const bonding = await BondingCompany.find({
     user: req.user?._id
   });
@@ -83,8 +81,32 @@ const getBondingCompaniesToUser = async (req: TypesRequest<BondingCompaniesProps
 
 }
 
+const deleteBoundingCompany = async (req: TypesRequest<BondingCompaniesProps>, res: Response) => {
+  console.log('aaa');
+  const {id} = req.params;
+  const existCompany = await BondingCompany.find({
+    user: req.user?._id,
+    company: id
+  })
+
+
+  if(existCompany.length === 0){
+    return res.status(200).json({
+      msg: 'Ya has eliminado esta compania o no se encuentra disponible',
+    })
+
+  }
+
+  await BondingCompany.remove({company: id});
+
+
+  res.status(200).json({
+    msg: 'Compania eliminada correctamente',
+  })
+}
 
 export {
   addUserToCompany,
-  getBondingCompaniesToUser
+  getBondingCompaniesToUser,
+  deleteBoundingCompany
 }
