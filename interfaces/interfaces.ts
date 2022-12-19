@@ -71,3 +71,59 @@ export interface SocketData {
 
 export interface SocketProps extends
   ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData {}
+
+
+//Manual Shippings
+
+export interface ManualShippingProps {
+    idShipping?: string,
+    originAddress: IShippingProps,
+    destinationAddress: IShippingProps,
+    packageDetails: {
+        description: string
+    }
+    companyProps: {
+        id?: string
+    },
+    associated?: {
+        id?: string
+    },
+    cords?: {
+        lat: number,
+        lng: number
+    }
+}
+
+export interface IShippingProps {
+    zip: number
+    colony: string
+    municipality: string
+    state: string
+    street: string
+    numInt: string
+    numExt?: string
+    references?: string
+}
+
+export interface CompanyProps {
+    id?: string,
+    name: string,
+    img: string,
+    zip: number,
+    colony: string,
+    street: string,
+    municipality: string,
+    numExt: string,
+    state: string,
+    numInt?:string,
+    references: string
+    phone?: number
+}
+
+export interface AssociatedShippingProps {
+    id: string,
+    avatar?: string,
+    name: string,
+    email: string,
+    phone: number,
+}

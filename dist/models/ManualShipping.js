@@ -43,6 +43,10 @@ const ManualShippingSchema = new mongoose_1.Schema({
         },
         references: {
             type: String,
+        },
+        status: {
+            type: String,
+            default: "pending"
         }
     },
     packageDetails: {
@@ -51,16 +55,73 @@ const ManualShippingSchema = new mongoose_1.Schema({
             required: true
         }
     },
+    associated: {
+        id: {
+            type: mongoose_1.Schema.Types.ObjectId,
+            required: true
+        },
+        img: {
+            type: String,
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: Number,
+        },
+    },
     company: {
         id: {
             type: mongoose_1.Schema.Types.ObjectId,
-        }
+            required: true
+        },
+        img: {
+            type: String,
+        },
+        name: {
+            type: String,
+            required: [true, 'El nombre es requerido'],
+        },
+        zip: {
+            type: Number,
+            required: [true, 'El código postal es requerido'],
+        },
+        state: {
+            type: String,
+            required: [true, 'El estado es requerido'],
+        },
+        municipality: {
+            type: String,
+            required: [true, 'El municipio es requerido'],
+        },
+        colony: {
+            type: String,
+            required: [true, 'La colonia o fraccionamiento es requerido'],
+        },
+        street: {
+            type: String,
+            required: [true, 'La calle es requerida'],
+        },
+        numExt: {
+            type: String,
+            required: [true, 'La número exterior es requerido'],
+        },
+        numInt: {
+            type: String,
+        },
+        references: {
+            type: String,
+        },
+        phone: {
+            type: Number,
+        },
     }
 });
-ManualShippingSchema.set('timestamps', true);
+ManualShippingSchema.set("timestamps", true);
 ManualShippingSchema.methods.toJSON = function () {
     const _a = this.toObject(), { __v, _id } = _a, rest = __rest(_a, ["__v", "_id"]);
     //You know what it means
     return Object.assign({ id: _id }, rest);
 };
-exports.default = (0, mongoose_1.model)('ManualShipping', ManualShippingSchema);
+exports.default = (0, mongoose_1.model)("ManualShipping", ManualShippingSchema);
