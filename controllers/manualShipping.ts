@@ -12,13 +12,13 @@ const getShipping = (req:TypesRequest<any>,res:Response) => {
 };
 
 const addNewShipping = async (req:TypesRequest<ManualShippingProps>,res:Response) => {
-  const company = req.user!;
-
-  if(!company){
-    return res.status(400).json({
-      msg: "Al parecer no tienes activa tu sesion"
-    })
-  }
+  // const company = req.user!;
+  //
+  // if(!company){
+  //   return res.status(400).json({
+  //     msg: "Al parecer no tienes activa tu sesion"
+  //   })
+  // }
 
   const shipping = req.body;
 
