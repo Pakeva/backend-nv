@@ -15,17 +15,17 @@ const router = Router();
 //   validateFields
 // ], addUserToCompany)
 
-router.get('/', [
-  validateJwt,
-  validateFields
-], getBondingCompaniesToUser)
-
-router.delete('/:id', [
-  validateJwt,
-  check('id', 'El id es requerido')
-    .isMongoId(),
-  validateFields
-], deleteBoundingCompany)
+// router.get('/', [
+//   validateJwt,
+//   validateFields
+// ], getBondingCompaniesToUser)
+//
+// router.delete('/:id', [
+//   validateJwt,
+//   check('id', 'El id es requerido')
+//     .isMongoId(),
+//   validateFields
+// ], deleteBoundingCompany)
 
 
 
