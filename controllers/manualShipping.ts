@@ -13,7 +13,7 @@ const getShipping = (req:TypesRequest<any>,res:Response) => {
 };
 
 const addNewShipping = async (req:TypesRequest<ManualShippingProps>,res:Response) => {
-  const company = req.user!;
+  // const company = req.user!;
   const shipping = req.body;
 
   if(!shipping){
@@ -70,7 +70,6 @@ const addNewShipping = async (req:TypesRequest<ManualShippingProps>,res:Response
   } catch (e) {
     errorResponse(e, res);
   }
-
 
 };
 
