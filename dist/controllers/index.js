@@ -20,4 +20,4 @@ __exportStar(require("./categories"), exports);
 __exportStar(require("./products"), exports);
 __exportStar(require("./shippings"), exports);
 __exportStar(require("./upload"), exports);
-// export * from './manualShipping';
+__exportStar(require("./manualShipping"), exports);
