@@ -20,13 +20,12 @@ const getShipping = (req, res) => {
 };
 exports.getShipping = getShipping;
 const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const company = req.user!;
-    //
-    // if(!company){
-    //   return res.status(400).json({
-    //     msg: "Al parecer no tienes activa tu sesion"
-    //   })
-    // }
+    const company = req.user;
+    if (!company) {
+        return res.status(400).json({
+            msg: "Al parecer no tienes activa tu sesion"
+        });
+    }
     const shipping = req.body;
     if (!shipping) {
         return res.status(400).json({
