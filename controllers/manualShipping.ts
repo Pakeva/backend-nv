@@ -2,7 +2,6 @@ import { ManualShippingProps, TypesRequest } from "../interfaces";
 import { Response } from "express";
 import { errorResponse } from "../helpers";
 import { User } from "../models";
-// import { ManualShipping, User } from "../models";
 
 const getShipping = (req:TypesRequest<any>,res:Response) => {
   console.log(req.user);
