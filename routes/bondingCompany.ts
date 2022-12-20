@@ -7,13 +7,13 @@ import { userExists } from "../helpers";
 const router = Router();
 
 
-router.post('/', [
-  validateJwt,
-  check('companyId', 'El Id de la compania es requerido')
-    .isMongoId()
-    .custom(userExists),
-  validateFields
-], addUserToCompany )
+// router.post('/', [
+//   validateJwt,
+//   check('companyId', 'El Id de la compania es requerido')
+//     .isMongoId()
+//     .custom(userExists),
+//   validateFields
+// ], addUserToCompany)
 
 router.get('/', [
   validateJwt,
