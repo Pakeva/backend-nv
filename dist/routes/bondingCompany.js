@@ -1,14 +1,21 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const router = (0, express_1.Router)();
+// import {Router} from "express";
+// import {validateFields, validateJwt} from "../middlewares";
+// import { addUserToCompany, deleteBoundingCompany, getBondingCompaniesToUser } from "../controllers/bondingCompany";
+// import { check } from "express-validator";
+// import { userExists } from "../helpers";
+//
+// const router = Router();
+//
+//
 // router.post('/', [
 //   validateJwt,
 //   check('companyId', 'El Id de la compania es requerido')
 //     .isMongoId()
 //     .custom(userExists),
 //   validateFields
-// ], addUserToCompany)
+// ], addUserToCompany )
+//
 // router.get('/', [
 //   validateJwt,
 //   validateFields
@@ -20,4 +27,7 @@ const router = (0, express_1.Router)();
 //     .isMongoId(),
 //   validateFields
 // ], deleteBoundingCompany)
-exports.default = router;
+//
+//
+//
+// export default router;

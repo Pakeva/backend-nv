@@ -63,7 +63,7 @@ const categoryPath = '/api/categories';
 const productsPath = '/api/products';
 const bondingAssociated = '/api/b-associated';
 const shippingPath = '/api/shipping';
-const bindingPath = '/api/b-companies';
+// const bindingPath = '/api/b-companies'
 const uploadFilesPath = '/api/uploads';
 const manualShippings = '/api/man-shippings';
 //Routes

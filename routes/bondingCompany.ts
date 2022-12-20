@@ -1,20 +1,20 @@
-import {Router} from "express";
-import {validateFields, validateJwt} from "../middlewares";
-import { addUserToCompany, deleteBoundingCompany, getBondingCompaniesToUser } from "../controllers/bondingCompany";
-import { check } from "express-validator";
-import { userExists } from "../helpers";
-
-const router = Router();
-
-
+// import {Router} from "express";
+// import {validateFields, validateJwt} from "../middlewares";
+// import { addUserToCompany, deleteBoundingCompany, getBondingCompaniesToUser } from "../controllers/bondingCompany";
+// import { check } from "express-validator";
+// import { userExists } from "../helpers";
+//
+// const router = Router();
+//
+//
 // router.post('/', [
 //   validateJwt,
 //   check('companyId', 'El Id de la compania es requerido')
 //     .isMongoId()
 //     .custom(userExists),
 //   validateFields
-// ], addUserToCompany)
-
+// ], addUserToCompany )
+//
 // router.get('/', [
 //   validateJwt,
 //   validateFields
@@ -26,7 +26,7 @@ const router = Router();
 //     .isMongoId(),
 //   validateFields
 // ], deleteBoundingCompany)
-
-
-
-export default router;
+//
+//
+//
+// export default router;
