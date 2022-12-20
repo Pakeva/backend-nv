@@ -17,44 +17,48 @@ const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const bondingCompany_1 = __importDefault(require("../models/bondingCompany"));
 const addUserToCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
     const { companyId } = req.body;
     console.log(companyId);
-    const company = yield models_1.User.findById(companyId);
-    if (!company) {
-        return res.status(401).json({
-            msg: 'La compania fue eliminada o dado de baja'
-        });
-    }
-    const existsBondingCompany = yield bondingCompany_1.default.findOne({
-        user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id,
-        company: companyId
-    });
-    if (existsBondingCompany) {
-        return res.status(401).json({
-            msg: 'Ya esta vinculado esta compania'
-        });
-    }
-    const newBondingCompany = new bondingCompany_1.default({
-        user: (_b = req.user) === null || _b === void 0 ? void 0 : _b._id,
-        company: companyId
-    });
-    //TODO VALIDATION COMPANY ROL TO BONDING
-    try {
-        yield newBondingCompany.save();
-        res.status(201).json({
-            msg: 'Vinculacion realizada con exito',
-        });
-    }
-    catch (e) {
-        (0, helpers_1.errorResponse)(e, res);
-    }
+    // const company = await User.findById(companyId);
+    //
+    // if (!company) {
+    //   return res.status(401).json({
+    //     msg: 'La compania fue eliminada o dado de baja'
+    //   })
+    // }
+    //
+    // const existsBondingCompany = await BondingCompany.findOne({
+    //   user: req.user?._id,
+    //   company: companyId
+    // })
+    //
+    // if (existsBondingCompany) {
+    //   return res.status(401).json({
+    //     msg: 'Ya esta vinculado esta compania'
+    //   })
+    // }
+    //
+    // const newBondingCompany = new BondingCompany({
+    //   user: req.user?._id,
+    //   company: companyId
+    // })
+    //
+    // //TODO VALIDATION COMPANY ROL TO BONDING
+    // try {
+    //   await newBondingCompany.save();
+    //
+    //   res.status(201).json({
+    //     msg: 'Vinculacion realizada con exito',
+    //   })
+    // } catch (e) {
+    //   errorResponse(e, res)
+    // }
 });
 exports.addUserToCompany = addUserToCompany;
 const getBondingCompaniesToUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _a;
     const bonding = yield bondingCompany_1.default.find({
-        user: (_c = req.user) === null || _c === void 0 ? void 0 : _c._id
+        user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id
     });
     if (bonding.length === 0) {
         return res.status(200).json({
@@ -77,11 +81,11 @@ const getBondingCompaniesToUser = (req, res) => __awaiter(void 0, void 0, void 0
 });
 exports.getBondingCompaniesToUser = getBondingCompaniesToUser;
 const deleteBoundingCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d;
+    var _b;
     console.log('aaa');
     const { id } = req.params;
     const existCompany = yield bondingCompany_1.default.find({
-        user: (_d = req.user) === null || _d === void 0 ? void 0 : _d._id,
+        user: (_b = req.user) === null || _b === void 0 ? void 0 : _b._id,
         company: id
     });
     if (existCompany.length === 0) {

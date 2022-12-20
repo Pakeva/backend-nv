@@ -14,40 +14,40 @@ const addUserToCompany = async (req: TypesRequest<BondingCompaniesProps>, res: R
   const {companyId} = req.body
   console.log(companyId)
 
-  const company = await User.findById(companyId);
-
-  if (!company) {
-    return res.status(401).json({
-      msg: 'La compania fue eliminada o dado de baja'
-    })
-  }
-
-  const existsBondingCompany = await BondingCompany.findOne({
-    user: req.user?._id,
-    company: companyId
-  })
-
-  if (existsBondingCompany) {
-    return res.status(401).json({
-      msg: 'Ya esta vinculado esta compania'
-    })
-  }
-
-  const newBondingCompany = new BondingCompany({
-    user: req.user?._id,
-    company: companyId
-  })
-
-  //TODO VALIDATION COMPANY ROL TO BONDING
-  try {
-    await newBondingCompany.save();
-
-    res.status(201).json({
-      msg: 'Vinculacion realizada con exito',
-    })
-  } catch (e) {
-    errorResponse(e, res)
-  }
+  // const company = await User.findById(companyId);
+  //
+  // if (!company) {
+  //   return res.status(401).json({
+  //     msg: 'La compania fue eliminada o dado de baja'
+  //   })
+  // }
+  //
+  // const existsBondingCompany = await BondingCompany.findOne({
+  //   user: req.user?._id,
+  //   company: companyId
+  // })
+  //
+  // if (existsBondingCompany) {
+  //   return res.status(401).json({
+  //     msg: 'Ya esta vinculado esta compania'
+  //   })
+  // }
+  //
+  // const newBondingCompany = new BondingCompany({
+  //   user: req.user?._id,
+  //   company: companyId
+  // })
+  //
+  // //TODO VALIDATION COMPANY ROL TO BONDING
+  // try {
+  //   await newBondingCompany.save();
+  //
+  //   res.status(201).json({
+  //     msg: 'Vinculacion realizada con exito',
+  //   })
+  // } catch (e) {
+  //   errorResponse(e, res)
+  // }
 }
 
 const getBondingCompaniesToUser = async (req: TypesRequest<BondingCompaniesProps>, res: Response) => {
