@@ -72,8 +72,8 @@ app.use(`${authPath}`, routes_1.authRoutes);
 app.use(`${categoryPath}`, routes_1.categoryRoutes);
 app.use(`${productsPath}`, routes_1.productsRoutes);
 app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
+// app.use(`${bindingPath}`, bondingCompaniesRoutes);
 app.use(`${shippingPath}`, routes_1.shippingRoutes);
-app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
 app.use(`${uploadFilesPath}`, routes_1.uploadsRoutes);
 app.use(`${manualShippings}`, routes_1.manualShippingRoutes);
 //Sockets
