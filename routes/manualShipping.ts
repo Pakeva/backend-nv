@@ -2,7 +2,7 @@ import { Router } from "express";
 import { addNewShipping, getShipping } from "../controllers";
 import { hasRol, validateFields, validateJwt } from "../middlewares";
 import { check } from "express-validator";
-import { emailExists, isUserActive, userExists } from "../helpers";
+import { isUserActive, userExists } from "../helpers";
 
 const router = Router();
 

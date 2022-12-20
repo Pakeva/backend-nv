@@ -1,6 +1,7 @@
 import { ManualShippingProps, TypesRequest } from "../interfaces";
 import { Response } from "express";
 import { errorResponse } from "../helpers";
+import { User } from "../models";
 // import { ManualShipping, User } from "../models";
 
 const getShipping = (req:TypesRequest<any>,res:Response) => {
@@ -12,22 +13,22 @@ const getShipping = (req:TypesRequest<any>,res:Response) => {
 };
 
 const addNewShipping = async (req:TypesRequest<ManualShippingProps>,res:Response) => {
-  // const company = req.user!;
-  // const shipping = req.body;
-  //
-  // if(!shipping){
-  //   return res.status(400).json({
-  //     msg: 'Es necesaria la informacion del envio'
-  //   })
-  // }
-  //
-  // const associated = await User.findById(shipping.associated);
-  // if(!associated){
-  //   return res.status(401).json({
-  //     msg: 'El asociado/repartidor no esta registrado o ha sido dado de baja'
-  //   })
-  // }
-  //
+  const company = req.user!;
+  const shipping = req.body;
+
+  if(!shipping){
+    return res.status(400).json({
+      msg: 'Es necesaria la informacion del envio'
+    })
+  }
+
+  const associated = await User.findById(shipping.associated);
+  if(!associated){
+    return res.status(401).json({
+      msg: 'El asociado/repartidor no esta registrado o ha sido dado de baja'
+    })
+  }
+
   // const newShipping = new ManualShipping({
   //   destinationAddress: {...shipping.destinationAddress},
   //   packageDetails: shipping.packageDetails,
@@ -52,24 +53,24 @@ const addNewShipping = async (req:TypesRequest<ManualShippingProps>,res:Response
   //     phone: company.phone
   //   }
   // })
-  //
-  // try {
-  //
-  //   await newShipping.save();
-  //
-  //   return res.status(201).json({
-  //     msg: 'Envio realizado con exito',
-  //     shipping: {
-  //       originAddress: newShipping.company,
-  //       associated: newShipping.associated,
-  //       destinationAddress: newShipping.destinationAddress,
-  //       packageDetails: newShipping.packageDetails,
-  //     }
-  //   })
-  // } catch (e) {
-  //   errorResponse(e, res);
-  // }
-  //
+
+  try {
+
+    // await newShipping.save();
+
+    return res.status(201).json({
+      msg: 'Envio realizado con exito',
+      shipping: {
+        // originAddress: newShipping.company,
+        // associated: newShipping.associated,
+        // destinationAddress: newShipping.destinationAddress,
+        // packageDetails: newShipping.packageDetails,
+      }
+    })
+  } catch (e) {
+    errorResponse(e, res);
+  }
+
 
 };
 
