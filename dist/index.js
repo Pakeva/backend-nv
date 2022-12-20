@@ -63,7 +63,7 @@ const categoryPath = '/api/categories';
 const productsPath = '/api/products';
 const bondingAssociated = '/api/b-associated';
 const shippingPath = '/api/shipping';
-// const bindingPath = '/api/b-companies'
+const bindingPath = '/api/b-companies';
 const uploadFilesPath = '/api/uploads';
 const manualShippings = '/api/man-shippings';
 //Routes
@@ -72,8 +72,8 @@ app.use(`${authPath}`, routes_1.authRoutes);
 app.use(`${categoryPath}`, routes_1.categoryRoutes);
 app.use(`${productsPath}`, routes_1.productsRoutes);
 app.use(`${bondingAssociated}`, routes_1.bondingAssociatedRoutes);
-// app.use(`${bindingPath}`, bondingCompaniesRoutes);
 app.use(`${shippingPath}`, routes_1.shippingRoutes);
+app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
 app.use(`${uploadFilesPath}`, routes_1.uploadsRoutes);
 app.use(`${manualShippings}`, routes_1.manualShippingRoutes);
 //Sockets
