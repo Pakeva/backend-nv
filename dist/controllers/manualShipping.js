@@ -8,14 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addNewShipping = exports.getShipping = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
-const manualShipping_1 = __importDefault(require("../models/manualShipping"));
 const getShipping = (req, res) => {
     console.log(req.user);
     return res.status(200).json({
@@ -42,30 +38,30 @@ const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function*
             msg: 'El asociado/repartidor no esta registrado o ha sido dado de baja'
         });
     }
-    const newShipping = new manualShipping_1.default({
-        destinationAddress: Object.assign({}, shipping.destinationAddress),
-        packageDetails: shipping.packageDetails,
-        associated: {
-            id: associated.id,
-            name: associated.name + associated.firstLastName,
-            img: associated.img,
-            phone: associated.phone
-        },
-        company: {
-            id: company._id,
-            img: company.img,
-            name: company.name,
-            zip: company.zip,
-            state: company.state,
-            municipality: company.municipality,
-            colony: company.colony,
-            street: company.street,
-            numInt: company.numInt,
-            numExt: company.numExt,
-            references: company.referencer,
-            phone: company.phone
-        }
-    });
+    // const newShipping = new ManualShipping({
+    //   destinationAddress: {...shipping.destinationAddress},
+    //   packageDetails: shipping.packageDetails,
+    //   associated: {
+    //     id: associated.id,
+    //     name: associated.name+ associated.firstLastName,
+    //     img: associated.img,
+    //     phone: associated.phone
+    //   },
+    //   company: {
+    //     id: company._id,
+    //     img: company.img,
+    //     name: company.name,
+    //     zip: company.zip,
+    //     state: company.state,
+    //     municipality: company.municipality,
+    //     colony: company.colony,
+    //     street: company.street,
+    //     numInt: company.numInt,
+    //     numExt: company.numExt,
+    //     references: company.referencer,
+    //     phone: company.phone
+    //   }
+    // })
     try {
         // await newShipping.save();
         return res.status(201).json({
