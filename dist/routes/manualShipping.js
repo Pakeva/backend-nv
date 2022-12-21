@@ -12,7 +12,7 @@ router.get("/", [
 ], controllers_1.getShipping);
 router.post("/", [
     middlewares_1.validateJwt,
-    (0, middlewares_1.hasRol)('ASSOCIATED'),
+    (0, middlewares_1.hasRol)('CLIENT'),
     (0, express_validator_1.check)('company', 'Debe ser un id valido').isMongoId()
         .custom(helpers_1.userExists)
         .custom(helpers_1.isUserActive),

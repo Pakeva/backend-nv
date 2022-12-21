@@ -14,7 +14,7 @@ router.get("/", [
 
 router.post("/", [
   validateJwt,
-  hasRol('ASSOCIATED'),
+  hasRol('CLIENT'),
   check('company', 'Debe ser un id valido').isMongoId()
     .custom(userExists)
     .custom(isUserActive),
