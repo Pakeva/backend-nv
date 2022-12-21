@@ -16,12 +16,18 @@ exports.addNewShipping = exports.getShipping = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const manualShipping_1 = __importDefault(require("../models/manualShipping"));
-const getShipping = (req, res) => {
-    console.log(req.user);
+const getShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const shipping = yield manualShipping_1.default.findById(id);
+    if (!shipping) {
+        return res.status(401).json({
+            msg: 'No existe el envio consultado'
+        });
+    }
     return res.status(200).json({
-        msg: "hello world"
+        shipping
     });
-};
+});
 exports.getShipping = getShipping;
 const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const company = req.user;

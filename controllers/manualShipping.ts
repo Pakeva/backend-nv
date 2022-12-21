@@ -4,11 +4,20 @@ import { errorResponse } from "../helpers";
 import { User } from "../models";
 import ManualShipping from "../models/manualShipping";
 
-const getShipping = (req: TypesRequest<any>, res: Response) => {
-  console.log(req.user);
+const getShipping = async (req: TypesRequest<string>, res: Response) => {
+  const id = req.params.id;
+
+  const shipping = await ManualShipping.findById(id);
+
+  if(!shipping){
+    return res.status(401).json({
+      msg: 'No existe el envio consultado'
+    })
+  }
+
 
   return res.status(200).json({
-    msg: "hello world"
+    shipping
   });
 };
 
