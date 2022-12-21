@@ -21,3 +21,4 @@ __exportStar(require("./products"), exports);
 __exportStar(require("./shippings"), exports);
 __exportStar(require("./upload"), exports);
 __exportStar(require("./manualShipping"), exports);
+__exportStar(require("./companies"), exports);

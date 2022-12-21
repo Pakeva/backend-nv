@@ -5,3 +5,4 @@ export * from './products';
 export * from './shippings'
 export * from './upload';
 export * from './manualShipping';
+export * from './companies';

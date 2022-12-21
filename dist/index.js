@@ -36,35 +36,36 @@ const connectDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     //TODO checar en prod si funciona, en dev ya funciona
     const dbQa = process.env.MONGO_DB_QA;
     const dbProd = process.env.MONGO_DB_PROD;
-    const db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+    const db = process.env.NODE_ENV === "development" ? dbQa : dbProd;
     yield (0, config_1.connectDb)(db);
 });
 connectDatabase().then(_ => {
-    console.log('Running DB');
+    console.log("Running DB");
 });
 //Middlewares
 app.use(express_1.default.json());
-app.use(express_1.default.static('public'));
-app.use((0, morgan_1.default)('tiny'));
+app.use(express_1.default.static("public"));
+app.use((0, morgan_1.default)("tiny"));
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
 app.use((0, express_fileupload_1.default)({
     useTempFiles: true,
-    tempFileDir: '/tmp/'
+    tempFileDir: "/tmp/"
 }));
 // app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler
 //Paths
-const userPath = '/api/users';
-const authPath = '/api/auth';
-const categoryPath = '/api/categories';
-const productsPath = '/api/products';
-const bondingAssociated = '/api/b-associated';
-const shippingPath = '/api/shipping';
-const bindingPath = '/api/b-companies';
-const uploadFilesPath = '/api/uploads';
-const manualShippings = '/api/man-shippings';
+const userPath = "/api/users";
+const authPath = "/api/auth";
+const categoryPath = "/api/categories";
+const productsPath = "/api/products";
+const bondingAssociated = "/api/b-associated";
+const shippingPath = "/api/shipping";
+const bindingPath = "/api/b-companies";
+const uploadFilesPath = "/api/uploads";
+const manualShippings = "/api/man-shippings";
+const companiesPath = "/api/companies";
 //Routes
 app.use(`${userPath}`, routes_1.userRoutes);
 app.use(`${authPath}`, routes_1.authRoutes);
@@ -75,33 +76,34 @@ app.use(`${shippingPath}`, routes_1.shippingRoutes);
 app.use(`${bindingPath}`, routes_1.bondingCompaniesRoutes);
 app.use(`${uploadFilesPath}`, routes_1.uploadsRoutes);
 app.use(`${manualShippings}`, routes_1.manualShippingRoutes);
+app.use(`${companiesPath}`, routes_1.companyRoutes);
 //Sockets
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.default.Server(server);
 // http://localhost:4000/socket.io/socket.io.js for check the connection with the server
 io.on("connection", (socket) => {
     // console.log('cliente conectado', socket.id);
-    socket.on('disconnect', () => {
-        console.log('cliente desconctado');
+    socket.on("disconnect", () => {
+        console.log("cliente desconctado");
     });
     //TODO DELETE THIS
     // @ts-ignore
-    socket.on('enviar-mensaje', (payload) => {
+    socket.on("enviar-mensaje", (payload) => {
         console.log(payload);
         // TODO peticion base de datos
         // @ts-ignore
-        io.emit('enviar-mensaje', payload);
+        io.emit("enviar-mensaje", payload);
     });
     // @ts-ignore
-    socket.on('send-delivery-petition', (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    socket.on("send-delivery-petition", (payload) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(payload);
         // @ts-ignore
-        io.emit('send-delivery-petition', payload);
+        io.emit("send-delivery-petition", payload);
     }));
 });
 //Public api
-app.get('/api', (req, res) => {
-    res.json({ msg: 'Hello world!' });
+app.get("/api", (req, res) => {
+    res.json({ msg: "Hello world!" });
 });
 server.listen(port, () => {
     console.log(`Server running in port ${port}`);
