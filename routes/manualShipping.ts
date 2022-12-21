@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addNewShipping, getAllShippings, getShipping } from "../controllers";
+import { addNewShipping, getAllShippings, getShipping, updateShippingStatus } from "../controllers";
 import { hasRol, validateFields, validateJwt } from "../middlewares";
 import { check } from "express-validator";
 import { isUserActive, userExists } from "../helpers";
@@ -12,6 +12,14 @@ router.get("/:id", [
     .isMongoId(),
   validateFields
 ], getShipping);
+
+router.put("/:id", [
+  validateJwt,
+  check('id', 'Debe ser un id valido')
+    .isMongoId(),
+  check('status', 'El estatus del pedido es requerido').notEmpty(),
+  validateFields
+], updateShippingStatus);
 
 router.get("/", [
   validateJwt,

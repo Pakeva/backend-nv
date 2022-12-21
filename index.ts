@@ -107,13 +107,9 @@ io.on("connection",(socket) => {
 
     // @ts-ignore
     socket.on('send-delivery-petition', async (payload) => {
-        const idAssociated = payload.associated.id;
-        const associated = await User.findById(idAssociated);
+        console.log(payload);
         // @ts-ignore
-        io.emit('send-delivery-petition', {
-            ...payload,
-            idShipping: 'agushf823473hvcd'
-        });
+        io.emit('send-delivery-petition', payload);
     })
 
 });

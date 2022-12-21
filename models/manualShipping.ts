@@ -32,10 +32,6 @@ const ManualShippingSchema = new Schema({
     references: {
       type: String,
     },
-    status: {
-      type: String,
-      default: "pending"
-    }
   },
   packageDetails: {
     description: {
@@ -104,6 +100,11 @@ const ManualShippingSchema = new Schema({
     phone: {
       type: Number,
     },
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'on-course', 'completed', 'canceled'],
+    default: "pending"
   }
 });
 

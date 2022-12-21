@@ -44,10 +44,6 @@ const ManualShippingSchema = new mongoose_1.Schema({
         references: {
             type: String,
         },
-        status: {
-            type: String,
-            default: "pending"
-        }
     },
     packageDetails: {
         description: {
@@ -116,6 +112,11 @@ const ManualShippingSchema = new mongoose_1.Schema({
         phone: {
             type: Number,
         },
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'on-course', 'completed', 'canceled'],
+        default: "pending"
     }
 });
 ManualShippingSchema.set("timestamps", true);

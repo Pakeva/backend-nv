@@ -1,13 +1,41 @@
 import { ManualShippingProps, TypesRequest } from "../interfaces";
 import { Response } from "express";
 import { errorResponse } from "../helpers";
-import { User } from "../models";
+import { Category, User } from "../models";
 import ManualShipping from "../models/manualShipping";
+
+const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled'];
 
 const getShipping = async (req: TypesRequest<string>, res: Response) => {
   const id = req.params.id;
 
   const shipping = await ManualShipping.findById(id);
+
+  if (!shipping) {
+    return res.status(401).json({
+      msg: "No existe el envio consultado"
+    });
+  }
+
+  return res.status(200).json({
+    shipping
+  });
+};
+
+const updateShippingStatus = async (req: TypesRequest<string>, res: Response) => {
+  const id = req.params.id;
+  //@ts-ignore
+  const status = req.body.status.toLowerCase();
+
+  if(!ENUM_STATUS.includes(status)){
+    return res.status(401).json({
+      msg: "No es un status valido"
+    });
+  }
+
+  const shipping = await ManualShipping.findByIdAndUpdate(id, {
+    status
+  }, {new: true});
 
   if (!shipping) {
     return res.status(401).json({
@@ -133,5 +161,6 @@ const addNewShipping = async (req: TypesRequest<ManualShippingProps>, res: Respo
 export {
   getShipping,
   getAllShippings,
+  updateShippingStatus,
   addNewShipping
 };

@@ -27,7 +27,6 @@ const express_fileupload_1 = __importDefault(require("express-fileupload"));
 // import responseTime from 'response-time'
 const routes_1 = require("./routes");
 const config_1 = require("./database/config");
-const models_1 = require("./models");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 4100;
 //DB CONNECTION.
@@ -95,10 +94,9 @@ io.on("connection", (socket) => {
     });
     // @ts-ignore
     socket.on('send-delivery-petition', (payload) => __awaiter(void 0, void 0, void 0, function* () {
-        const idAssociated = payload.associated.id;
-        const associated = yield models_1.User.findById(idAssociated);
+        console.log(payload);
         // @ts-ignore
-        io.emit('send-delivery-petition', Object.assign(Object.assign({}, payload), { idShipping: 'agushf823473hvcd' }));
+        io.emit('send-delivery-petition', payload);
     }));
 });
 //Public api

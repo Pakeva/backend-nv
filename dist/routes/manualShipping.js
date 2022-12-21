@@ -12,6 +12,13 @@ router.get("/:id", [
         .isMongoId(),
     middlewares_1.validateFields
 ], controllers_1.getShipping);
+router.put("/:id", [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('id', 'Debe ser un id valido')
+        .isMongoId(),
+    (0, express_validator_1.check)('status', 'El estatus del pedido es requerido').notEmpty(),
+    middlewares_1.validateFields
+], controllers_1.updateShippingStatus);
 router.get("/", [
     middlewares_1.validateJwt,
     middlewares_1.validateFields
