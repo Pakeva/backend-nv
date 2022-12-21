@@ -3,7 +3,6 @@ import { model, Schema } from "mongoose";
 const CompanySchema = new Schema({
   img: {
     type: String,
-    required: true
   },
   name: {
     type: String,
@@ -12,7 +11,8 @@ const CompanySchema = new Schema({
   description: {
     type: String,
     required: true
-  }
+  },
+  user: Schema.Types.ObjectId
 })
 
 CompanySchema.methods.toJSON = function () {

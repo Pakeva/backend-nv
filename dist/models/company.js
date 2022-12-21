@@ -15,7 +15,6 @@ const mongoose_1 = require("mongoose");
 const CompanySchema = new mongoose_1.Schema({
     img: {
         type: String,
-        required: true
     },
     name: {
         type: String,
@@ -24,7 +23,8 @@ const CompanySchema = new mongoose_1.Schema({
     description: {
         type: String,
         required: true
-    }
+    },
+    user: mongoose_1.Schema.Types.ObjectId
 });
 CompanySchema.methods.toJSON = function () {
     const _a = this.toObject(), { __v, _id } = _a, rest = __rest(_a, ["__v", "_id"]);
