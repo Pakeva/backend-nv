@@ -36,10 +36,10 @@ const ManualShippingSchema = new mongoose_1.Schema({
         },
         numInt: {
             type: String,
-            required: true
         },
         numExt: {
-            type: String
+            type: String,
+            required: true
         },
         references: {
             type: String,

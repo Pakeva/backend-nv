@@ -19,7 +19,7 @@ const manualShipping_1 = __importDefault(require("../models/manualShipping"));
 const getShipping = (req, res) => {
     console.log(req.user);
     return res.status(200).json({
-        msg: 'hello world'
+        msg: "hello world"
     });
 };
 exports.getShipping = getShipping;
@@ -33,13 +33,13 @@ const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const shipping = req.body;
     if (!shipping) {
         return res.status(400).json({
-            msg: 'Es necesaria la informacion del envio'
+            msg: "Es necesaria la informacion del envio"
         });
     }
     const associated = yield models_1.User.findById(shipping.associated);
     if (!associated) {
         return res.status(401).json({
-            msg: 'El asociado/repartidor no esta registrado o ha sido dado de baja'
+            msg: "El asociado/repartidor no esta registrado o ha sido dado de baja"
         });
     }
     const newShipping = new manualShipping_1.default({
@@ -47,8 +47,8 @@ const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function*
         packageDetails: shipping.packageDetails,
         associated: {
             id: associated.id,
-            name: associated.name + associated.firstLastName,
             img: associated.img,
+            name: associated.name,
             phone: associated.phone
         },
         company: {
@@ -60,17 +60,18 @@ const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function*
             municipality: company.municipality,
             colony: company.colony,
             street: company.street,
-            numInt: company.numInt,
             numExt: company.numExt,
+            numInt: company.numInt,
             references: company.referencer,
-            phone: company.phone
+            phone: company.phone,
         }
     });
     try {
         yield newShipping.save();
         return res.status(201).json({
-            msg: 'Envio realizado con exito',
+            msg: "Envio realizado con exito",
             shipping: {
+                id: newShipping.id,
                 originAddress: newShipping.company,
                 associated: newShipping.associated,
                 destinationAddress: newShipping.destinationAddress,
