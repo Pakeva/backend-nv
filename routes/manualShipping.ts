@@ -15,12 +15,13 @@ router.get("/", [
 router.post("/", [
   validateJwt,
   hasRol('CLIENT'),
-  check('company', 'Debe ser un id valido').isMongoId()
-    .custom(userExists)
-    .custom(isUserActive),
-  check('associated', 'Debe ser un id valido').isMongoId()
-    .custom(userExists)
-    .custom(isUserActive),
+  //todo verify this
+  // check('company', 'Debe ser un id valido').isMongoId()
+  //   .custom(userExists)
+  //   .custom(isUserActive),
+  // check('associated', 'Debe ser un id valido').isMongoId()
+  //   .custom(userExists)
+  //   .custom(isUserActive),
   validateFields
 ], addNewShipping);
 
