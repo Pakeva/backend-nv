@@ -103,7 +103,7 @@ const ManualShippingSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'on-course', 'completed', 'canceled'],
+    enum: ['pending', 'on-course', 'completed', 'canceled', 'rejected'],
     default: "pending"
   }
 });

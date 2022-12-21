@@ -16,7 +16,7 @@ exports.addNewShipping = exports.updateShippingStatus = exports.getAllShippings 
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const manualShipping_1 = __importDefault(require("../models/manualShipping"));
-const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled'];
+const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled', 'rejected'];
 const getShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const shipping = yield manualShipping_1.default.findById(id);

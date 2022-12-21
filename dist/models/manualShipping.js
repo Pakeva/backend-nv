@@ -115,7 +115,7 @@ const ManualShippingSchema = new mongoose_1.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'on-course', 'completed', 'canceled'],
+        enum: ['pending', 'on-course', 'completed', 'canceled', 'rejected'],
         default: "pending"
     }
 });

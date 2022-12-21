@@ -4,7 +4,7 @@ import { errorResponse } from "../helpers";
 import { Category, User } from "../models";
 import ManualShipping from "../models/manualShipping";
 
-const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled'];
+const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled', 'rejected'];
 
 const getShipping = async (req: TypesRequest<string>, res: Response) => {
   const id = req.params.id;
