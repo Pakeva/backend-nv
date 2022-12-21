@@ -12,6 +12,10 @@ router.get("/:id", [
         .isMongoId(),
     middlewares_1.validateFields
 ], controllers_1.getShipping);
+router.get("/", [
+    middlewares_1.validateJwt,
+    middlewares_1.validateFields
+], controllers_1.getAllShippings);
 router.post("/", [
     middlewares_1.validateJwt,
     (0, middlewares_1.hasRol)('CLIENT'),

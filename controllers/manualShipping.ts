@@ -9,16 +9,57 @@ const getShipping = async (req: TypesRequest<string>, res: Response) => {
 
   const shipping = await ManualShipping.findById(id);
 
-  if(!shipping){
+  if (!shipping) {
     return res.status(401).json({
-      msg: 'No existe el envio consultado'
-    })
+      msg: "No existe el envio consultado"
+    });
   }
-
 
   return res.status(200).json({
     shipping
   });
+};
+
+const getAllShippings = async (req: TypesRequest<any>, res: Response) => {
+  const id = req.user?._id;
+
+  if(req.user?.rol === 'CLIENT'){
+    const shippingsCompany = await ManualShipping.find({
+      "company.id": id
+    });
+
+    if (!shippingsCompany.length) {
+      return res.status(401).json({
+        msg: "No cuentas con envios realizados"
+      });
+    }
+
+    return res.status(200).json({
+      shippingsCompany
+    });
+  }
+
+
+  if(req.user?.rol === 'ASSOCIATED'){
+    const shippingsAssociated = await ManualShipping.find({
+      "associated.id": id
+    });
+
+    if (!shippingsAssociated.length) {
+      return res.status(401).json({
+        msg: "No cuentas con envios realizados"
+      });
+    }
+
+    return res.status(200).json({
+      shippingsAssociated
+    });
+  }
+
+  return res.status(200).json({
+    msg: 'Al parecer no cuentas con envios realizados'
+  });
+
 };
 
 const addNewShipping = async (req: TypesRequest<ManualShippingProps>, res: Response) => {
@@ -45,7 +86,6 @@ const addNewShipping = async (req: TypesRequest<ManualShippingProps>, res: Respo
     });
   }
 
-
   const newShipping = new ManualShipping({
     destinationAddress: { ...shipping.destinationAddress },
     packageDetails: shipping.packageDetails,
@@ -71,7 +111,6 @@ const addNewShipping = async (req: TypesRequest<ManualShippingProps>, res: Respo
     }
   });
 
-
   try {
     await newShipping.save();
 
@@ -93,5 +132,6 @@ const addNewShipping = async (req: TypesRequest<ManualShippingProps>, res: Respo
 
 export {
   getShipping,
+  getAllShippings,
   addNewShipping
 };

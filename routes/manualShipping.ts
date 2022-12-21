@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addNewShipping, getShipping } from "../controllers";
+import { addNewShipping, getAllShippings, getShipping } from "../controllers";
 import { hasRol, validateFields, validateJwt } from "../middlewares";
 import { check } from "express-validator";
 import { isUserActive, userExists } from "../helpers";
@@ -12,6 +12,11 @@ router.get("/:id", [
     .isMongoId(),
   validateFields
 ], getShipping);
+
+router.get("/", [
+  validateJwt,
+  validateFields
+], getAllShippings);
 
 router.post("/", [
   validateJwt,
