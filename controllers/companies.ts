@@ -18,7 +18,9 @@ const setInitialCompanyInfo = async (req: TypesRequest<CompanyProps>, res: Respo
     user: id
   })
 
-  if(existCompanyInfo){
+  console.log(existCompanyInfo);
+
+  if(existCompanyInfo.length){
     return res.status(201).json({
       msg: 'mal uso de peticion',
     });

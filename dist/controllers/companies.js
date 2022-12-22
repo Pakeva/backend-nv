@@ -19,7 +19,8 @@ const setInitialCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const existCompanyInfo = yield models_1.Company.find({
         user: id
     });
-    if (existCompanyInfo) {
+    console.log(existCompanyInfo);
+    if (existCompanyInfo.length) {
         return res.status(201).json({
             msg: 'mal uso de peticion',
         });
