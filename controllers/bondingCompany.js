@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getBondingCompaniesToUser = exports.addUserToCompany = void 0;
+exports.deleteBoundingCompany = exports.getBondingCompaniesToUser = exports.addUserToCompany = void 0;
 var helpers_1 = require("../helpers");
 var models_1 = require("../models");
 var bondingCompany_1 = require("../models/bondingCompany");
@@ -91,7 +91,7 @@ var addUserToCompany = function (req, res) { return __awaiter(void 0, void 0, vo
 }); };
 exports.addUserToCompany = addUserToCompany;
 var getBondingCompaniesToUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var bonding, company, companies, e_2, e_3;
+    var bonding, companies, e_2;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -100,44 +100,62 @@ var getBondingCompaniesToUser = function (req, res) { return __awaiter(void 0, v
                 })];
             case 1:
                 bonding = _b.sent();
+                if (bonding.length === 0) {
+                    return [2 /*return*/, res.status(200).json({
+                            msg: 'No cuentas con ninguna compania vinculada'
+                        })];
+                }
                 _b.label = 2;
             case 2:
                 _b.trys.push([2, 4, , 5]);
-                return [4 /*yield*/, models_1.User.findById(bonding[0].company)];
+                return [4 /*yield*/, Promise.all(bonding.map(function (el) {
+                        return models_1.User.find({
+                            _id: el.company
+                        });
+                    }))];
             case 3:
                 companies = _b.sent();
-                if (companies) {
-                    return [2 /*return*/, res.status(200).json({
-                            msg: 'Success',
-                            //GET ALL ASOCIATEDs
-                            companies: companies
-                        })];
-                }
+                res.status(200).json({
+                    msg: 'success',
+                    companies: companies.flat()
+                });
                 return [3 /*break*/, 5];
             case 4:
                 e_2 = _b.sent();
                 (0, helpers_1.errorResponse)(e_2, res);
                 return [3 /*break*/, 5];
-            case 5:
-                _b.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, models_1.User.findById(bonding.company)];
-            case 6:
-                // @ts-ignore
-                company = _b.sent();
-                if (company) {
-                    return [2 /*return*/, res.status(200).json({
-                            msg: 'Success',
-                            //GET ALL ASOCIATEDs
-                            companies: company
-                        })];
-                }
-                return [3 /*break*/, 8];
-            case 7:
-                e_3 = _b.sent();
-                (0, helpers_1.errorResponse)(e_3, res);
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.getBondingCompaniesToUser = getBondingCompaniesToUser;
+var deleteBoundingCompany = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, existCompany;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                console.log('aaa');
+                id = req.params.id;
+                return [4 /*yield*/, bondingCompany_1["default"].find({
+                        user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id,
+                        company: id
+                    })];
+            case 1:
+                existCompany = _b.sent();
+                if (existCompany.length === 0) {
+                    return [2 /*return*/, res.status(200).json({
+                            msg: 'Ya has eliminado esta compania o no se encuentra disponible'
+                        })];
+                }
+                return [4 /*yield*/, bondingCompany_1["default"].remove({ company: id })];
+            case 2:
+                _b.sent();
+                res.status(200).json({
+                    msg: 'Compania eliminada correctamente'
+                });
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteBoundingCompany = deleteBoundingCompany;

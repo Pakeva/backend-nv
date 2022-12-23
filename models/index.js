@@ -11,7 +11,7 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 exports.__esModule = true;
-exports.Shipping = exports.Product = exports.Category = exports.Rol = exports.User = void 0;
+exports.Company = exports.ManualShipping = exports.Shipping = exports.Product = exports.Category = exports.Rol = exports.User = void 0;
 var user_1 = require("./user");
 __createBinding(exports, user_1, "default", "User");
 var rol_1 = require("./rol");
@@ -22,3 +22,7 @@ var products_1 = require("./products");
 __createBinding(exports, products_1, "default", "Product");
 var shipping_1 = require("./shipping");
 __createBinding(exports, shipping_1, "default", "Shipping");
+var manualShipping_1 = require("./manualShipping");
+__createBinding(exports, manualShipping_1, "default", "ManualShipping");
+var company_1 = require("./company");
+__createBinding(exports, company_1, "default", "Company");

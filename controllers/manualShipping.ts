@@ -150,6 +150,7 @@ const addNewShipping = async (req: TypesRequest<ManualShippingProps>, res: Respo
         associated: newShipping.associated,
         destinationAddress: newShipping.destinationAddress,
         packageDetails: newShipping.packageDetails,
+        status: newShipping.status
       }
     });
   } catch (e) {

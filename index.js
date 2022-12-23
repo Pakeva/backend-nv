@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -62,7 +51,6 @@ var express_fileupload_1 = require("express-fileupload");
 // import responseTime from 'response-time'
 var routes_1 = require("./routes");
 var config_1 = require("./database/config");
-var models_1 = require("./models");
 var app = (0, express_1["default"])();
 var port = process.env.PORT || 4100;
 //DB CONNECTION.
@@ -74,7 +62,7 @@ var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, fun
                 console.log(process.env.NODE_ENV);
                 dbQa = process.env.MONGO_DB_QA;
                 dbProd = process.env.MONGO_DB_PROD;
-                db = process.env.NODE_ENV === 'development' ? dbQa : dbProd;
+                db = process.env.NODE_ENV === "development" ? dbQa : dbProd;
                 return [4 /*yield*/, (0, config_1.connectDb)(db)];
             case 1:
                 _a.sent();
@@ -83,31 +71,32 @@ var connectDatabase = function () { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 connectDatabase().then(function (_) {
-    console.log('Running DB');
+    console.log("Running DB");
 });
 //Middlewares
 app.use(express_1["default"].json());
-app.use(express_1["default"].static('public'));
-app.use((0, morgan_1["default"])('tiny'));
+app.use(express_1["default"].static("public"));
+app.use((0, morgan_1["default"])("tiny"));
 app.use((0, cors_1["default"])());
 app.use((0, helmet_1["default"])());
 app.use((0, express_fileupload_1["default"])({
     useTempFiles: true,
-    tempFileDir: '/tmp/'
+    tempFileDir: "/tmp/"
 }));
 // app.use(responseTime())
 //TODO rate-limit
 //TODO error-handler
 //Paths
-var userPath = '/api/users';
-var authPath = '/api/auth';
-var categoryPath = '/api/categories';
-var productsPath = '/api/products';
-var bondingAssociated = '/api/b-associated';
-var shippingPath = '/api/shipping';
-var bindingPath = '/api/b-companies';
-var uploadFilesPath = '/api/uploads';
-var manualShippings = '/api/man-shippings';
+var userPath = "/api/users";
+var authPath = "/api/auth";
+var categoryPath = "/api/categories";
+var productsPath = "/api/products";
+var bondingAssociated = "/api/b-associated";
+var shippingPath = "/api/shipping";
+var bindingPath = "/api/b-companies";
+var uploadFilesPath = "/api/uploads";
+var manualShippings = "/api/man-shippings";
+var companiesPath = "/api/companies";
 //Routes
 app.use("".concat(userPath), routes_1.userRoutes);
 app.use("".concat(authPath), routes_1.authRoutes);
@@ -118,43 +107,37 @@ app.use("".concat(shippingPath), routes_1.shippingRoutes);
 app.use("".concat(bindingPath), routes_1.bondingCompaniesRoutes);
 app.use("".concat(uploadFilesPath), routes_1.uploadsRoutes);
 app.use("".concat(manualShippings), routes_1.manualShippingRoutes);
+app.use("".concat(companiesPath), routes_1.companyRoutes);
 //Sockets
 var server = http_1["default"].createServer(app);
 var io = new socket_io_1["default"].Server(server);
 // http://localhost:4000/socket.io/socket.io.js for check the connection with the server
 io.on("connection", function (socket) {
     // console.log('cliente conectado', socket.id);
-    socket.on('disconnect', function () {
-        console.log('cliente desconctado');
+    socket.on("disconnect", function () {
+        console.log("cliente desconctado");
     });
     //TODO DELETE THIS
     // @ts-ignore
-    socket.on('enviar-mensaje', function (payload) {
+    socket.on("enviar-mensaje", function (payload) {
         console.log(payload);
         // TODO peticion base de datos
         // @ts-ignore
-        io.emit('enviar-mensaje', payload);
+        io.emit("enviar-mensaje", payload);
     });
     // @ts-ignore
-    socket.on('send-delivery-petition', function (payload) { return __awaiter(void 0, void 0, void 0, function () {
-        var idAssociated, associated;
+    socket.on("send-delivery-petition", function (payload) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    idAssociated = payload.associated.id;
-                    return [4 /*yield*/, models_1.User.findById(idAssociated)];
-                case 1:
-                    associated = _a.sent();
-                    // @ts-ignore
-                    io.emit('send-delivery-petition', __assign(__assign({}, payload), { idShipping: 'agushf823473hvcd' }));
-                    return [2 /*return*/];
-            }
+            console.log(payload);
+            // @ts-ignore
+            io.emit("send-delivery-petition", payload);
+            return [2 /*return*/];
         });
     }); });
 });
 //Public api
-app.get('/api', function (req, res) {
-    res.json({ msg: 'Hello world!' });
+app.get("/api", function (req, res) {
+    res.json({ msg: "Hello world!" });
 });
 server.listen(port, function () {
     console.log("Server running in port ".concat(port));

@@ -139,6 +139,7 @@ const addNewShipping = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 associated: newShipping.associated,
                 destinationAddress: newShipping.destinationAddress,
                 packageDetails: newShipping.packageDetails,
+                status: newShipping.status
             }
         });
     }

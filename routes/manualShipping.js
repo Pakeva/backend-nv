@@ -2,6 +2,36 @@
 exports.__esModule = true;
 var express_1 = require("express");
 var controllers_1 = require("../controllers");
+var middlewares_1 = require("../middlewares");
+var express_validator_1 = require("express-validator");
+var helpers_1 = require("../helpers");
 var router = (0, express_1.Router)();
-router.get('/', [], controllers_1.getShipping);
+router.get("/:id", [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('id', 'Debe ser un id valido')
+        .isMongoId(),
+    middlewares_1.validateFields
+], controllers_1.getShipping);
+router.put("/:id", [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('id', 'Debe ser un id valido')
+        .isMongoId(),
+    (0, express_validator_1.check)('status', 'El estatus del pedido es requerido').notEmpty(),
+    middlewares_1.validateFields
+], controllers_1.updateShippingStatus);
+router.get("/", [
+    middlewares_1.validateJwt,
+    middlewares_1.validateFields
+], controllers_1.getAllShippings);
+router.post("/", [
+    middlewares_1.validateJwt,
+    (0, middlewares_1.hasRol)('CLIENT'),
+    (0, express_validator_1.check)('company', 'Debe ser un id valido').isMongoId()
+        .custom(helpers_1.userExists)
+        .custom(helpers_1.isUserActive),
+    (0, express_validator_1.check)('associated', 'Debe ser un id valido').isMongoId()
+        .custom(helpers_1.userExists)
+        .custom(helpers_1.isUserActive),
+    middlewares_1.validateFields
+], controllers_1.addNewShipping);
 exports["default"] = router;
