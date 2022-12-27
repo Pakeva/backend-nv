@@ -51,6 +51,14 @@ const updateImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 });
             }
             break;
+        case "companies":
+            model = yield models_1.Company.findById(id);
+            if (!model) {
+                return res.status(400).json({
+                    msg: "No existe un producto con el id establecido"
+                });
+            }
+            break;
         default:
             return res.status(500).json({ msg: "We need implement this case" });
     }
@@ -60,6 +68,10 @@ const updateImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const name = nameArr[nameArr.length - 1];
         const [public_id] = name.split('.');
         yield cloudinary.uploader.destroy(public_id);
+    }
+    // @ts-ignore
+    if (!req.files) {
+        return res.status(500).json({ msg: "Es necesaria la imagen" });
     }
     // @ts-ignore
     const { tempFilePath } = req.files.archivo;
@@ -94,6 +106,14 @@ const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             break;
         case "products":
             model = yield models_1.Product.findById(id);
+            if (!model) {
+                return res.status(400).json({
+                    msg: "No existe un producto con el id establecido"
+                });
+            }
+            break;
+        case "companies":
+            model = yield models_1.Company.findById(id);
             if (!model) {
                 return res.status(400).json({
                     msg: "No existe un producto con el id establecido"
