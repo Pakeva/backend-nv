@@ -105,7 +105,6 @@ io.on("connection", (socket) => {
 
     // @ts-ignore
     io.emit("enviar-mensaje", payload);
-
   });
 
   // @ts-ignore
@@ -114,6 +113,7 @@ io.on("connection", (socket) => {
     // @ts-ignore
     io.emit("send-delivery-petition", payload);
   });
+
 
   // @ts-ignore
   socket.on("send-user-shipping", async (payload) => {
