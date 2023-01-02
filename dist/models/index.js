@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Company = exports.ManualShipping = exports.Shipping = exports.Product = exports.Category = exports.Rol = exports.User = void 0;
+exports.UserShipping = exports.Company = exports.ManualShipping = exports.Shipping = exports.Product = exports.Category = exports.Rol = exports.User = void 0;
 var user_1 = require("./user");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return __importDefault(user_1).default; } });
 var rol_1 = require("./rol");
@@ -18,3 +18,5 @@ var manualShipping_1 = require("./manualShipping");
 Object.defineProperty(exports, "ManualShipping", { enumerable: true, get: function () { return __importDefault(manualShipping_1).default; } });
 var company_1 = require("./company");
 Object.defineProperty(exports, "Company", { enumerable: true, get: function () { return __importDefault(company_1).default; } });
+var userShipping_1 = require("./userShipping");
+Object.defineProperty(exports, "UserShipping", { enumerable: true, get: function () { return __importDefault(userShipping_1).default; } });

@@ -207,7 +207,8 @@ var addNewShipping = function (req, res) { return __awaiter(void 0, void 0, void
                             originAddress: newShipping.company,
                             associated: newShipping.associated,
                             destinationAddress: newShipping.destinationAddress,
-                            packageDetails: newShipping.packageDetails
+                            packageDetails: newShipping.packageDetails,
+                            status: newShipping.status
                         }
                     })];
             case 4:

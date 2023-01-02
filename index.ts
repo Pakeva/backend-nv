@@ -23,7 +23,7 @@ import {
   bondingCompaniesRoutes,
   uploadsRoutes,
   manualShippingRoutes,
-  companyRoutes
+  companyRoutes, userShippingRoutes
 } from "./routes";
 import { connectDb } from "./database/config";
 import { ClientToServerEvents, SocketProps } from "./interfaces";
@@ -72,6 +72,8 @@ const bindingPath = "/api/b-companies";
 const uploadFilesPath = "/api/uploads";
 const manualShippings = "/api/man-shippings";
 const companiesPath = "/api/companies";
+const usersShippingPath = "/api/user-shipping";
+
 
 //Routes
 app.use(`${userPath}`, userRoutes);
@@ -84,6 +86,7 @@ app.use(`${bindingPath}`, bondingCompaniesRoutes);
 app.use(`${uploadFilesPath}`, uploadsRoutes);
 app.use(`${manualShippings}`, manualShippingRoutes);
 app.use(`${companiesPath}`, companyRoutes);
+app.use(`${usersShippingPath}`, userShippingRoutes);
 
 //Sockets
 const server = http.createServer(app);

@@ -11,7 +11,7 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 exports.__esModule = true;
-exports.companyRoutes = exports.manualShippingRoutes = exports.uploadsRoutes = exports.bondingCompaniesRoutes = exports.shippingRoutes = exports.bondingAssociatedRoutes = exports.productsRoutes = exports.categoryRoutes = exports.authRoutes = exports.userRoutes = void 0;
+exports.userShippingRoutes = exports.companyRoutes = exports.manualShippingRoutes = exports.uploadsRoutes = exports.bondingCompaniesRoutes = exports.shippingRoutes = exports.bondingAssociatedRoutes = exports.productsRoutes = exports.categoryRoutes = exports.authRoutes = exports.userRoutes = void 0;
 var user_1 = require("./user");
 __createBinding(exports, user_1, "default", "userRoutes");
 var auth_1 = require("./auth");
@@ -32,3 +32,5 @@ var manualShipping_1 = require("./manualShipping");
 __createBinding(exports, manualShipping_1, "default", "manualShippingRoutes");
 var company_1 = require("./company");
 __createBinding(exports, company_1, "default", "companyRoutes");
+var userShipping_1 = require("./userShipping");
+__createBinding(exports, userShipping_1, "default", "userShippingRoutes");

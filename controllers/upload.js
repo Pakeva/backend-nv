@@ -58,8 +58,9 @@ var updateImage = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     case "users": return [3 /*break*/, 1];
                     case "categories": return [3 /*break*/, 3];
                     case "products": return [3 /*break*/, 5];
+                    case "companies": return [3 /*break*/, 7];
                 }
-                return [3 /*break*/, 7];
+                return [3 /*break*/, 9];
             case 1: return [4 /*yield*/, models_1.User.findById(id)];
             case 2:
                 model = _c.sent();
@@ -68,7 +69,7 @@ var updateImage = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             msg: "No existe un usuario con el id establecido"
                         })];
                 }
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
             case 3: return [4 /*yield*/, models_1.Category.findById(id)];
             case 4:
                 model = _c.sent();
@@ -77,7 +78,7 @@ var updateImage = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             msg: "No existe una categoria con el id establecido"
                         })];
                 }
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
             case 5: return [4 /*yield*/, models_1.Product.findById(id)];
             case 6:
                 model = _c.sent();
@@ -86,25 +87,38 @@ var updateImage = function (req, res) { return __awaiter(void 0, void 0, void 0,
                             msg: "No existe un producto con el id establecido"
                         })];
                 }
-                return [3 /*break*/, 8];
-            case 7: return [2 /*return*/, res.status(500).json({ msg: "We need implement this case" })];
+                return [3 /*break*/, 10];
+            case 7: return [4 /*yield*/, models_1.Company.findById(id)];
             case 8:
-                if (!model.img) return [3 /*break*/, 10];
+                model = _c.sent();
+                if (!model) {
+                    return [2 /*return*/, res.status(400).json({
+                            msg: "No existe un producto con el id establecido"
+                        })];
+                }
+                return [3 /*break*/, 10];
+            case 9: return [2 /*return*/, res.status(500).json({ msg: "We need implement this case" })];
+            case 10:
+                if (!model.img) return [3 /*break*/, 12];
                 nameArr = model.img.split('/');
                 name_1 = nameArr[nameArr.length - 1];
                 public_id = name_1.split('.')[0];
                 return [4 /*yield*/, cloudinary.uploader.destroy(public_id)];
-            case 9:
+            case 11:
                 _c.sent();
-                _c.label = 10;
-            case 10:
+                _c.label = 12;
+            case 12:
+                // @ts-ignore
+                if (!req.files) {
+                    return [2 /*return*/, res.status(500).json({ msg: "Es necesaria la imagen" })];
+                }
                 tempFilePath = req.files.archivo.tempFilePath;
                 return [4 /*yield*/, cloudinary.uploader.upload(tempFilePath)];
-            case 11:
+            case 13:
                 secure_url = (_c.sent()).secure_url;
                 model.img = secure_url;
                 return [4 /*yield*/, model.save()];
-            case 12:
+            case 14:
                 _c.sent();
                 res.status(200).json({
                     msg: "success",
@@ -126,8 +140,9 @@ var getImage = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                     case "users": return [3 /*break*/, 1];
                     case "categories": return [3 /*break*/, 3];
                     case "products": return [3 /*break*/, 5];
+                    case "companies": return [3 /*break*/, 7];
                 }
-                return [3 /*break*/, 7];
+                return [3 /*break*/, 9];
             case 1: return [4 /*yield*/, models_1.User.findById(id)];
             case 2:
                 model = _c.sent();
@@ -136,7 +151,7 @@ var getImage = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                             msg: "No existe un usuario con el id establecido"
                         })];
                 }
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
             case 3: return [4 /*yield*/, models_1.Category.findById(id)];
             case 4:
                 model = _c.sent();
@@ -145,7 +160,7 @@ var getImage = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                             msg: "No existe una categoria con el id establecido"
                         })];
                 }
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
             case 5: return [4 /*yield*/, models_1.Product.findById(id)];
             case 6:
                 model = _c.sent();
@@ -154,9 +169,18 @@ var getImage = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                             msg: "No existe un producto con el id establecido"
                         })];
                 }
-                return [3 /*break*/, 8];
-            case 7: return [2 /*return*/, res.status(500).json({ msg: "We need implement this case" })];
+                return [3 /*break*/, 10];
+            case 7: return [4 /*yield*/, models_1.Company.findById(id)];
             case 8:
+                model = _c.sent();
+                if (!model) {
+                    return [2 /*return*/, res.status(400).json({
+                            msg: "No existe un producto con el id establecido"
+                        })];
+                }
+                return [3 /*break*/, 10];
+            case 9: return [2 /*return*/, res.status(500).json({ msg: "We need implement this case" })];
+            case 10:
                 res.json({ msg: "success" });
                 return [2 /*return*/];
         }

@@ -23,30 +23,30 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 exports.__esModule = true;
 var mongoose_1 = require("mongoose");
-var CategorySchema = new mongoose_1.Schema({
-    name: {
-        type: String,
-        required: [true, 'The  name is required']
+var UserShippingSchema = new mongoose_1.Schema({
+    products: {
+        type: Array,
+        required: [true, 'The products are required']
     },
     description: {
-        type: String
-    },
-    img: {
-        type: String
-    },
-    status: {
-        type: Boolean,
-        "default": true,
-        required: [true, 'The status is required']
+        type: String,
+        required: [true, 'The description is required']
     },
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    company: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
-CategorySchema.methods.toJSON = function () {
-    var _a = this.toObject(), __v = _a.__v, _id = _a._id, cat = __rest(_a, ["__v", "_id"]);
-    return __assign({ id: _id }, cat);
+UserShippingSchema.set("timestamps", true);
+UserShippingSchema.methods.toJSON = function () {
+    var _a = this.toObject(), __v = _a.__v, _id = _a._id, rest = __rest(_a, ["__v", "_id"]);
+    //You know what it means
+    return __assign({ id: _id }, rest);
 };
-exports["default"] = (0, mongoose_1.model)('Category', CategorySchema);
+exports["default"] = (0, mongoose_1.model)("UserShipping", UserShippingSchema);

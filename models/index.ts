@@ -5,3 +5,4 @@ export {default as Product} from './products';
 export {default as Shipping} from './shipping';
 export {default as ManualShipping} from './manualShipping';
 export {default as Company} from './company';
+export {default as UserShipping} from './userShipping';

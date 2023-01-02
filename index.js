@@ -97,6 +97,7 @@ var bindingPath = "/api/b-companies";
 var uploadFilesPath = "/api/uploads";
 var manualShippings = "/api/man-shippings";
 var companiesPath = "/api/companies";
+var usersShippingPath = "/api/user-shipping";
 //Routes
 app.use("".concat(userPath), routes_1.userRoutes);
 app.use("".concat(authPath), routes_1.authRoutes);
@@ -108,6 +109,7 @@ app.use("".concat(bindingPath), routes_1.bondingCompaniesRoutes);
 app.use("".concat(uploadFilesPath), routes_1.uploadsRoutes);
 app.use("".concat(manualShippings), routes_1.manualShippingRoutes);
 app.use("".concat(companiesPath), routes_1.companyRoutes);
+app.use("".concat(usersShippingPath), routes_1.userShippingRoutes);
 //Sockets
 var server = http_1["default"].createServer(app);
 var io = new socket_io_1["default"].Server(server);
@@ -131,6 +133,15 @@ io.on("connection", function (socket) {
             console.log(payload);
             // @ts-ignore
             io.emit("send-delivery-petition", payload);
+            return [2 /*return*/];
+        });
+    }); });
+    // @ts-ignore
+    socket.on("send-user-shipping", function (payload) { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            console.log(payload);
+            // @ts-ignore
+            io.emit("send-user-shipping", payload);
             return [2 /*return*/];
         });
     }); });

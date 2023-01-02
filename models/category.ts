@@ -4,7 +4,7 @@ import {Schema, model} from "mongoose";
 const CategorySchema = new Schema({
     name: {
         type: String,
-        required: [true, 'The name is required']
+        required: [true, 'The  name is required']
     },
     description: {
         type: String,
