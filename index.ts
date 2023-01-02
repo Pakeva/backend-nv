@@ -115,6 +115,13 @@ io.on("connection", (socket) => {
     io.emit("send-delivery-petition", payload);
   });
 
+  // @ts-ignore
+  socket.on("send-user-shipping", async (payload) => {
+    console.log(payload);
+    // @ts-ignore
+    io.emit("send-user-shipping", { msg:'teste backend' });
+  })
+
 });
 
 //Public api

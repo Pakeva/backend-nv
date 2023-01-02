@@ -100,6 +100,12 @@ io.on("connection", (socket) => {
         // @ts-ignore
         io.emit("send-delivery-petition", payload);
     }));
+    // @ts-ignore
+    socket.on("send-user-shipping", (payload) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(payload);
+        // @ts-ignore
+        io.emit("send-user-shipping", { msg: 'teste backend' });
+    }));
 });
 //Public api
 app.get("/api", (req, res) => {
