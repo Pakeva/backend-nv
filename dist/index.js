@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
     socket.on("send-user-shipping", (payload) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(payload);
         // @ts-ignore
-        io.emit("send-user-shipping", { msg: 'teste backend' });
+        io.emit("send-user-shipping", payload);
     }));
 });
 //Public api

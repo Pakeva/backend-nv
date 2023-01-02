@@ -43,3 +43,7 @@ socket.on("enviar-mensaje", (payload) => {
 socket.on("send-delivery-petition", (payload) => {
   console.log(payload);
 });
+
+socket.on("send-user-shipping", (payload) => {
+  console.log(payload);
+});

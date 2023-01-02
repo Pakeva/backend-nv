@@ -119,7 +119,7 @@ io.on("connection", (socket) => {
   socket.on("send-user-shipping", async (payload) => {
     console.log(payload);
     // @ts-ignore
-    io.emit("send-user-shipping", { msg:'teste backend' });
+    io.emit("send-user-shipping", payload);
   })
 
 });
