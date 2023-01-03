@@ -118,6 +118,19 @@ const getUserShipping = async (req: TypesRequest<string>, res: Response) => {
   const id = req.params.id;
 
   const shipping = await UserShipping.findById(id);
+  const user = req.user;
+  const addressDestination = {
+    street: user?.street,
+    numInt: user?.numInt,
+    numExt: user?.numExt,
+    colony: user?.colony,
+    municipality: user?.municipality,
+    state: user?.state,
+  };
+  const userInfo = {
+    name: user?.name + ' ' + user?.firstLastName,
+    phone: user?.phone,
+  }
 
   if (!shipping) {
     return res.status(401).json({
@@ -126,7 +139,9 @@ const getUserShipping = async (req: TypesRequest<string>, res: Response) => {
   }
 
   return res.status(200).json({
-    shipping
+    shipping,
+    addressDestination,
+    userInfo
   });
 };
 

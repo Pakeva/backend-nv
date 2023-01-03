@@ -108,13 +108,28 @@ exports.getUserShippings = getUserShippings;
 const getUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const shipping = yield models_1.UserShipping.findById(id);
+    const user = req.user;
+    const addressDestination = {
+        street: user === null || user === void 0 ? void 0 : user.street,
+        numInt: user === null || user === void 0 ? void 0 : user.numInt,
+        numExt: user === null || user === void 0 ? void 0 : user.numExt,
+        colony: user === null || user === void 0 ? void 0 : user.colony,
+        municipality: user === null || user === void 0 ? void 0 : user.municipality,
+        state: user === null || user === void 0 ? void 0 : user.state,
+    };
+    const userInfo = {
+        name: (user === null || user === void 0 ? void 0 : user.name) + ' ' + (user === null || user === void 0 ? void 0 : user.firstLastName),
+        phone: user === null || user === void 0 ? void 0 : user.phone,
+    };
     if (!shipping) {
         return res.status(401).json({
             msg: "No existe el pedido consultado"
         });
     }
     return res.status(200).json({
-        shipping
+        shipping,
+        addressDestination,
+        userInfo
     });
 });
 exports.getUserShipping = getUserShipping;
