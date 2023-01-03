@@ -3,8 +3,8 @@ import { Response } from "express";
 import { errorResponse } from "../helpers";
 import { Category, User } from "../models";
 import ManualShipping from "../models/manualShipping";
+import { ENUM_STATUS } from "../utils";
 
-const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled', 'rejected'];
 
 const getShipping = async (req: TypesRequest<string>, res: Response) => {
   const id = req.params.id;

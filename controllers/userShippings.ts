@@ -2,6 +2,8 @@ import { ManualShippingProps, TypesRequest } from "../interfaces";
 import { Response } from "express";
 import { User, UserShipping } from "../models";
 import { errorResponse } from "../helpers";
+import ManualShipping from "../models/manualShipping";
+import { ENUM_STATUS } from "../utils";
 
 const addNewUserShipping = async (req: TypesRequest<any>, res: Response) => {
   const user = req.user!;
@@ -47,8 +49,6 @@ const addNewUserShipping = async (req: TypesRequest<any>, res: Response) => {
     company: req.body.company
   });
 
-  console.log(newUserShipping);
-
   try {
     await newUserShipping.save();
 
@@ -62,6 +62,78 @@ const addNewUserShipping = async (req: TypesRequest<any>, res: Response) => {
 
 };
 
+const updateUserShippingStatus = async (req: TypesRequest<string>, res: Response) => {
+  const id = req.params.id;
+  //@ts-ignore
+  const status = req.body.status.toLowerCase();
+
+  if(!ENUM_STATUS.includes(status)){
+    return res.status(401).json({
+      msg: "No es un status valido"
+    });
+  }
+
+  const userShipping = await UserShipping.findByIdAndUpdate(id, {
+    status
+  }, {new: true});
+
+  if (!userShipping) {
+    return res.status(401).json({
+      msg: "No existe el envio consultado"
+    });
+  }
+
+  return res.status(200).json({
+    userShipping
+  });
+};
+
+const getUserShippings = async (req: TypesRequest<any>, res: Response) => {
+  const id = req.user?._id;
+
+  if(req.user?.rol === 'FINAL_USER'){
+    const userShippings = await UserShipping.find({
+      "user": id
+    });
+    console.log(userShippings);
+
+    if (!userShippings.length) {
+      return res.status(401).json({
+        msg: "No cuentas con pedidos realizados"
+      });
+    }
+
+    return res.status(200).json({
+      userShippings
+    });
+  }
+
+  return res.status(400).json({
+    msg: 'El rol no es valido'
+  })
+
+};
+
+const getUserShipping = async (req: TypesRequest<string>, res: Response) => {
+  const id = req.params.id;
+
+  const shipping = await UserShipping.findById(id);
+
+  if (!shipping) {
+    return res.status(401).json({
+      msg: "No existe el pedido consultado"
+    });
+  }
+
+  return res.status(200).json({
+    shipping
+  });
+};
+
+
 export {
-  addNewUserShipping
+  addNewUserShipping,
+  getUserShippings,
+  updateUserShippingStatus,
+  getUserShipping
 }

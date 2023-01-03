@@ -16,7 +16,7 @@ exports.addNewShipping = exports.updateShippingStatus = exports.getAllShippings 
 const helpers_1 = require("../helpers");
 const models_1 = require("../models");
 const manualShipping_1 = __importDefault(require("../models/manualShipping"));
-const ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled', 'rejected'];
+const utils_1 = require("../utils");
 const getShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const shipping = yield manualShipping_1.default.findById(id);
@@ -34,7 +34,7 @@ const updateShippingStatus = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const id = req.params.id;
     //@ts-ignore
     const status = req.body.status.toLowerCase();
-    if (!ENUM_STATUS.includes(status)) {
+    if (!utils_1.ENUM_STATUS.includes(status)) {
         return res.status(401).json({
             msg: "No es un status valido"
         });

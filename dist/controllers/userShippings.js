@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewUserShipping = void 0;
+exports.getUserShipping = exports.updateUserShippingStatus = exports.getUserShippings = exports.addNewUserShipping = void 0;
 const models_1 = require("../models");
 const helpers_1 = require("../helpers");
+const utils_1 = require("../utils");
 const addNewUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     if (!user) {
@@ -48,7 +49,6 @@ const addNewUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, funct
         user: req.body.user,
         company: req.body.company
     });
-    console.log(newUserShipping);
     try {
         yield newUserShipping.save();
         return res.status(201).json({
@@ -61,3 +61,60 @@ const addNewUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.addNewUserShipping = addNewUserShipping;
+const updateUserShippingStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    //@ts-ignore
+    const status = req.body.status.toLowerCase();
+    if (!utils_1.ENUM_STATUS.includes(status)) {
+        return res.status(401).json({
+            msg: "No es un status valido"
+        });
+    }
+    const userShipping = yield models_1.UserShipping.findByIdAndUpdate(id, {
+        status
+    }, { new: true });
+    if (!userShipping) {
+        return res.status(401).json({
+            msg: "No existe el envio consultado"
+        });
+    }
+    return res.status(200).json({
+        userShipping
+    });
+});
+exports.updateUserShippingStatus = updateUserShippingStatus;
+const getUserShippings = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const id = (_a = req.user) === null || _a === void 0 ? void 0 : _a._id;
+    if (((_b = req.user) === null || _b === void 0 ? void 0 : _b.rol) === 'FINAL_USER') {
+        const userShippings = yield models_1.UserShipping.find({
+            "user": id
+        });
+        console.log(userShippings);
+        if (!userShippings.length) {
+            return res.status(401).json({
+                msg: "No cuentas con pedidos realizados"
+            });
+        }
+        return res.status(200).json({
+            userShippings
+        });
+    }
+    return res.status(400).json({
+        msg: 'El rol no es valido'
+    });
+});
+exports.getUserShippings = getUserShippings;
+const getUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const shipping = yield models_1.UserShipping.findById(id);
+    if (!shipping) {
+        return res.status(401).json({
+            msg: "No existe el pedido consultado"
+        });
+    }
+    return res.status(200).json({
+        shipping
+    });
+});
+exports.getUserShipping = getUserShipping;
