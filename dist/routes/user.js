@@ -65,7 +65,7 @@ router.get('/', [
 ], controllers_1.getUsers);
 router.get('/:id', [
     middlewares_1.validateJwt,
-    (0, middlewares_1.hasRol)('CLIENT', 'SUPER_ADMIN', 'ASSOCIATED'),
+    (0, middlewares_1.hasRol)('CLIENT', 'SUPER_ADMIN', 'ASSOCIATED', 'FINAL_USER'),
     (0, express_validator_1.check)('id', 'Tiene que ser un ID válido')
         .isMongoId()
         .custom(helpers_1.userExists),

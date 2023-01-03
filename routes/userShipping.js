@@ -6,25 +6,23 @@ var express_validator_1 = require("express-validator");
 var helpers_1 = require("../helpers");
 var controllers_1 = require("../controllers");
 var router = (0, express_1.Router)();
-// router.get("/:id", [
-//   validateJwt,
-//   check('id', 'Debe ser un id valido')
-//     .isMongoId(),
-//   validateFields
-// ], getShipping);
-//
-// router.put("/:id", [
-//   validateJwt,
-//   check('id', 'Debe ser un id valido')
-//     .isMongoId(),
-//   check('status', 'El estatus del pedido es requerido').notEmpty(),
-//   validateFields
-// ], updateShippingStatus);
-//
-// router.get("/", [
-//   validateJwt,
-//   validateFields
-// ], getAllShippings);
+router.get("/:id", [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('id', 'Debe ser un id valido')
+        .isMongoId(),
+    middlewares_1.validateFields
+], controllers_1.getUserShipping);
+router.put("/:id", [
+    middlewares_1.validateJwt,
+    (0, express_validator_1.check)('id', 'Debe ser un id valido')
+        .isMongoId(),
+    (0, express_validator_1.check)('status', 'El estatus del pedido es requerido').notEmpty(),
+    middlewares_1.validateFields
+], controllers_1.updateUserShippingStatus);
+router.get("/", [
+    middlewares_1.validateJwt,
+    middlewares_1.validateFields
+], controllers_1.getUserShippings);
 router.post("/", [
     middlewares_1.validateJwt,
     (0, middlewares_1.hasRol)('FINAL_USER'),

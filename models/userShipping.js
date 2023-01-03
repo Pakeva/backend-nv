@@ -41,6 +41,11 @@ var UserShippingSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    status: {
+        type: String,
+        "enum": ['pending', 'on-course', 'completed', 'canceled', 'rejected'],
+        "default": "pending"
     }
 });
 UserShippingSchema.set("timestamps", true);

@@ -72,7 +72,7 @@ router.get('/', [
 
 router.get('/:id', [
     validateJwt,
-    hasRol('CLIENT', 'SUPER_ADMIN', 'ASSOCIATED'),
+    hasRol('CLIENT', 'SUPER_ADMIN', 'ASSOCIATED', 'FINAL_USER'),
     check('id', 'Tiene que ser un ID válido')
         .isMongoId()
         .custom(userExists),

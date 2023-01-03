@@ -51,7 +51,7 @@ exports.addNewShipping = exports.updateShippingStatus = exports.getAllShippings 
 var helpers_1 = require("../helpers");
 var models_1 = require("../models");
 var manualShipping_1 = require("../models/manualShipping");
-var ENUM_STATUS = ['pending', 'on-course', 'completed', 'canceled', 'rejected'];
+var utils_1 = require("../utils");
 var getShipping = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, shipping;
     return __generator(this, function (_a) {
@@ -80,7 +80,7 @@ var updateShippingStatus = function (req, res) { return __awaiter(void 0, void 0
             case 0:
                 id = req.params.id;
                 status = req.body.status.toLowerCase();
-                if (!ENUM_STATUS.includes(status)) {
+                if (!utils_1.ENUM_STATUS.includes(status)) {
                     return [2 /*return*/, res.status(401).json({
                             msg: "No es un status valido"
                         })];
