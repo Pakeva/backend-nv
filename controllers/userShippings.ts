@@ -94,7 +94,7 @@ const getUserShippings = async (req: TypesRequest<any>, res: Response) => {
   if(req.user?.rol === 'FINAL_USER'){
     const userShippings = await UserShipping.find({
       "user": id
-    });
+    }).populate('company', 'name img');
     console.log(userShippings);
 
     if (!userShippings.length) {
@@ -107,6 +107,16 @@ const getUserShippings = async (req: TypesRequest<any>, res: Response) => {
       userShippings
     });
   }
+  
+  if(req.user?.rol === 'CLIENT'){
+    const userShippingsByCompany = await UserShipping.find({"company": id})
+      .populate('company', '-bondingCode -__v -status -secondLastName -rol -password -genre -firstLastName -email -birthday -bondingCode')
+      .populate('user', '-genre -password -email -__v -bondingCode -status -_id -rol');
+
+    return res.status(200).json({
+      userShippingsByCompany
+    });
+  }
 
   return res.status(400).json({
     msg: 'El rol no es valido'
@@ -117,7 +127,8 @@ const getUserShippings = async (req: TypesRequest<any>, res: Response) => {
 const getUserShipping = async (req: TypesRequest<string>, res: Response) => {
   const id = req.params.id;
 
-  const shipping = await UserShipping.findById(id);
+  const shipping = await UserShipping.findById(id)
+    .populate('company', '-bondingCode -__v -status -secondLastName -rol -password -genre -firstLastName -email -birthday -bondingCode')
   const user = req.user;
   const addressDestination = {
     street: user?.street,
