@@ -22,12 +22,12 @@ const setInitialCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, fu
     console.log(existCompanyInfo);
     if (existCompanyInfo.length) {
         return res.status(201).json({
-            msg: 'mal uso de peticion',
+            msg: "mal uso de peticion",
         });
     }
     if (!user) {
         return res.status(200).json({
-            msg: 'Al perecer tu cuenta no esta activa'
+            msg: "Al perecer tu cuenta no esta activa"
         });
     }
     const company = new models_1.Company({
@@ -38,7 +38,7 @@ const setInitialCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         yield company.save();
         return res.status(201).json({
-            msg: 'datos guardados correctamente',
+            msg: "datos guardados correctamente",
             company
         });
     }
@@ -52,11 +52,11 @@ const updateCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const company = yield models_1.Company.findByIdAndUpdate(id, Object.assign({}, req.body));
     if (!company) {
         return res.status(200).json({
-            msg: 'Al perecer tu cuenta de companias no esta activa'
+            msg: "Al perecer tu cuenta de companias no esta activa"
         });
     }
     return res.status(200).json({
-        msg: 'datos actualizados correctamente'
+        msg: "datos actualizados correctamente"
     });
 });
 exports.updateCompanyInfo = updateCompanyInfo;
@@ -68,7 +68,7 @@ const getCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
     if (!company) {
         return res.status(200).json({
-            msg: 'Al perecer tu cuenta de companias no esta activa'
+            msg: "Al perecer tu cuenta de companias no esta activa"
         });
     }
     return res.status(200).json({
@@ -80,24 +80,26 @@ const getAllCompaniesShippings = (req, res) => __awaiter(void 0, void 0, void 0,
     var _c;
     const id = (_c = req.user) === null || _c === void 0 ? void 0 : _c._id;
     const manualShippings = yield models_1.ManualShipping.find({
-        'company.id': id
+        "company.id": id
     });
     const usersShippings = yield models_1.UserShipping.find({
-        'company': id
-    }).populate('user', { name: 1, firstLastName: 1, phone: 1,
-        street: 1, numInt: 1, numExt: 1, colony: 1, municipality: 1, state: 1
+        "company": id
+    }).populate("user", {
+        name: 1,
+        firstLastName: 1,
+        phone: 1,
+        street: 1,
+        numInt: 1,
+        numExt: 1,
+        colony: 1,
+        municipality: 1,
+        state: 1
     });
     const totalShippings = manualShippings.length + usersShippings.length;
     return res.status(200).json({
         totalShippings,
-        manualShippings: {
-            amount: manualShippings.length,
-            manualShippings,
-        },
-        usersShippings: {
-            amount: usersShippings.length,
-            usersShippings
-        }
+        manualShippings,
+        usersShippings
     });
 });
 exports.getAllCompaniesShippings = getAllCompaniesShippings;

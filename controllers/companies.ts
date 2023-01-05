@@ -16,19 +16,19 @@ const setInitialCompanyInfo = async (req: TypesRequest<CompanyProps>, res: Respo
   const user = await User.findById(id);
   const existCompanyInfo = await Company.find({
     user: id
-  })
+  });
 
   console.log(existCompanyInfo);
 
-  if(existCompanyInfo.length){
+  if (existCompanyInfo.length) {
     return res.status(201).json({
-      msg: 'mal uso de peticion',
+      msg: "mal uso de peticion",
     });
   }
 
-  if(!user){
+  if (!user) {
     return res.status(200).json({
-      msg: 'Al perecer tu cuenta no esta activa'
+      msg: "Al perecer tu cuenta no esta activa"
     });
   }
 
@@ -36,13 +36,13 @@ const setInitialCompanyInfo = async (req: TypesRequest<CompanyProps>, res: Respo
     user: id,
     name: req.body.name,
     description: req.body.description
-  })
+  });
 
   try {
     await company.save();
 
     return res.status(201).json({
-      msg: 'datos guardados correctamente',
+      msg: "datos guardados correctamente",
       company
     });
 
@@ -59,14 +59,14 @@ const updateCompanyInfo = async (req: TypesRequest<CompanyProps>, res: Response)
     ...req.body
   });
 
-  if(!company){
+  if (!company) {
     return res.status(200).json({
-      msg: 'Al perecer tu cuenta de companias no esta activa'
+      msg: "Al perecer tu cuenta de companias no esta activa"
     });
   }
 
   return res.status(200).json({
-    msg: 'datos actualizados correctamente'
+    msg: "datos actualizados correctamente"
   });
 };
 
@@ -75,11 +75,11 @@ const getCompanyInfo = async (req: TypesRequest<string>, res: Response) => {
 
   const company = await Company.findOne({
     user: id
-  })
+  });
 
-  if(!company){
+  if (!company) {
     return res.status(200).json({
-      msg: 'Al perecer tu cuenta de companias no esta activa'
+      msg: "Al perecer tu cuenta de companias no esta activa"
     });
   }
 
@@ -92,33 +92,35 @@ const getAllCompaniesShippings = async (req: TypesRequest<string>, res: Response
   const id = req.user?._id;
 
   const manualShippings = await ManualShipping.find({
-    'company.id': id
+    "company.id": id
   });
 
   const usersShippings = await UserShipping.find({
-    'company': id
-  }).populate('user', {name: 1, firstLastName: 1, phone: 1,
-    street: 1, numInt:1, numExt:1, colony:1, municipality: 1, state: 1
+    "company": id
+  }).populate("user", {
+    name: 1,
+    firstLastName: 1,
+    phone: 1,
+    street: 1,
+    numInt: 1,
+    numExt: 1,
+    colony: 1,
+    municipality: 1,
+    state: 1
   });
 
   const totalShippings = manualShippings.length + usersShippings.length;
 
   return res.status(200).json({
     totalShippings,
-    manualShippings: {
-      amount: manualShippings.length,
-      manualShippings,
-    },
-    usersShippings: {
-      amount: usersShippings.length,
-      usersShippings
-    }
-  })
-}
+    manualShippings,
+    usersShippings
+  });
+};
 
 export {
   setInitialCompanyInfo,
   updateCompanyInfo,
   getCompanyInfo,
   getAllCompaniesShippings
-}
+};
