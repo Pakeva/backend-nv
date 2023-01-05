@@ -84,12 +84,12 @@ const updateUserShippingStatus = (req, res) => __awaiter(void 0, void 0, void 0,
 });
 exports.updateUserShippingStatus = updateUserShippingStatus;
 const getUserShippings = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
     const id = (_a = req.user) === null || _a === void 0 ? void 0 : _a._id;
     if (((_b = req.user) === null || _b === void 0 ? void 0 : _b.rol) === 'FINAL_USER') {
         const userShippings = yield models_1.UserShipping.find({
             "user": id
-        });
+        }).populate('company', 'name img');
         console.log(userShippings);
         if (!userShippings.length) {
             return res.status(401).json({
@@ -100,6 +100,14 @@ const getUserShippings = (req, res) => __awaiter(void 0, void 0, void 0, functio
             userShippings
         });
     }
+    if (((_c = req.user) === null || _c === void 0 ? void 0 : _c.rol) === 'CLIENT') {
+        const userShippingsByCompany = yield models_1.UserShipping.find({ "company": id })
+            .populate('company', '-bondingCode -__v -status -secondLastName -rol -password -genre -firstLastName -email -birthday -bondingCode')
+            .populate('user', '-genre -password -email -__v -bondingCode -status -_id -rol');
+        return res.status(200).json({
+            userShippingsByCompany
+        });
+    }
     return res.status(400).json({
         msg: 'El rol no es valido'
     });
@@ -107,7 +115,8 @@ const getUserShippings = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.getUserShippings = getUserShippings;
 const getUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const shipping = yield models_1.UserShipping.findById(id);
+    const shipping = yield models_1.UserShipping.findById(id)
+        .populate('company', '-bondingCode -__v -status -secondLastName -rol -password -genre -firstLastName -email -birthday -bondingCode');
     const user = req.user;
     const addressDestination = {
         street: user === null || user === void 0 ? void 0 : user.street,

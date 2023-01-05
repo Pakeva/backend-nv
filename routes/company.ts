@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { hasRol, validateFields, validateJwt } from "../middlewares";
 import { check } from "express-validator";
-import { getCompanyInfo, setInitialCompanyInfo, updateCompanyInfo } from "../controllers/companies";
+import {
+  getAllCompaniesShippings,
+  getCompanyInfo,
+  setInitialCompanyInfo,
+  updateCompanyInfo
+} from "../controllers/companies";
 
 const router = Router();
 
@@ -27,5 +32,11 @@ router.get("/", [
   validateJwt,
   validateFields
 ], getCompanyInfo);
+
+router.get("/shipping", [
+  validateJwt,
+  hasRol('CLIENT'),
+  validateFields
+], getAllCompaniesShippings);
 
 export default router;

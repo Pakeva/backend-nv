@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCompanyInfo = exports.updateCompanyInfo = exports.setInitialCompanyInfo = void 0;
+exports.getAllCompaniesShippings = exports.getCompanyInfo = exports.updateCompanyInfo = exports.setInitialCompanyInfo = void 0;
 const models_1 = require("../models");
 const helpers_1 = require("../helpers");
 const setInitialCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -76,3 +76,28 @@ const getCompanyInfo = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.getCompanyInfo = getCompanyInfo;
+const getAllCompaniesShippings = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c;
+    const id = (_c = req.user) === null || _c === void 0 ? void 0 : _c._id;
+    const manualShippings = yield models_1.ManualShipping.find({
+        'company.id': id
+    });
+    const usersShippings = yield models_1.UserShipping.find({
+        'company': id
+    }).populate('user', { name: 1, firstLastName: 1, phone: 1,
+        street: 1, numInt: 1, numExt: 1, colony: 1, municipality: 1, state: 1
+    });
+    const totalShippings = manualShippings.length + usersShippings.length;
+    return res.status(200).json({
+        totalShippings,
+        manualShippings: {
+            amount: manualShippings.length,
+            manualShippings,
+        },
+        usersShippings: {
+            amount: usersShippings.length,
+            usersShippings
+        }
+    });
+});
+exports.getAllCompaniesShippings = getAllCompaniesShippings;

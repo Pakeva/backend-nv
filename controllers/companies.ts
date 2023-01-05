@@ -1,6 +1,6 @@
 import { TypesRequest } from "../interfaces";
 import { Response } from "express";
-import { Company, User } from "../models";
+import { Company, ManualShipping, Product, User, UserShipping } from "../models";
 import { errorResponse } from "../helpers";
 
 interface CompanyProps {
@@ -88,8 +88,37 @@ const getCompanyInfo = async (req: TypesRequest<string>, res: Response) => {
   });
 };
 
+const getAllCompaniesShippings = async (req: TypesRequest<string>, res: Response) => {
+  const id = req.user?._id;
+
+  const manualShippings = await ManualShipping.find({
+    'company.id': id
+  });
+
+  const usersShippings = await UserShipping.find({
+    'company': id
+  }).populate('user', {name: 1, firstLastName: 1, phone: 1,
+    street: 1, numInt:1, numExt:1, colony:1, municipality: 1, state: 1
+  });
+
+  const totalShippings = manualShippings.length + usersShippings.length;
+
+  return res.status(200).json({
+    totalShippings,
+    manualShippings: {
+      amount: manualShippings.length,
+      manualShippings,
+    },
+    usersShippings: {
+      amount: usersShippings.length,
+      usersShippings
+    }
+  })
+}
+
 export {
   setInitialCompanyInfo,
   updateCompanyInfo,
-  getCompanyInfo
+  getCompanyInfo,
+  getAllCompaniesShippings
 }

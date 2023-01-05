@@ -25,4 +25,9 @@ router.get("/", [
     middlewares_1.validateJwt,
     middlewares_1.validateFields
 ], companies_1.getCompanyInfo);
+router.get("/shipping", [
+    middlewares_1.validateJwt,
+    (0, middlewares_1.hasRol)('CLIENT'),
+    middlewares_1.validateFields
+], companies_1.getAllCompaniesShippings);
 exports.default = router;
