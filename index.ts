@@ -125,6 +125,13 @@ io.on("connection", (socket) => {
     io.emit("send-user-shipping", payload);
   })
 
+  // @ts-ignore
+  socket.on("send-update-shipping", async (payload) => {
+    console.log(payload);
+    // @ts-ignore
+    io.emit("send-update-shipping", payload);
+  })
+
 });
 
 //Public api
